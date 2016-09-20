@@ -1,0 +1,5 @@
+<% Slide.random_three.each do |slide| %>
+  <a href="#" class='add-this-slide' data-id='<%= slide.id %>'>
+    <img src="<%= slide.file.thumb.url %>" alt="" class='img-responsive img-thumbnail tiny-thumb'>
+  </a>
+<% end %>

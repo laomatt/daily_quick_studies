@@ -1,0 +1,194 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src='/draw.js'></script>
+    <title>Browse shows</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap.css" rel="stylesheet">
+    <link href="/font-awesome.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/main.css" rel="stylesheet">
+    <link href="/overwrite.css" rel="stylesheet">
+    <link href="/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <% if current_user %>
+            <a class="navbar-brand" href="/"><img src="<%= current_user.portrait_url %>" class='portrait'></a>
+          <% end %>
+          <a href="#" class='start_study_random btn btn-success btn-lg' data-id='' data-toggle="modal" data-type='random' data-target="#drawModal">Draw Random Set</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <% if current_user %>
+              <li class="<%= @page == 'home' ? 'active' : '' %>"><a href="/slideshows">HOME</a></li>
+              <li class="<%= @page == 'account' ? 'active' : '' %>"><a href="/users/my_account" >ACCOUNT</a></li>
+              <li class="<%= @page == 'create' ? 'active' : '' %>"><a href="#" data-toggle="modal" data-target="#createSlideModal">NEW</a></li>
+              <li><a href="/user_log_out_route/sign_out">Log out</a></li>
+            <% else %>
+            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), :class => "fblogin btn btn-primary btn-lg" %>
+            <% end %>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<%= yield %>
+
+    <!-- Draw Modal -->
+    <div id="drawModal" class="modal fade" role="dialog">
+      <!-- slides selector -->
+    <div id="slidesSelectorModal" class="modal fade" role="dialog"></div>
+
+    </div>
+    <div id="pose_window_container"></div>
+
+  </body>
+
+
+
+<!-- Create Slide Modal -->
+<div id="createSlideModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload New Slides<span id="prog_report"></span></h4>
+      </div>
+      <div class="modal-body">
+        <div id="progress_message" style='display:none'>Currently Uploading...</div>
+        <%= form_tag(slides_path, method: "POST", class: "create-new-slide-form") do %>
+          <div class="form-group">
+            <%= file_field_tag :picture, :multiple => true, :class => 'form-control' %>
+          </div>
+          <input type="submit" value='Upload'>
+        <% end %>
+
+      <div id="uploaded_so_far"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  $('body').on('submit', 'form.create-new-slide-form', function(event) {
+    event.preventDefault();
+    $('#uploaded_so_far .tiny-thumb').fadeOut(200, function() {
+      $('#prog_report').text('');
+      $('#uploaded_so_far').html('');
+    });
+
+    $('form.create-new-slide-form').fadeOut(500, function() {
+      $('#progress_message').fadeIn(500, function() {});
+    });
+
+    var fileInput = document.getElementById("picture");
+    var files = fileInput.files;
+    var length = files.length;
+    var formData = new FormData( this );
+      $.each(files, function(index, val) {
+      formData.set('image_this', val)
+      $.ajax({
+          url: "/slides",
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+        })
+        .done(function(data) {
+          if($('#uploaded_so_far .tiny-thumb').length == 0) {
+            $('#uploaded_so_far').append('<img src="'+data.url+'" alt="" class="img-responsive img-thumbnail tiny-thumb" style="display:none">')
+          } else {
+            $('#uploaded_so_far').append('<img src="'+data.url+'" alt="" class="img-responsive img-thumbnail tiny-thumb" style="display:none;margin-left: -100px;">')
+          }
+          $('#uploaded_so_far .tiny-thumb').fadeIn(1000);
+          $('#uploaded_so_far .tiny-thumb').animate({'margin-left': 0}, 1000);
+          var new_idx = $('#uploaded_so_far .tiny-thumb').length;
+          $('form.create-new-slide-form').trigger('reset');
+          var prog = " - (Uploaded " + new_idx + " of " + length + " slides)";
+          $('#prog_report').text(prog);
+          if(new_idx >= length){
+            $('#progress_message').fadeOut(500, function() {
+              $('form.create-new-slide-form').fadeIn(500, function() {});
+            });
+          }
+        })
+    });
+  });
+
+  $('body').on('click', '.regen-slide', function(event) {
+    event.preventDefault();
+    $('.random_slides').fadeOut(500, function() {
+      $.ajax({
+        url: '/slides/slides_modal',
+      })
+      .done(function(data) {
+        $('.random_slides').html(data);
+        $('.random_slides').fadeIn(500, function() {});
+      })
+
+    });
+  });
+
+  var idx2 = 0;
+
+  $('body').on('click', '.remove-this-slide', function(event) {
+    event.preventDefault();
+
+    // adding something to remove
+    var id = $(this).attr('data-id');
+    idx2 += 1;
+    $(this).find('img').addClass('active-slide');
+    $('#slides_to_remove').append("<input type='hidden' name='slideshow[slides_to_remove]["+idx2+"]' value='"+id+"'>");
+
+    // remove something to remove
+  });
+
+  var idx = 0;
+  $('body').on('click', '.add-this-slide', function(event) {
+    event.preventDefault();
+    // adding something to add
+    var id = $(this).attr('data-id');
+    var image = $(this).html();
+    idx += 1;
+    var input_html = image + "<input type='hidden' name='slideshow[slides_to_add]["+idx+"]' value='"+id+"'>"
+    $('#slides_to_add').append(input_html)
+
+    // remove something to add
+  });
+</script>
+
+
+</html>

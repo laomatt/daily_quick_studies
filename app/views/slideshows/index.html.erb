@@ -1,0 +1,12 @@
+<div id="blue">
+  <div class="container">
+    <div class="row centered">
+      <div class="col-lg-8 col-lg-offset-2">
+      <h4><b>Current Slideshows</b></h4>
+      <p>Pick a slideshow to start a study!</p>
+      </div>
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- blue wrap -->
+
+<%= render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.all, :page => 'general' } %>

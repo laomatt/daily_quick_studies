@@ -1,0 +1,103 @@
+.logo {
+  width: 50px;
+}
+
+.draw-form-container {
+  padding: 2%;
+}
+
+.portrait {
+    height: 70px;
+    position: relative;
+    border-radius: 20px;
+}
+
+.current_slideshows {
+  padding: 4%;
+}
+
+.tiny-thumb {
+  width: 100px;
+}
+
+.active-slide {
+  border-color: red;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.current_slides {
+  position: relative;
+  width: 100%;
+  background-color: #f9f9f9;
+  max-height: 200px;
+  overflow: scroll;
+}
+
+.cushion {
+  position: relative;
+  width: 100%;
+  padding-bottom: 20%;
+}
+
+/* pose window */
+
+
+#pose_window_container {
+  position: fixed;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  z-index: 10001;
+  top: 0%;
+  display: none;
+}
+
+.pose-window {
+  position: relative;
+  float: left;
+  height: 100%;
+  width: 100%;
+}
+.pose-window img {
+  position: relative;
+  max-width: 90%;
+  height: 100%;
+}
+
+.right-menu {
+  position: fixed;
+  background-color: rgba(0,0,0,.3);
+  font-size: 30px;
+  color: white;
+  padding: 2%;
+  z-index: 900;
+  float: right;
+  right: 0;
+  width: 20%;
+  height: 100%;
+}
+
+img.draw-image {
+  margin: 0 auto;
+}
+
+.hide-right-menu {
+  font-size: 15px
+}
+
+.show-menu {
+  position: fixed;
+  background-color: rgba(0,0,0,.3);
+  font-size: 30px;
+  color: white;
+  padding: 2%;
+  z-index: 900;
+  float: right;
+  right: 0;
+  top: 0;
+  width: 20%;
+  height: 15%;
+  display: none;
+}

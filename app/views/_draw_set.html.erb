@@ -1,0 +1,144 @@
+
+<div id="information" style="display:none" pose-length="<%= pose_length %>" total-slides="<%= pose_number %>"></div>
+<center>
+  <div class="pose-window">
+    <img src="" class='img-fluid draw-image'>
+  </div>
+
+  <div class="show-menu">
+    <center><a href="#" class="show-right-menu">Show Controls</a></center>
+  </div>
+
+  <div class="controls right-menu">
+    <center>
+      <a href="#" class="hide-right-menu">Hide Controls</a><br>
+      <div style="display:inline-block">
+        <a href="#" id="pause-draw-modal">Pause</a>
+      </div>
+      |
+      <div style="display:inline-block">
+        <a href="#" id="close-draw-modal">Cancel</a>
+      </div>
+      <br>
+      Time left:<div id="clock"></div>
+
+      <br>
+      <br>
+      <div id="slide_number_letter" style="display:inline-block">
+        Slide:
+      </div>
+      <div id="slide_number" style="display:inline-block"></div>
+      <div id="slide_total" style="display:inline-block">
+        /<%= pose_number %>
+      </div>
+
+      <div class="slide-show-info" style="display:none">
+        title: <div id="slide-title"></div>
+        User: <div id="slide-user"></div>
+        Slideshow: <div id="slideshow-title"></div>
+        <br>
+        <a href="#">Save this Slideshow</a>
+      </div>
+      <br><br><br>
+      <label for="play-sound-option">Play Sound?</label>
+      <input type="checkbox" id="play-sound-option" checked>
+    </center>
+
+
+  </div>
+</center>
+
+
+
+<script>
+var ids_in_order = []
+<% ids.each do |i|%>
+  ids_in_order.push("<%= i.to_s %>")
+<% end %>
+
+jQuery(document).ready(function($) {
+      // draw modal controls
+      var paused = false;
+
+      $('body').on('click', '#pause-draw-modal', function(event) {
+        event.preventDefault();
+        if(paused == false){
+          paused = true
+        } else {
+          paused = false
+        }
+      });
+
+      $('body').on('click', '.hide-right-menu', function(event) {
+        event.preventDefault();
+        $('.right-menu').fadeOut(500, function() {
+          $('.show-menu').fadeIn(500, function() {});
+        });
+      });
+
+      $('body').on('click', '.show-right-menu', function(event) {
+        event.preventDefault();
+        $('.show-menu').fadeOut(500, function() {
+          $('.right-menu').fadeIn(500, function() {});
+        });
+      });
+
+
+      $('body').on('click', '#close-draw-modal', function(event) {
+        event.preventDefault();
+        $('#pose_window_container').html('');
+        $('#pose_window_container').fadeOut(500, function() {});
+      });
+      var audio = new Audio('/beep.wav');
+
+      function countDown(top, i){
+        var time = secondsTimeSpanToHMS(top)
+        $('#clock').text(time);
+        setTimeout(function(){
+          if(top > 0){
+            if(paused == false){
+              countDown(top - 1, i);
+            }else{
+              countDown(top, i);
+            }
+          } else {
+            if(i < ids_in_order.length -1){
+              if($('#pose_window_container').css('display') == 'block') {
+                if($('#play-sound-option').is(':checked') == true){
+                  audio.play();
+                }
+                changePic(<%= transition_time %>, i + 1)
+              }
+            } else {
+              $('#close-draw-modal').trigger('click');
+            }
+          }
+        }, 1000)
+      }
+
+      function changePic(speed, idx) {
+        $('#slide_number').text(idx + 1);
+        new_pic = ids_in_order[idx];
+        $('.pose-window').fadeOut(speed, function() {
+          $('.pose-window img').attr('src', new_pic);
+          $('.pose-window img').ready(function() {
+            $('.pose-window').fadeIn(speed, function(){
+              countDown(<%= (pose_length.to_f * 60).to_i %>, idx)
+
+            });
+          });
+        });
+      }
+
+      changePic(500, 0)
+
+      function secondsTimeSpanToHMS(s) {
+        var m = Math.floor(s/60);
+        s -= m*60;
+        return m +":"+(s < 10 ? '0'+s : s);
+    }
+
+    });
+</script>
+
+

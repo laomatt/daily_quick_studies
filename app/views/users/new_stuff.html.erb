@@ -1,0 +1,26 @@
+<div id="blue">
+  <div class="container">
+    <div class="row centered">
+      <div class="col-lg-8 col-lg-offset-2">
+        <h4><b>My Stuff</b></h4>
+        <p>Your uploads and shows</p>
+      </div>
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- blue wrap -->
+
+
+<div class="container">
+  <div class="row centered">
+    <div class="col-lg-8 col-lg-offset-2">
+      <p>My Slideshows</p>
+      <!-- Trigger the modal with a button -->
+      <center>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createSlideShoeModal">Create new Slideshow</button>
+      </center>
+      <div class="current_slideshows">
+        <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => current_user.slideshows, :page => 'account' } %>
+      </div>
+    </div>
+  </div><!-- row -->
+</div><!-- container -->

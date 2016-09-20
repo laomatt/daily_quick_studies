@@ -1,0 +1,80 @@
+
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">
+        <% if type == 'random' %>
+          Draw Random Set
+        <% else %>
+          <%= slideshow.name %>
+        <% end %>
+      </h4>
+    </div>
+    <div class="modal-body">
+      <% if type != 'random' %>
+      <div class="container-fluid">
+        <center>Random Slides in this Set</center>
+          <% slideshow.rand_preview.each do |slide| %>
+          <div class="col-sm-4">
+
+            <img src="<%= slide.file.thumb.url %>" alt="Image" class="img-responsive img-thumbnail"></a>
+          </div>
+          <% end %>
+      </div>
+      <hr>
+      <% else %>
+        <div class="container-fluid">
+          This will launch you into a set of randomly choosen slides from the entire site.
+        </div>
+      <% end %>
+      <div class="draw-form-container .container-fluid">
+        <form action="#" class='start-this-study'>
+          <h3>Start a study</h3>
+        <% if type == 'random' %>
+          <input type="hidden" name='type' value='random'>
+        <% else %>
+          <input type="hidden" name='type' value='indiv'>
+          <input type="hidden" name='id' value='<%= slideshow.id %>'>
+        <% end %>
+
+          <div class="form-group">
+            <label for="internal">How long should each pose be?</label>
+            <select name="interval" id="" class='form-control'>
+              <option value=".25">15 sec</option>
+              <option value=".5">30 sec</option>
+              <option value="1">1 min</option>
+              <option value="2">2 mins</option>
+              <option value="5">5 mins</option>
+              <option value="10">10 mins</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="amount">How many poses do you want to draw?</label>
+            <input type="number" name='amount' class='form-control' value='10'>
+          </div>
+          <div class="form-group">
+            <label for="internal">How long of a transition between poses?</label>
+            <select name="transition" id="" class='form-control'>
+              <option value="250">1/2 second</option>
+              <option value="500">1 sec</option>
+              <option value="1000">2 sec</option>
+              <option value="1500">3 sec</option>
+              <option value="2000">4 sec</option>
+              <option value="2500">5 sec</option>
+              <option value="5000">10 sec</option>
+            </select>
+          </div>
+
+          <input type="submit" value='DRAW!'>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+</div>

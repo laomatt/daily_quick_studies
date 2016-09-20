@@ -1,0 +1,15 @@
+<div class="container w">
+    <% slideshows.all.each do |slideshow| %>
+      <div class="col-lg-4">
+        <p>
+          <%= slideshow.name %>
+          <% if page == 'account' %>
+            (<a href="#" class='edit-this-show' data-id='<%= slideshow.id %>' class="btn btn-info btn-lg" data-toggle="modal" data-target="#editSlideShowModal">Edit</a> | <a href="#" class='edit-this-show' data-id='<%= slideshow.id %>'>Delete</a>)
+          <% end %>
+        </p>
+        <a href="#" class='start_study' data-id='<%= slideshow.id %>' data-toggle="modal" data-type='indiv' data-target="#drawModal">
+          <img src="<%= slideshow.preview %>" class="img-thumbnail img-responsive" alt="<%= slideshow.name %>" width="304" height="236">
+        </a>
+      </div><!-- col-lg-4 -->
+    <% end %>
+</div><!-- container -->

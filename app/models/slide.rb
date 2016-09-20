@@ -20,7 +20,7 @@ class Slide < ActiveRecord::Base
       end
 
       def cache_dir
-        "#{RAILS_ROOT}/tmp/uploads"
+        "/tmp/uploads"
       end
 
       def file_name

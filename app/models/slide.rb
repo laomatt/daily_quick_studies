@@ -19,6 +19,10 @@ class Slide < ActiveRecord::Base
         "dq/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
       end
 
+      def cache_dir
+        "#{RAILS_ROOT}/tmp/uploads"
+      end
+
       def file_name
         'filename.jpeg'
       end

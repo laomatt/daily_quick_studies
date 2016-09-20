@@ -868,7 +868,19 @@ wrest = ["https://dailyquicks-production.s3-us-west-1.amazonaws.com/mattlao%40ma
 "https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/915/BARBARIAN_SPEAR_THROWING_03_B.jpg",
 "https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/916/BARBARIAN_SPEAR_THROWING_04_B.jpg"]
 
-wrest.each do |pic|
+first_w = ["https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/909/BLONDE_SWIPE_SWORD2_15_B.jpg",
+"https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/910/BARBARIAN_SPEAR_THROWING_01_A.jpg",
+"https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/911/BARBARIAN_SPEAR_THROWING_01_B.jpg",
+"https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/912/BARBARIAN_SPEAR_THROWING_02_B.jpg",
+"https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/913/BARBARIAN_SPEAR_THROWING_00_A.jpg",
+"https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/914/BARBARIAN_SPEAR_THROWING_00_B.jpg",
+"https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/915/BARBARIAN_SPEAR_THROWING_03_B.jpg",
+"https://matt-lao-s3-development.s3.amazonaws.com/uploads/slide/file/916/BARBARIAN_SPEAR_THROWING_04_B.jpg"]
+
+# wrest.each do |pic|
+#   Slide.create(remote_file_url: pic)
+# end
+
+first_w.each do |pic|
   Slide.create(remote_file_url: pic)
 end
-

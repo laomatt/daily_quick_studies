@@ -19,14 +19,26 @@ class SlideshowsController < ApplicationController
   end
 
   def create_show
-    @slideshow = Slideshow.create(:name => params[:name], :user_id => current_user.id)
-    render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows, :page => 'account' }
+    if params[:phrase].present?
+      Slideshow.create_show(params[:name], params[:phrase], current_user.id)
+    else
+      Slideshow.create(:name => params[:name], :user_id => current_user.id)
+    end
+    render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account' }
   end
 
   # GET /slideshows/1/edit
   def edit
     render :partial => 'edit_slideshow', :locals => { :slideshow => @slideshow}
 
+  end
+
+  def reload_pag
+    render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.paginate(:page => params[:page]), :context_page => 'account' }
+  end
+
+  def reload_pag_user
+    render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account' }
   end
 
   def draw_modal
@@ -90,9 +102,9 @@ class SlideshowsController < ApplicationController
     end
 
     if @slideshow.update(slideshow_params)
-      render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows, :page => 'account' }
+      render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account' }
     else
-      render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows, :page => 'account' }
+      render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account' }
       flash[:error] = "Error Updating: #{@slideshow.errors.full_messages}"
     end
   end
@@ -115,6 +127,6 @@ class SlideshowsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def slideshow_params
-      params.require(:slideshow).permit(:name)
+      params.require(:slideshow).permit(:name, :public)
     end
 end

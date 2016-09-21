@@ -8,5 +8,6 @@
     </div><!-- row -->
   </div><!-- container -->
 </div><!-- blue wrap -->
-
-<%= render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.all, :page => 'general' } %>
+<div class="slideshow_list_sect_container" page-type='index'>
+  <%= render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.all.paginate(:page => 1), :context_page => 'general' } %>
+</div>

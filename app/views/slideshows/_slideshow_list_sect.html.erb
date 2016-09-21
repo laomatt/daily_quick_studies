@@ -1,9 +1,10 @@
 <div class="container w">
-    <% slideshows.all.each do |slideshow| %>
+    <% slideshows.each do |slideshow| %>
+    <% next if !slideshow.public && context_page == 'general' %>
       <div class="col-lg-4">
         <p>
           <%= slideshow.name %>
-          <% if page == 'account' %>
+          <% if context_page == 'account' %>
             (<a href="#" class='edit-this-show' data-id='<%= slideshow.id %>' class="btn btn-info btn-lg" data-toggle="modal" data-target="#editSlideShowModal">Edit</a> | <a href="#" class='edit-this-show' data-id='<%= slideshow.id %>'>Delete</a>)
           <% end %>
         </p>
@@ -12,4 +13,16 @@
         </a>
       </div><!-- col-lg-4 -->
     <% end %>
+
 </div><!-- container -->
+<center>
+  <div class="pagination_link_container">
+    <%= will_paginate slideshows %>
+  </div>
+<% if !current_user %>
+<hr>
+  <a href="#" class='regen_rand_free btn btn-primary btn-lg' data-id='' data-toggle="modal" data-type='random' data-target="#drawModal">Regen Random Sets</a>
+
+
+<% end %>
+</center>

@@ -17,8 +17,8 @@
   <div class="row centered">
     <div class="col-lg-8">
       <h1>My Slideshows</h1>
-      <div class="current_slideshows">
-        <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => current_user.slideshows, :page => 'account' } %>
+      <div class="current_slideshows slideshow_list_sect_container">
+        <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => 1), :context_page => 'account' } %>
       </div>
     </div>
   </div><!-- row -->
@@ -41,10 +41,15 @@
       <div class="modal-body">
 
         <%= form_tag(create_show_slideshows_path, method: "POST", class: "create-new-slideshow-form") do %>
-            <div class="form-group">
+          <div class="form-group">
             <label for="name">Slideshow Name</label>
             <input type="text" name="name" class='form-control'>
           </div>
+          <div class="form-group">
+            <label for="name">Phrase to populate with(leave blank to create an empty show)</label>
+            <input type="text" name="phrase" class='form-control'>
+          </div>
+
           <input type="submit" value='Create'>
         <% end %>
 

@@ -25,6 +25,14 @@ body {
     padding: 0;
 }
 
+.welcome-message {
+    position: relative;
+    top: 10%;
+    background-color: rgba(255,255,255,0.5);
+    width: 60%;
+    margin: 0 auto;
+}
+
 .sign-in {
     position: relative;
     width: 50%;
@@ -34,6 +42,8 @@ body {
 }
 
 .image-bg-fixed-height {
+    position: relative;
+    bottom: 0;
 	background: url('/midsec.png') no-repeat center center scroll;
     height: 450px;
 }

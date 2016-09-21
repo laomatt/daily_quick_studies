@@ -7,6 +7,13 @@ class Slide < ActiveRecord::Base
     all.shuffle.first(5)
   end
 
+  def self.name_all
+    all.each do |s|
+      name = s.file.to_s.split('/').last
+      s.update_attributes(:name => name)
+    end
+  end
+
   module Uploader
     class FileUploader < CarrierWave::Uploader::Base
       # include CarrierWave::Backgrounder::Delay

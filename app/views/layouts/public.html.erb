@@ -41,6 +41,7 @@
           </button>
           <% if current_user %>
             <a class="navbar-brand" href="/"><img src="<%= current_user.portrait_url %>" class='portrait'></a>
+          <% else %>
           <% end %>
           <a href="#" class='start_study_random btn btn-success btn-lg' data-id='' data-toggle="modal" data-type='random' data-target="#drawModal">Draw Random Set</a>
         </div>
@@ -200,5 +201,32 @@
 ga('create', 'UA-75075620-1', 'auto');
 ga('send', 'pageview');
 
+</script>
+
+
+<script>
+  $('body').on('click', '.pagination_link_container a', function(event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('=')[1];
+    $.ajax({
+      url: '/slideshows/reload_pag',
+      data: {page: page},
+    })
+    .done(function(data) {
+      $('.slideshow_list_sect_container').html(data);
+    })
+  });
+
+  $('body').on('click', '.pagination_link_container_user a', function(event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('=')[1];
+    $.ajax({
+      url: '/slideshows/reload_pag_user',
+      data: {page: page},
+    })
+    .done(function(data) {
+      $('.slideshow_list_sect_container').html(data);
+    })
+  });
 </script>
 </html>

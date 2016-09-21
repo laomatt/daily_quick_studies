@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     collection do
       get 'draw_random'
       get 'draw_pose'
+      get 'reload_pag'
       post 'create_show'
     end
   end

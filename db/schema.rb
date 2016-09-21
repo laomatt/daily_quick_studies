@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919170023) do
+ActiveRecord::Schema.define(version: 20160920151517) do
 
   create_table "slide_entries", force: :cascade do |t|
     t.integer  "slide_id"
@@ -31,8 +31,9 @@ ActiveRecord::Schema.define(version: 20160919170023) do
   create_table "slideshows", force: :cascade do |t|
     t.string   "name"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "public",     default: false, null: false
   end
 
   create_table "taggings", force: :cascade do |t|

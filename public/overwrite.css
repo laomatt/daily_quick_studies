@@ -24,6 +24,13 @@
   padding: 4%;
 }
 
+p.section-paragraph {
+  background-color: transparent;
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 10%;
+}
+
 .slide_container {
       padding: 7px;
     background-color: gainsboro;

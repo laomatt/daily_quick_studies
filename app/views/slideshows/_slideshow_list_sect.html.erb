@@ -1,7 +1,12 @@
 <div class="container w">
+<% if !current_user %>
+  <center>
+    <a href="#" class='regen_rand_free btn btn-primary btn-lg' data-type='random'>Regen Random Sets</a>
+  </center>
+<% end %>
     <% slideshows.each do |slideshow| %>
     <% next if !slideshow.public && context_page == 'general' %>
-      <div class="col-lg-4">
+      <div class="col-lg-4 container_for_slideshow_thumb">
         <p>
           <%= slideshow.name %>
           <% if context_page == 'account' %>
@@ -21,9 +26,6 @@
     <%= will_paginate slideshows %>
   </div>
 <% else %>
-<hr>
-  <a href="#" class='regen_rand_free btn btn-primary btn-lg' data-type='random'>Regen Random Sets</a>
-
 
 <% end %>
 </center>

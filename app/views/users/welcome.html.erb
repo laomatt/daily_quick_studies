@@ -39,9 +39,8 @@
                 <!-- Content Section -->
                 <h1 class="section-heading">Quick Studies</h1>
                 <p class="lead section-lead">Thank you for choosing Daily Quicks for your art reference needs.</p>
-                <p class="section-paragraph">No membership nessesary. Select one of the current slideshows above to get started with a study.</p>
-
-                <p>As a Thank you, we have given you 3 random slideshows,  if you would like three new random ones, hit the 'regen shows' button, for access to the entire library of slides and slideshows, please login with facebook.</p>
+                <p class="section-paragraph">No membership nessesary. Select one of the current slideshows below to get started with a study.  As a Thank you, we have given you 3 random slideshows,  if you would like three new random ones, hit the 'regen shows' button, for access to the entire library of slides and slideshows, please login with facebook.</p>
+  <br><br><br>
   </div>
 
         </header>
@@ -84,14 +83,16 @@
 <script>
   $('body').on('click', '.regen_rand_free', function(event) {
     event.preventDefault();
+    $('.container_for_slideshow_thumb').hide(700, function() {
+      $.ajax({
+        url: '/slideshows/regen_rand',
+      })
+      .done(function(data) {
+        $('.random_slide_shows').html(data)
+        $('.container_for_slideshow_thumb').fadeIn(700, function() {});
+      })
 
-    $.ajax({
-      url: '/slideshows/regen_rand',
-    })
-    .done(function(data) {
-      console.log("success");
-      $('.random_slide_shows').html(data)
-    })
+    });
 
   });
 </script>

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'draw_random'
       get 'draw_pose'
       get 'reload_pag'
+      get 'reload_pag_user'
       get 'regen_rand'
       post 'create_show'
     end

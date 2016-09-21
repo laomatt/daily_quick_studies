@@ -5,6 +5,7 @@ class SlideshowsController < ApplicationController
   # GET /slideshows.json
   def index
     @slideshows = Slideshow.all
+    @pag_url = '/slideshows/reload_pag'
     @page = 'home'
   end
 
@@ -24,7 +25,7 @@ class SlideshowsController < ApplicationController
     else
       Slideshow.create(:name => params[:name], :user_id => current_user.id)
     end
-    render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account' }
+    render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account', :pag_url => '/slideshows/reload_pag_user' }
   end
 
   # GET /slideshows/1/edit
@@ -34,7 +35,7 @@ class SlideshowsController < ApplicationController
   end
 
   def reload_pag
-    render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.paginate(:page => params[:page]), :context_page => 'account' }
+    render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.public_shows.paginate(:page => params[:page]), :context_page => 'general' }
   end
 
   def regen_rand
@@ -106,9 +107,9 @@ class SlideshowsController < ApplicationController
     end
 
     if @slideshow.update(slideshow_params)
-      render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account' }
+      render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account', :pag_url => '/slideshows/reload_pag_user' }
     else
-      render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account' }
+      render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account', :pag_url => '/slideshows/reload_pag_user' }
       flash[:error] = "Error Updating: #{@slideshow.errors.full_messages}"
     end
   end

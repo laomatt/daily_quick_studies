@@ -50,7 +50,7 @@
         <!-- Fixed Height Image Aside -->
         <!-- Image backgrounds are set within the full-width-pics.css file. -->
         <aside class="image-bg-fixed-height random_slide_shows">
-          <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => Slideshow.rand_shows, :context_page => 'general' } %>
+          <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => Slideshow.rand_shows, :context_page => 'general', :pag_url => 'none' } %>
         </aside>
 
 

@@ -14,6 +14,7 @@ class UsersController < ApplicationController
       redirect_to '/slideshows'
     end
 
+    @pag_url = '/slideshows/reload_pag'
   end
 
   # GET /users/1
@@ -28,6 +29,7 @@ class UsersController < ApplicationController
 
   def my_account
     @page = 'account'
+    @pag_url = 'user'
   end
 
 

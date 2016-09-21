@@ -18,7 +18,7 @@
     <div class="col-lg-8">
       <h1>My Slideshows</h1>
       <div class="current_slideshows slideshow_list_sect_container">
-        <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => 1), :context_page => 'account' } %>
+        <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => 1), :context_page => 'account', :pag_url => '/slideshows/reload_pag_user' } %>
       </div>
     </div>
   </div><!-- row -->
@@ -111,6 +111,25 @@
       $('#editSlideShowModal').html("");
     })
   });
+
+</script>
+
+
+<script>
+  $('body').on('click', '.pagination_link_container a', function(event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('=')[1];
+    var url = '/slideshows/reload_pag_user'
+
+    $.ajax({
+      url: url,
+      data: {page: page},
+    })
+    .done(function(data) {
+      $('.slideshow_list_sect_container').html(data);
+    })
+  });
+
 
 </script>
 

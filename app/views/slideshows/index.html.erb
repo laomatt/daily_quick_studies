@@ -9,5 +9,24 @@
   </div><!-- container -->
 </div><!-- blue wrap -->
 <div class="slideshow_list_sect_container" page-type='index'>
-  <%= render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.all.paginate(:page => 1), :context_page => 'general' } %>
+  <%= render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.public_shows.paginate(:page => 1), :context_page => 'general', :pag_url => '/slideshows/reload_pag' } %>
 </div>
+
+<script>
+  $('body').on('click', '.pagination_link_container a', function(event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('=')[1];
+    var url = '/slideshows/reload_pag'
+
+    $.ajax({
+      url: url,
+      data: {page: page},
+    })
+    .done(function(data) {
+      $('.slideshow_list_sect_container').html(data);
+    })
+  });
+
+
+</script>
+

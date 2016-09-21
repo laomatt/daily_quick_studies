@@ -204,29 +204,4 @@ ga('send', 'pageview');
 </script>
 
 
-<script>
-  $('body').on('click', '.pagination_link_container a', function(event) {
-    event.preventDefault();
-    var page = $(this).attr('href').split('=')[1];
-    $.ajax({
-      url: '/slideshows/reload_pag',
-      data: {page: page},
-    })
-    .done(function(data) {
-      $('.slideshow_list_sect_container').html(data);
-    })
-  });
-
-  $('body').on('click', '.pagination_link_container_user a', function(event) {
-    event.preventDefault();
-    var page = $(this).attr('href').split('=')[1];
-    $.ajax({
-      url: '/slideshows/reload_pag_user',
-      data: {page: page},
-    })
-    .done(function(data) {
-      $('.slideshow_list_sect_container').html(data);
-    })
-  });
-</script>
 </html>

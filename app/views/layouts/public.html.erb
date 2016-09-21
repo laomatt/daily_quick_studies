@@ -87,6 +87,10 @@
       <div class="modal-body">
         <div id="progress_message" style='display:none'>Currently Uploading...</div>
         <%= form_tag(slides_path, method: "POST", class: "create-new-slide-form") do %>
+        <div class="form-group">
+          <label for="name">Name Slides (leave black for default filename)</label>
+          <input type="text" name='name' class='form-control'>
+        </div>
           <div class="form-group">
             <%= file_field_tag :picture, :multiple => true, :class => 'form-control' %>
           </div>

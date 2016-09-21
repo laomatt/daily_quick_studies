@@ -42,9 +42,16 @@ class SlidesController < ApplicationController
   # POST /slides.json
   def create
     uploaded_io = params[:image_this]
-    slide = Slide.new(:name => 'new slide')
+    slide = Slide.new
     slide.file = uploaded_io
     slide.save!
+    if params[:name].present?
+      name = params[:name]
+    else
+      name = slide.file.to_s.split('/').last
+    end
+
+    slide.update_attributes(:name => name)
     render :json => { :url => slide.file.thumb.url }
   end
 

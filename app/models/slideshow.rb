@@ -5,7 +5,12 @@ class Slideshow < ActiveRecord::Base
   self.per_page = 3
 
   def self.create_show(name, phrase, user_id)
-    slides = Slide.where('name like ?', "%#{phrase}%")
+    slides_reg = Slide.where('name like ?', "%#{phrase}%")
+    slide_u = Slide.where('name like ?', "%#{phrase.upcase}%")
+    slide_l = Slide.where('name like ?', "%#{phrase.downcase}%")
+
+    slides = slides_reg + slide_u + slide_l
+
     ss = Slideshow.create(:name => name, :user_id => user_id)
 
     slides.each do |s|

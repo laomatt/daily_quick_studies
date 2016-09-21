@@ -37,6 +37,10 @@ class SlideshowsController < ApplicationController
     render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.paginate(:page => params[:page]), :context_page => 'account' }
   end
 
+  def regen_rand
+    render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => Slideshow.rand_shows, :context_page => 'general' }
+  end
+
   def reload_pag_user
     render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account' }
   end

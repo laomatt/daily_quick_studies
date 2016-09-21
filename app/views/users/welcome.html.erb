@@ -49,7 +49,7 @@
 
         <!-- Fixed Height Image Aside -->
         <!-- Image backgrounds are set within the full-width-pics.css file. -->
-        <aside class="image-bg-fixed-height">
+        <aside class="image-bg-fixed-height random_slide_shows">
           <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => Slideshow.rand_shows, :context_page => 'general' } %>
         </aside>
 
@@ -79,3 +79,19 @@
         <div id="pose_window_container"></div>
       </body>
       </html>
+
+
+<script>
+  $('body').on('click', '.regen_rand_free', function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: '/slideshows/regen_rand',
+    })
+    .done(function(data) {
+      console.log("success");
+      $('.random_slide_shows').html(data)
+    })
+
+  });
+</script>

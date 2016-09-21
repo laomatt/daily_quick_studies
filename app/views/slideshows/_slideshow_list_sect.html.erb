@@ -16,12 +16,13 @@
 
 </div><!-- container -->
 <center>
+<% if current_user %>
   <div class="pagination_link_container">
     <%= will_paginate slideshows %>
   </div>
-<% if !current_user %>
+<% else %>
 <hr>
-  <a href="#" class='regen_rand_free btn btn-primary btn-lg' data-id='' data-toggle="modal" data-type='random' data-target="#drawModal">Regen Random Sets</a>
+  <a href="#" class='regen_rand_free btn btn-primary btn-lg' data-type='random'>Regen Random Sets</a>
 
 
 <% end %>

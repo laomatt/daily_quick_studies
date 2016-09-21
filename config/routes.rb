@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   end
   resources :slides do
     collection do
+      get 'reload_pag'
       get 'slides_modal'
+      get 'search_reload_pag'
     end
   end
 

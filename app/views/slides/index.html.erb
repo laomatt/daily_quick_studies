@@ -1,25 +1,45 @@
-<p id="notice"><%= notice %></p>
+<div id="blue">
+  <div class="container">
+    <div class="row centered">
+      <div class="col-lg-8 col-lg-offset-2">
+      <h4><b>Current Slides</b></h4>
+      <p>Search</p>
+      <input type="text" id='slide_search'>
+      </div>
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- blue wrap -->
+<div class="container results_container">
+  <%=  render :partial => 'results', :locals => { :slides => @slides } %>
+</div>
 
-<h1>Listing Slides</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>File</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<script>
+  $('body').on('keyup', '#slide_search', function(event) {
+    event.preventDefault();
+    var url = '/slides/search_reload_pag'
+    $.ajax({
+      url: url,
+      data: {page: 1, search: $(this).val()},
+    })
+    .done(function(data) {
+      $('.results_container').html(data);
+    })
+  });
 
-  <tbody>
-    <% @slides.each do |slide| %>
-      <tr>
-        <td><%= slide.name %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<br>
+  $('body').on('click', '.pagination_link_container a', function(event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('=')[1];
+    var url = '/slides/reload_pag'
 
-<%= link_to 'New Slide', new_slide_path %>
+    $.ajax({
+      url: url,
+      data: {page: page},
+    })
+    .done(function(data) {
+      $('.results_container').html(data);
+    })
+  });
+
+</script>

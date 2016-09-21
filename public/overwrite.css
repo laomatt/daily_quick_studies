@@ -7,13 +7,30 @@
 }
 
 .portrait {
-    height: 70px;
-    position: relative;
-    border-radius: 20px;
+  height: 70px;
+  position: relative;
+  border-radius: 20px;
+}
+
+.slide-font {
+  position: relative;
+  background-color: transparent;
+  max-height: 50px;
+  width: 100%;
+  overflow-wrap: break-word;
 }
 
 .current_slideshows {
   padding: 4%;
+}
+
+.slide_container {
+      padding: 7px;
+    background-color: gainsboro;
+    margin: 6px;
+    overflow: auto;
+    position: relative;
+    width: 200px;
 }
 
 .tiny-thumb {

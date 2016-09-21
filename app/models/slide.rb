@@ -2,9 +2,18 @@ class Slide < ActiveRecord::Base
   belongs_to :user
   has_many :slide_entries, :class_name => 'SlideEntry'
   has_many :taggings, :class_name => 'Tagging'
+  self.per_page = 20
 
   def self.random_three
     all.shuffle.first(5)
+  end
+
+  def self.search(phrase)
+    slides_reg = Slide.where('name like ?', "%#{phrase}%")
+    slide_u = Slide.where('name like ?', "%#{phrase.upcase}%")
+    slide_l = Slide.where('name like ?', "%#{phrase.downcase}%")
+
+    slides_reg + slide_u + slide_l
   end
 
   def self.name_all

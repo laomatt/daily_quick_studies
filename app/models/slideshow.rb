@@ -19,7 +19,7 @@ class Slideshow < ActiveRecord::Base
   end
 
   def self.rand_shows
-    where('public = ?', true).shuffle.first(3)
+    where('public = ?', true).shuffle.first(5)
   end
 
   def self.public_shows

@@ -3,24 +3,42 @@
   <center>
     <a href="#" class='regen_rand_free btn btn-primary btn-lg' data-type='random'>Regen Random Sets</a>
   </center>
+  <% slideshows.each do |slideshow| %>
+  <% next if !slideshow.public && context_page == 'general' %>
+    <div class="col-lg-4 container_for_slideshow_thumb img-rounded container_for_slideshow_thumb_for_<%= slideshow.id %>" style='background: url("<%= slideshow.preview %>") no-repeat center center scroll;-image'>
+      <div class="preview-text">
+        <p>
+          <%= slideshow.name %>
+          <% if context_page == 'account' %>
+          <br>
+            (<a href="#" class='edit-this-show' data-id='<%= slideshow.id %>' class="btn btn-info btn-lg" data-toggle="modal" data-target="#editSlideShowModal">Edit</a> | <a href="#" class='delete-this-show' data-id='<%= slideshow.id %>'>Delete</a>)
+          <% end %>
+        </p>
+        <a href="#" class='start_study' data-id='<%= slideshow.id %>' data-toggle="modal" data-type='indiv' data-target="#drawModal">
+          <img src="<%= slideshow.preview %>" alt="" class='img-responsive img-thumbnail img-rounded small-thumbnail-in-preview'>
+        </a>
+      </div>
+    </div><!-- col-lg-4 -->
+  <% end %>
+<% else %>
+  <% slideshows.order('created_at desc').each do |slideshow| %>
+  <% next if !slideshow.public && context_page == 'general' %>
+    <div class="col-lg-4 container_for_slideshow_thumb img-rounded container_for_slideshow_thumb_for_<%= slideshow.id %>" style='background: url("<%= slideshow.preview %>") no-repeat center center scroll;-image'>
+      <div class="preview-text">
+        <p>
+          <%= slideshow.name %>
+          <% if context_page == 'account' %>
+          <br>
+            (<a href="#" class='edit-this-show' data-id='<%= slideshow.id %>' class="btn btn-info btn-lg" data-toggle="modal" data-target="#editSlideShowModal">Edit</a> | <a href="#" class='delete-this-show' data-id='<%= slideshow.id %>'>Delete</a>)
+          <% end %>
+        </p>
+        <a href="#" class='start_study' data-id='<%= slideshow.id %>' data-toggle="modal" data-type='indiv' data-target="#drawModal">
+          <img src="<%= slideshow.preview %>" alt="" class='img-responsive img-thumbnail img-rounded small-thumbnail-in-preview'>
+        </a>
+      </div>
+    </div><!-- col-lg-4 -->
+  <% end %>
 <% end %>
-    <% slideshows.order('created_at desc').each do |slideshow| %>
-    <% next if !slideshow.public && context_page == 'general' %>
-      <div class="col-lg-4 container_for_slideshow_thumb img-rounded container_for_slideshow_thumb_for_<%= slideshow.id %>" style='background: url("<%= slideshow.preview %>") no-repeat center center scroll;-image'>
-        <div class="preview-text">
-          <p>
-            <%= slideshow.name %>
-            <% if context_page == 'account' %>
-            <br>
-              (<a href="#" class='edit-this-show' data-id='<%= slideshow.id %>' class="btn btn-info btn-lg" data-toggle="modal" data-target="#editSlideShowModal">Edit</a> | <a href="#" class='delete-this-show' data-id='<%= slideshow.id %>'>Delete</a>)
-            <% end %>
-          </p>
-          <a href="#" class='start_study' data-id='<%= slideshow.id %>' data-toggle="modal" data-type='indiv' data-target="#drawModal">
-            <img src="<%= slideshow.preview %>" alt="" class='img-responsive img-thumbnail img-rounded small-thumbnail-in-preview'>
-          </a>
-        </div>
-      </div><!-- col-lg-4 -->
-    <% end %>
 
 </div><!-- container -->
 <center>

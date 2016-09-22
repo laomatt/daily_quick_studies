@@ -5,7 +5,7 @@
   </center>
   <% slideshows.each do |slideshow| %>
   <% next if !slideshow.public && context_page == 'general' %>
-    <div class="col-lg-4 container_for_slideshow_thumb img-rounded container_for_slideshow_thumb_for_<%= slideshow.id %>" style='background: url("<%= slideshow.preview %>") no-repeat center center scroll;-image'>
+    <div class="col-lg-4 container_for_slideshow_thumb img-rounded container_for_slideshow_thumb_for_<%= slideshow.id %>" style='width:215px;background: url("<%= slideshow.preview %>") no-repeat center center scroll;-image'>
       <div class="preview-text">
         <p>
           <%= slideshow.name %>

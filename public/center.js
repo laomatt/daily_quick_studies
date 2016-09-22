@@ -116,6 +116,8 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
 });
 
 
+
+
 // index slides
 
   // my account

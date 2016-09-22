@@ -50,7 +50,7 @@
 
 
 
-<script>
+<script id="draw_modal_controls_js">
 var ids_in_order = []
 <% ids.each do |i|%>
   ids_in_order.push("<%= i.to_s %>")
@@ -87,7 +87,9 @@ jQuery(document).ready(function($) {
       $('body').on('click', '#close-draw-modal', function(event) {
         event.preventDefault();
         $('#pose_window_container').html('');
+        paused = true
         $('#pose_window_container').fadeOut(500, function() {});
+        $('#draw_modal_controls_js').remove();
       });
       var audio = new Audio('/beep.wav');
 
@@ -98,7 +100,9 @@ jQuery(document).ready(function($) {
           if(top > 0){
             if(paused == false){
               countDown(top - 1, i);
-            }else{
+            } else if($('#pose_window_container').html() == "") {
+              return
+            } else{
               countDown(top, i);
             }
           } else {

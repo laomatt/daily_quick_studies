@@ -1,5 +1,5 @@
 class SlideshowsController < ApplicationController
-  before_action :set_slideshow, only: [:show, :edit, :update, :destroy, :draw_modal]
+  before_action :set_slideshow, only: [:show, :edit, :update, :destroy, :draw_modal], except: [:create_show]
   before_action :authenticate_user!, except: [:regen_rand, :draw_random, :draw_modal, :draw_pose]
 
   # GET /slideshows
@@ -21,11 +21,14 @@ class SlideshowsController < ApplicationController
   end
 
   def create_show
-    if params[:phrase].present?
-      Slideshow.create_show(params[:name], params[:phrase], current_user.id)
-    else
-      Slideshow.create(:name => params[:name], :user_id => current_user.id)
+    slideshow = Slideshow.create(:name => params[:name], :user_id => current_user.id)
+
+    if params[:slides_to_add].present?
+      params[:slides_to_add].values.each do |slide|
+        SlideEntry.create(:slide_id => slide, :slideshow_id => slideshow.id)
+      end
     end
+
     render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account', :pag_url => '/slideshows/reload_pag_user' }
   end
 
@@ -85,6 +88,7 @@ class SlideshowsController < ApplicationController
   # PATCH/PUT /slideshows/1
   # PATCH/PUT /slideshows/1.json
   def update
+    # byebug
     slideshow_params.delete(:slides_to_add)
     slides_to_add_ids = params[:slideshow][:slides_to_add]
     slides_to_remove_ids = params[:slideshow][:slides_to_remove]
@@ -118,11 +122,9 @@ class SlideshowsController < ApplicationController
   # DELETE /slideshows/1
   # DELETE /slideshows/1.json
   def destroy
-    @slideshow.destroy
-    respond_to do |format|
-      format.html { redirect_to slideshows_url, notice: 'Slideshow was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    id = @slideshow.id
+    @slideshow.delete
+    render :json => {:id => id}
   end
 
   private

@@ -45,16 +45,17 @@
             <label for="name">Slideshow Name</label>
             <input type="text" name="name" class='form-control'>
           </div>
-          <div class="form-group">
-            <label for="name">Phrase to populate with(leave blank to create an empty show)</label>
-            <input type="text" name="phrase" class='form-control'>
-          </div>
-
-          <input type="submit" value='Create'>
+          <div id="slide_to_add" class='slide_to_add form-group'></div>
         <% end %>
+
+        <div class="form-group">
+          <input type="text" name="search_slides" placeholder='Search for slides' id='slide_search_input' class='form-control'>
+        </div>
+        <div id="slide_results_panel" class='slide_results_panel'></div>
 
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default create-slideshow-button" data-dismiss="modal">Create</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -66,6 +67,32 @@
 <div id="editSlideShowModal" class="modal fade" role="dialog"></div>
 
 <script>
+  $('body').on('click', '.create-slideshow-button', function(event) {
+    event.preventDefault();
+    $('.create-new-slideshow-form').trigger('submit');
+  });
+
+  $('body').on('keyup', '#slide_search_input', function(event) {
+    event.preventDefault();
+    var url = '/slides/search_reload_pag_row'
+    $.ajax({
+      url: url,
+      data: {page: 1, search: $(this).val()},
+    })
+    .done(function(data) {
+      $('#slide_results_panel').html(data);
+    })
+  });
+
+  $('body').on('click', '.add_this_slide', function(event) {
+    event.preventDefault();
+    var html_to_add = $(this).parent().parent().html();
+    var id = $(this).attr('data-id');
+    $(this).parent().parent().hide(500, function() {});
+    $('#slide_to_add').append(html_to_add);
+    $('#slide_to_add').append("<input type='hidden' name='slides_to_add["+id+"]' value='"+id+"'>");
+  });
+
   $('body').on('submit', '.create-new-slideshow-form', function(event) {
     event.preventDefault();
     $('.current_slideshows').css('opacity', '.5');
@@ -75,6 +102,7 @@
       data: $(this).serialize(),
     })
     .done(function(data) {
+      $('.create-new-slideshow-form').trigger('reset');
       $('.current_slideshows').html(data);
       $('button.close').trigger('click');
       $('.current_slideshows').css('opacity', '1');
@@ -112,10 +140,6 @@
     })
   });
 
-</script>
-
-
-<script>
   $('body').on('click', '.pagination_link_container a', function(event) {
     event.preventDefault();
     var page = $(this).attr('href').split('=')[1];
@@ -130,6 +154,40 @@
     })
   });
 
+  $('body').on('click', '.delete-this-show', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('data-id');
+    $.ajax({
+      url: '/slideshows/' + id,
+      type: 'DELETE',
+    })
+    .done(function(data) {
+      var id2 = data.id
+      $('.container_for_slideshow_thumb_for_' + id2).hide(500, function() {
+
+      });
+    })
+
+  });
+
 
 </script>
 
+
+<style>
+  .slide_container {
+    width: 150px;
+    height: 170px;
+  }
+
+  .slide_container .slide-font {
+    font-size: 10px;
+  }
+
+  .slide_to_add {
+    position: relative;
+    width: 100%;
+    max-height: 200px;
+    overflow: scroll;
+  }
+</style>

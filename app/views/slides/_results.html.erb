@@ -1,13 +1,15 @@
 
 <div class="container w">
   <% slides.each do |slide| %>
-  <div class="col-lg-4 slide_container">
-    <div class="slide-font">
-      <%= slide.name %>
+  <div>
+    <div class="col-lg-4 slide_container">
+      <div class="slide-font">
+        <%= slide.name %>
+      </div>
+      <a href="#" class='start_study add_this_slide' data-id='<%= slide.id %>'>
+          <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
+      </a>
     </div>
-    <a href="#" class='start_study' data-id='<%= slide.id %>' data-toggle="modal" data-type='indiv' data-target="#drawModal">
-        <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
-    </a>
   </div>
   <% end %>
 </div>

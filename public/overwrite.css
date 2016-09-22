@@ -12,6 +12,13 @@
   border-radius: 20px;
 }
 
+
+.slide_results_panel {
+  max-height: 200px;
+  overflow-y: scroll;
+
+}
+
 .slide-font {
   position: relative;
   background-color: transparent;
@@ -32,12 +39,12 @@ p.section-paragraph {
 }
 
 .slide_container {
-      padding: 7px;
-    background-color: gainsboro;
-    margin: 6px;
-    overflow: auto;
-    position: relative;
-    width: 200px;
+  padding: 7px;
+  background-color: gainsboro;
+  margin: 6px;
+  overflow: auto;
+  position: relative;
+  width: 200px;
 }
 
 .tiny-thumb {
@@ -124,4 +131,34 @@ img.draw-image {
   width: 20%;
   height: 15%;
   display: none;
+}
+
+#createSlideShoeModal .modal-dialog {
+  width: 90%;
+}
+
+#editSlideShowModal .modal-dialog {
+  width: 90%;
+}
+
+.container_for_slideshow_thumb {
+  margin: 6px;
+  width: 200px;
+  background-color: gainsboro;
+  height: 220px;
+}
+
+.preview-text {
+    width: 100%;
+    background-color: rgba(0,0,0,0.7);
+    margin-top: 5%;
+    padding: 3%;
+    color: white;
+    height: 90%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.small-thumbnail-in-preview {
+  width: 50%;
 }

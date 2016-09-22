@@ -8,49 +8,41 @@
     <div class="modal-body">
 
       <%= form_for slideshow, :url => slideshow_path(:id => slideshow.id), :html => {class: "edit-slideshow-form", :method => 'PUT'} do |f| %>
-          <div class="form-group">
-            <label for="name">Slideshow Name</label>
-            <%= f.text_field :name %>
-          </div>
-          <div class="form-group">
-            <label for="public">Public?</label>
-            <%= f.check_box :public %>
-          </div>
-          <% if slideshow.slides.present? %>
-            <div class="form-group">
-              <div class="container current_slides">
-                <h3>Current Slides</h3>
-                <% slideshow.slides.each do |slide| %>
-                  <a href="#" class='remove-this-slide' data-id='<%= slide.id %>'>
-                    <img src="<%= slide.file.thumb.url %>" alt="<%= slide.name || 'unnamed' %>" class='img-responsive img-thumbnail tiny-thumb'>
-                  </a>
-                <% end %>
-              </div>
-            </div>
+      <div class="form-group">
+        <label for="name">Slideshow Name</label>
+        <%= f.text_field :name, :class => 'form-control' %>
+      </div>
+      <div id="slide_to_add" class='slide_to_add form-group'></div>
+      <div id="slides_to_remove" class='slides_to_remove form-group'></div>
+      <div class="form-group">
+        <label for="public">Public?</label>
+        <%= f.check_box :public %>
+      </div>
+      <% if slideshow.slides.present? %>
+      <div class="form-group">
+        <div class="container current_slides">
+          <h3>Current Slides</h3>
+          <% slideshow.slides.each do |slide| %>
+          <a href="#" class='remove-this-slide' data-id='<%= slide.id %>'>
+            <img src="<%= slide.file.thumb.url %>" alt="<%= slide.name || 'unnamed' %>" class='img-responsive img-thumbnail tiny-thumb'>
+          </a>
           <% end %>
-          <div class="form-group">
-            <p>
-              Slides to append
-            </p>
-            <div class="container slides_to_add" id="slides_to_add"></div>
-            <div class="container" id="slides_to_remove" style='display:none'></div>
-          </div>
-          <div class="form-group">
-            <center>
-              <button type="button" class="btn btn-info btn-lg regen-slide" data-toggle="modal">Regen Random Slides</button>
-            </center>
-            <br>
-            <div class="container random_slides">
-              <%= render :partial => 'slides/random_slides' %>
-            </div>
-          </div>
-        <input type="submit" value='Update'>
+        </div>
+      </div>
       <% end %>
 
+      <% end %>
+
+      <div class="form-group">
+        <input type="text" name="search_slides" placeholder='Search for slides' id='slide_search_input' class='form-control'>
+      </div>
+      <div id="slide_results_panel" class='slide_results_panel'></div>
     </div>
     <div class="modal-footer">
+      <button type="button" class="btn btn-default edit-slideshow-button" data-dismiss="modal">Update</button>
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
   </div>
 
 </div>
+

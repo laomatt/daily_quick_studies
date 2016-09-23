@@ -2,7 +2,7 @@ class Slideshow < ActiveRecord::Base
   belongs_to :user, :class_name => 'User'
   has_many :slide_entries, :class_name => 'SlideEntry'
   has_many :slides, :through => :slide_entries
-  self.per_page = 8
+  self.per_page = 10
 
   def self.create_show(name, phrase, user_id)
     slides_reg = Slide.where('name like ?', "%#{phrase}%")

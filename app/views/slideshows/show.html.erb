@@ -4,9 +4,16 @@
       <div class="col-lg-8 col-lg-offset-2">
 
         <h4><b><%= @slideshow.name %></b></h4>
+        <img src="<%= current_user.portrait_url %>" class='portrait'>
+         <br>
+        <p>
+        By: <%= @slideshow.user.name %> <br>
+        created at <%= @slideshow.created_at.strftime('%D') %> <br>
+        updated at <%= @slideshow.updated_at.strftime('%D') %> <br>
+        slides: <%= @slideshow.slides.count %>
+      </p>
 
       <center>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createSlideShoeModal">Create new Slideshow</button>
       </center>
       </div>
     </div><!-- row -->
@@ -27,3 +34,9 @@
   </div>
   <% end %>
 </div>
+
+<style>
+  .slide_container {
+    height: 300px;
+  }
+</style>

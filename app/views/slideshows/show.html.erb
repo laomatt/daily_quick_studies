@@ -1,14 +1,29 @@
-<p id="notice"><%= notice %></p>
+<div id="blue">
+  <div class="container">
+    <div class="row centered">
+      <div class="col-lg-8 col-lg-offset-2">
 
-<p>
-  <strong>Name:</strong>
-  <%= @slideshow.name %>
-</p>
+        <h4><b><%= @slideshow.name %></b></h4>
 
-<p>
-  <strong>User:</strong>
-  <%= @slideshow.user_id %>
-</p>
+      <center>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createSlideShoeModal">Create new Slideshow</button>
+      </center>
+      </div>
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- blue wrap -->
 
-<%= link_to 'Edit', edit_slideshow_path(@slideshow) %> |
-<%= link_to 'Back', slideshows_path %>
+<div class="container w">
+  <% @slideshow.slides.each do |slide| %>
+  <div>
+    <div class="col-lg-4 slide_container">
+      <div class="slide-font">
+        <%= slide.name %>
+      </div>
+        <a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
+          <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
+      </a>
+    </div>
+  </div>
+  <% end %>
+</div>

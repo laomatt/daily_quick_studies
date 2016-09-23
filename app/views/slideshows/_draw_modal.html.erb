@@ -16,7 +16,7 @@
     <div class="modal-body">
       <% if type != 'random' %>
       <div class="container-fluid">
-        <center>Random Slides in this Set</center>
+        <center>Random Slides in this Set( <a href="/slideshows/<%= @slideshow.id %>">see all slides</a>)</center>
           <% slideshow.rand_preview.each do |slide| %>
           <div class="col-sm-4">
 

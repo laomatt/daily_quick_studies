@@ -45,6 +45,9 @@ p.section-paragraph {
   overflow: auto;
   position: relative;
   width: 200px;
+ width: 250px;
+  height: 270px;
+
 }
 
 .tiny-thumb {

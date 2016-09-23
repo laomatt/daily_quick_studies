@@ -193,6 +193,18 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
     })
   });
 
+
+  $('body').on('click', '.inspect_this_slide', function(event) {
+      var id = $(this).attr('data-id');
+      $.ajax({
+        url: '/slides/'+id+'/inspect_modal',
+      })
+      .done(function(data) {
+        $('#inspectSlide').html(data)
+      })
+    });
+
+
   $('body').on('click', '.pagination_link_container a', function(event) {
     event.preventDefault();
     var page = $(this).attr('href').split('=')[1];

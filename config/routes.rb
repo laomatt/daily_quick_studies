@@ -23,6 +23,10 @@ Rails.application.routes.draw do
     end
   end
   resources :slides do
+    member do
+      get 'inspect_modal'
+    end
+
     collection do
       get 'reload_pag'
       get 'slides_modal'

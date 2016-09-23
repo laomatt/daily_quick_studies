@@ -78,6 +78,7 @@ $(document).ready(function() {
     // adding something to add
     var id = $(this).attr('data-id');
     var image = $(this).html();
+    // var image = '' + id +'  ' + $(this).attr('class');
     idx += 1;
     var input_html = image + "<input type='hidden' name='slideshow[slides_to_add]["+idx+"]' value='"+id+"'>"
     $('.slides_to_add').append(input_html)
@@ -97,7 +98,7 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
     var url = '/slides/search_reload_pag'
     $.ajax({
       url: url,
-      data: {page: 1, search: $(this).val()},
+      data: {page: 1, search: $(this).val(), from: 'modal'},
     })
     .done(function(data) {
       $('.slide_results_panel').html(data);
@@ -113,11 +114,120 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
     $('.slide_to_add').append("<input type='hidden' name='slideshow[slides_to_add]["+id+"]' value='"+id+"'>");
   });
 
+// index slides
+
+  // my account
+
+  $('body').on('click', '.create-slideshow-button', function(event) {
+    event.preventDefault();
+    $('.create-new-slideshow-form').trigger('submit');
+  });
+
+  $('body').on('keyup', '#slide_search_input', function(event) {
+    event.preventDefault();
+    var url = '/slides/search_reload_pag_row'
+    $.ajax({
+      url: url,
+      data: {page: 1, search: $(this).val()},
+    })
+    .done(function(data) {
+      $('#slide_results_panel').html(data);
+    })
+  });
+
+  // $('body').on('click', '.add_this_slide', function(event) {
+  //   event.preventDefault();
+  //   var html_to_add = $(this).parent().parent().html();
+  //   var id = $(this).attr('data-id');
+  //   $(this).parent().parent().hide(500, function() {});
+  //   $('#slide_to_add').append(html_to_add);
+  //   $('#slide_to_add').append("<input type='hidden' name='slides_to_add["+id+"]' value='"+id+"'>");
+  // });
+
+  $('body').on('submit', '.create-new-slideshow-form', function(event) {
+    event.preventDefault();
+    $('.current_slideshows').css('opacity', '.5');
+    $.ajax({
+      url: '/slideshows/create_show',
+      type: 'POST',
+      data: $(this).serialize(),
+    })
+    .done(function(data) {
+      $('.create-new-slideshow-form').trigger('reset');
+      $('.current_slideshows').html(data);
+      $('button.close').trigger('click');
+      $('.current_slideshows').css('opacity', '1');
+      $('.slide_to_add').html('');
+      idx = 0;
+    })
+
+  });
+
+  // edit and update slideshow
+  $('body').on('click', '.edit-this-show', function(event) {
+    $('#editSlideShowModal').html("");
+    $.ajax({
+      url: '/users/edit_slideshow_modal',
+      data: {id: $(this).attr('data-id')},
+    })
+    .done(function(data) {
+      $('#editSlideShowModal').html(data);
+    })
+  });
+
+    $('body').on('submit', '.edit-slideshow-form', function(event) {
+    event.preventDefault();
+    var action = $(this).attr('action');
+    $('.current_slideshows').css('opacity', '.5');
+    $.ajax({
+      url: action,
+      type: 'PUT',
+      data: $(this).serialize(),
+    })
+    .done(function(data) {
+      $('.current_slideshows').html(data);
+      $('button.close').trigger('click');
+      $('.current_slideshows').css('opacity', '1');
+      $('#editSlideShowModal').html("");
+      idx = 0;
+    })
+  });
+
+  $('body').on('click', '.pagination_link_container a', function(event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('=')[1];
+    var url = '/slideshows/reload_pag_user'
+
+    $.ajax({
+      url: url,
+      data: {page: page},
+    })
+    .done(function(data) {
+      $('.slideshow_list_sect_container').html(data);
+    })
+  });
+
+  $('body').on('click', '.delete-this-show', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('data-id');
+    $.ajax({
+      url: '/slideshows/' + id,
+      type: 'DELETE',
+    })
+    .done(function(data) {
+      var id2 = data.id
+      $('.container_for_slideshow_thumb_for_' + id2).hide(500, function() {
+
+      });
+    })
+
+  });
+
+
 });
 
 
 
 
-// index slides
 
-  // my account
+

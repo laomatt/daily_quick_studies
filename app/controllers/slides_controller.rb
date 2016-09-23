@@ -1,6 +1,6 @@
 class SlidesController < ApplicationController
   layout 'public'
-  before_action :set_slide, only: [:show, :edit, :update, :destroy]
+  before_action :set_slide, only: [:show, :edit, :update, :destroy, :inspect_modal]
   before_action :authenticate_user!
   # GET /slides
   # GET /slides.json
@@ -28,9 +28,14 @@ class SlidesController < ApplicationController
     render :partial => 'results', :locals => { :slides => @slides }
   end
 
+  def inspect_modal
+    render :partial => 'inspect', :locals => { :src => @slide.file.url, :title => @slide.name }
+  end
+
   def search_reload_pag
+    from = params[:from]
     @slides = Slide.where('lower(name) like ?',"%#{params[:search].downcase}%").paginate(:page => params[:page])
-    render :partial => 'results', :locals => { :slides => @slides }
+    render :partial => 'results', :locals => { :slides => @slides, :from => from }
   end
 
   def search_reload_pag_row

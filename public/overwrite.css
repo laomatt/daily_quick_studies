@@ -146,6 +146,7 @@ img.draw-image {
   width: 200px;
   background-color: gainsboro;
   height: 220px;
+  display: inline-block;
 }
 
 .preview-text {
@@ -161,4 +162,18 @@ img.draw-image {
 
 .small-thumbnail-in-preview {
   width: 50%;
+}
+
+.fblogin {
+  background-color: #3B5998;
+  color: white;
+}
+
+.fb-login-icon {
+  width: 20px;
+}
+@media screen and (orientation:portrait) {
+  #drawModal {
+    transform: rotate(90deg);
+  }
 }

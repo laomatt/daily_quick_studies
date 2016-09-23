@@ -3,24 +3,26 @@
     <div class="row centered">
       <div class="col-lg-8 col-lg-offset-2">
       <h4><b>Current Slides</b></h4>
-      <p>Search</p>
-      <input type="text" id='slide_search'>
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createSlideModal">Upload New Slide</button>
+      <br><br>
+      <input type="text" id='slide_search' placeholder='Search for slides' class='form-control'>
       </div>
     </div><!-- row -->
   </div><!-- container -->
 </div><!-- blue wrap -->
 <div class="container results_container">
-  <%=  render :partial => 'results', :locals => { :slides => @slides } %>
+  <%=  render :partial => 'results', :locals => { :slides => @slides, :from => 'index' } %>
 </div>
 
 
 <script>
+$(document).ready(function() {
   $('body').on('keyup', '#slide_search', function(event) {
     event.preventDefault();
     var url = '/slides/search_reload_pag'
     $.ajax({
       url: url,
-      data: {page: 1, search: $(this).val()},
+      data: {page: 1, search: $(this).val(), from: 'index'},
     })
     .done(function(data) {
       $('.results_container').html(data);
@@ -42,6 +44,37 @@
     })
   });
 
+  $('body').on('click', '.inspect_this_slide', function(event) {
+    var id = $(this).attr('data-id');
+    $.ajax({
+      url: '/slides/'+id+'/inspect_modal',
+    })
+    .done(function(data) {
+      $('#inspectSlide').html(data)
+    })
+  });
+});
 
 
 </script>
+
+
+
+<!-- Create Slide Modal -->
+<div id="inspectSlide" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+      <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title"><%=  %><span id="prog_report"></span></h4>
+    </div>
+    <div class="modal-body">
+      <img src="<%=  %>" alt="">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+  </div>
+</div>

@@ -176,7 +176,8 @@ img.draw-image {
   width: 20px;
 }
 @media screen and (orientation:portrait) {
-  #drawModal {
+  #pose_window_container {
     transform: rotate(90deg);
   }
 }
+

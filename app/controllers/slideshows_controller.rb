@@ -28,6 +28,8 @@ class SlideshowsController < ApplicationController
       end
     end
 
+    slideshow.update_tag_list
+
     render :partial => 'slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => params[:page]), :context_page => 'account', :pag_url => '/slideshows/reload_pag_user' }
   end
 

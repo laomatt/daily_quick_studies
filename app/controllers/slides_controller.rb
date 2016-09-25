@@ -46,13 +46,16 @@ class SlidesController < ApplicationController
     from = params[:from]
     @tag_array = Tag.where('lower(name) like ?',"%#{params[:search].downcase}%")
 
-
     @more_slides = []
     @tag_array.map {|e| e.taggings.map {|e| e.slide_id}.uniq }.each do |d|
       @more_slides += d
     end
 
-    @slides = Slide.where('lower(name) like ? or id in (?)',"%#{params[:search].downcase}%", @more_slides).paginate(:page => params[:page])
+    @slides = Slide.where('lower(name) like ? or id in (?)',"%#{params[:search].downcase}%", @more_slides).paginate(:page => params[:page], :per_page => 50)
+    if params[:slideshow_id].present?
+      slides = Slideshow.find(params[:slideshow_id]).slides.map { |e| e.id }
+      @slides = Slide.where('lower(name) like ? or id in (?) and id not in(?)',"%#{params[:search].downcase}%", @more_slides, slides).paginate(:page => params[:page], :per_page => 50)
+    end
 
     render :partial => 'results', :locals => { :slides => @slides, :from => from }
   end

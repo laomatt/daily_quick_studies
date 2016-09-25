@@ -96,9 +96,10 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
   $('body').on('keyup', '#slide_search_input', function(event) {
     event.preventDefault();
     var url = '/slides/search_reload_pag'
+    var slideshow_id = $(this).attr('slideshow-id');
     $.ajax({
       url: url,
-      data: {page: 1, search: $(this).val(), from: 'modal'},
+      data: {page: 1, search: $(this).val(), from: 'modal', slideshow_id: slideshow_id},
     })
     .done(function(data) {
       $('.slide_results_panel').html(data);

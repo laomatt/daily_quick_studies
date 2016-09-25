@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get 'reload_pag_account'
       get 'reload_pag'
       get 'slides_modal'
       get 'search_reload_pag'

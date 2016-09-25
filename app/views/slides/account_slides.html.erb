@@ -43,3 +43,21 @@
     overflow: scroll;
   }
 </style>
+
+<script>
+$('body').on('click', '.pagination_link_container_slide a', function(event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('=')[1];
+    var url = '/slides/reload_pag'
+
+    $.ajax({
+      url: url,
+      data: {page: page},
+    })
+    .done(function(data) {
+      $('.results_container').html(data);
+    })
+  });
+
+});
+</script>

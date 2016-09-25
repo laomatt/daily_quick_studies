@@ -255,6 +255,7 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
     })
   });
 
+
   $('body').on('click', '.delete-this-show', function(event) {
     event.preventDefault();
     var id = $(this).attr('data-id');

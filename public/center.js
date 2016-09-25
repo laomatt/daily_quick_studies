@@ -277,6 +277,7 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
       var tag_id = $(this).attr('tag-id');
       var slide_id = $(this).parent().attr('slide-id');
 
+
       $.ajax({
         url: '/taggings',
         type: 'POST',
@@ -284,9 +285,7 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
       })
       .done(function(data) {
         $('.tag-current').append(data);
-        $('.current-tag').animate(
-          {backgroundColor: 'red'}
-          , 2000);
+        $('#tag-search-bar').val('')
       })
     });
   });
@@ -315,6 +314,7 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
     })
     .done(function(data) {
       $('.tag-current').append(data)
+      $('#tag-search-bar').val('')
     })
 
   });
@@ -323,6 +323,7 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
     event.preventDefault();
     var tag_id = $(this).attr('tag-id');
     var slide_id = $(this).parent().attr('slide-id');
+    $(this).hide(500, function() {});
 
     $.ajax({
       url: '/taggings/'+tag_id+'/delete_tag_from_slide',
@@ -331,7 +332,6 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
     })
     .done(function(data) {
       if (data.status == 'success') {};
-      $(this).hide(500, function() {});
     })
   });
 

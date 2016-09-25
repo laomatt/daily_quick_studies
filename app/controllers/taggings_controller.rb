@@ -6,7 +6,7 @@ class TaggingsController < ApplicationController
 
     slideshows = slide.slide_entries.map { |e| e.slideshow }
     slideshows.each do |ss|
-      ss.update_tag_list
+      ss.try(:update_tag_list)
     end
 
     render :partial => 'current_tag', :locals => { :tag => tag }
@@ -21,11 +21,7 @@ class TaggingsController < ApplicationController
 
     taggings.each(&:delete)
 
-    if tag.delete
-      status = 'success'
-    end
-
-    render :json => {:status => status}
+    render :nothing => true
   end
 
   def create_tag

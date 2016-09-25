@@ -53,7 +53,7 @@
     var url = '/slides/search_reload_pag'
     $.ajax({
       url: url,
-      data: {page: 1, search: $(this).val(), from: 'index'},
+      data: {page: 1, search: $(this).val(), from: 'account'},
     })
     .done(function(data) {
       $('.results_container').html(data);

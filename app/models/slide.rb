@@ -26,8 +26,11 @@ class Slide < ActiveRecord::Base
   end
 
   def uniq_tags
-    # tag_list = taggings.map { |e| e.tag  }.uniq
     tags.uniq {|e| e.name}
+  end
+
+  def tags_list
+    uniq_tags.map { |e| e.name }.join(', ')
   end
 
   module Uploader

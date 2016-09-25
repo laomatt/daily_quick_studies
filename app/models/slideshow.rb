@@ -25,7 +25,7 @@ class Slideshow < ActiveRecord::Base
         tags << tg.tag
       end
     end
-    tags
+    tags.compact
   end
 
   def self.rand_shows
@@ -34,6 +34,12 @@ class Slideshow < ActiveRecord::Base
 
   def self.public_shows
     where('public = ?', true)
+  end
+
+  def update_tag_list
+    string = ""
+    string = tag_list.map { |e| e.try(:name) }.uniq.join(', ')
+    update_attributes(:tags_list => string)
   end
 
   def preview

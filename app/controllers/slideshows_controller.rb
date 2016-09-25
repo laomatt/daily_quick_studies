@@ -42,6 +42,14 @@ class SlideshowsController < ApplicationController
     render :partial => 'slideshow_list_sect', :locals => { :slideshows => Slideshow.public_shows.paginate(:page => params[:page]), :context_page => 'general' }
   end
 
+  def search_slideshows
+    phrase = params[:phrase]
+
+    slideshows = Slideshow.where('lower(name) like ? or lower(tags_list) like ?', "%#{phrase.downcase}%", "%#{phrase.downcase}%")
+    render :partial => 'slideshow_list_sect', :locals => { :slideshows => slideshows.paginate(:page => params[:page]), :context_page => 'general' }
+
+  end
+
   def regen_rand
     render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => Slideshow.rand_shows, :context_page => 'general' }
   end

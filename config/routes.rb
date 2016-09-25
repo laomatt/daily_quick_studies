@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get 'search_slideshows'
       get 'draw_random'
       get 'draw_pose'
       get 'reload_pag'

@@ -348,6 +348,20 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
 
   });
 
+  $('body').on('keyup', '#search-bar-for-slideshows', function(event) {
+    event.preventDefault();
+    var phrase = $(this).val();
+
+    $.ajax({
+      url: '/slideshows/search_slideshows',
+      data: {phrase: phrase},
+    })
+    .done(function(data) {
+      $('.slideshow_list_sect_container').html(data);
+    })
+
+  });
+
 
 });
 

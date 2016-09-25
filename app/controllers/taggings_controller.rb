@@ -1,8 +1,13 @@
 class TaggingsController < ApplicationController
-
   def create
     tag = Tag.find(params[:tag_id])
-    tagging = Tagging.create(:user_id => current_user.id, :tag_id => tag.id, :slide_id => params[:slide_id])
+    slide = Slide.find(params[:slide_id])
+    tagging = Tagging.create(:user_id => current_user.id, :tag_id => tag.id, :slide_id => slide.id)
+
+    slideshows = slide.slide_entries.map { |e| e.slideshow }
+    slideshows.each do |ss|
+      ss.update_tag_list
+    end
 
     render :partial => 'current_tag', :locals => { :tag => tag }
   end

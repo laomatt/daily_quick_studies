@@ -4,18 +4,18 @@
     <div class="container w">
   <% end %>
   <% slides.each do |slide| %>
-  <div>
+  <div id='slide_container_for_slide_<%= slide.id %>'>
     <div class="col-lg-4 slide_container">
       <div class="slide-font">
         <%= slide.name %>
         <% if from == 'account' %>
-        (<a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-from='account_slides' data-toggle="modal" data-target="#inspectSlide">Edit</a>)
+          (<a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-from='account_slides' data-toggle="modal" data-target="#inspectSlide">Edit</a>)
         <% end %>
       </div>
       <% if from == 'modal' %>
-        <a href="#" class='add_this_slide' data-id='<%= slide.id %>'>
+        <a href='#' class='add_this_slide' data-id='<%= slide.id %>'>
       <% else %>
-        <a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
+        <a href='#' class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
       <% end %>
           <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
       </a>

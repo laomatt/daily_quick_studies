@@ -66,7 +66,8 @@ $(document).ready(function() {
     // adding something to remove
     var id = $(this).attr('data-id');
     idx2 += 1;
-    $(this).find('img').addClass('active-slide');
+    // $(this).find('img').addClass('active-slide');
+    $(this).hide(500, function() {});
     $('.slides_to_remove').append("<input type='hidden' name='slideshow[slides_to_remove]["+idx2+"]' value='"+id+"'>");
 
     // remove something from remove
@@ -108,14 +109,23 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
 
   $('body').on('click', '.add_this_slide', function(event) {
     event.preventDefault();
-    var html_to_add = $(this).parent().parent().html();
     var id = $(this).attr('data-id');
-    $(this).parent().parent().hide(500, function() {});
+    $('.slide_add_info').fadeIn(500, function() {});
+    var html_to_add = "<a href='#' class='cancel_this_slide' data-id='"+id+"'>" + $(this).html() + "</a>";
+    $(this).parent().parent().fadeOut(500, function() {});
     $('.slide_to_add').append(html_to_add);
-    $('.slide_to_add').append("<input type='hidden' name='slideshow[slides_to_add]["+id+"]' value='"+id+"'>");
+    $('.slide_to_add').append("<input type='hidden' name='slideshow[slides_to_add]["+id+"]' id='input_to_add_slide_"+id+"' value='"+id+"'>");
   });
 
-// index slides
+
+$('body').on('click', '.cancel_this_slide', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $('#input_to_add_slide_'+id).remove();
+  $(this).hide(200, function() {
+    $('#slide_container_for_slide_'+id).fadeIn(500, function() {});
+  });
+});
 
   // my account
 

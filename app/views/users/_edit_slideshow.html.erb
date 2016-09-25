@@ -12,7 +12,6 @@
         <label for="name">Slideshow Name</label>
         <%= f.text_field :name, :class => 'form-control' %>
       </div>
-      <div id="slide_to_add" class='slide_to_add form-group'></div>
       <div id="slides_to_remove" class='slides_to_remove form-group'></div>
       <div class="form-group">
         <label for="public">Public?</label>
@@ -22,19 +21,22 @@
       <div class="form-group">
         <div class="container current_slides">
           <h3>Current Slides</h3>
+          <p>Click a slide in this slideshow to remove it from this slideshow upon updating</p>
           <% slideshow.slides.each do |slide| %>
-          <a href="#" class='remove-this-slide' data-id='<%= slide.id %>'>
-            <img src="<%= slide.file.thumb.url %>" alt="<%= slide.name || 'unnamed' %>" class='img-responsive img-thumbnail tiny-thumb'>
-          </a>
+            <a href="#" class='remove-this-slide' data-id='<%= slide.id %>'>
+              <img src="<%= slide.file.thumb.url %>" alt="<%= slide.name || 'unnamed' %>" class='img-responsive img-thumbnail tiny-thumb'>
+            </a>
           <% end %>
         </div>
       </div>
       <% end %>
 
       <% end %>
-
+      <p class='slide_add_info' style='display:none'>Slides to add (click a slide to cancel it)</p>
+      <div id="slide_to_add" class='slide_to_add form-group'></div>
       <div class="form-group">
         <input type="text" name="search_slides" placeholder='Search for slides' id='slide_search_input' class='form-control slide_search_input' slideshow-id='<%= slideshow.id %>'>
+        <label for="search_slides">Search for slides and click a slide below to add it to this slideshow upon updating</label>
       </div>
       <div id="slide_results_panel" class='slide_results_panel'></div>
     </div>

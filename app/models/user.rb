@@ -27,6 +27,13 @@ class User < ActiveRecord::Base
   end
 
 
+  def slideshows_with_out(slide_id)
+    slide = Slide.find(slide_id)
+    # byebug
+    already = slide.slide_entries.map { |e| e.slideshow_id }
+    slideshows.to_a.delete_if { |e| already.include?(e.id) }
+  end
+
   def portrait_url
     avatar_url || 'http://placehold.it/150x150'
   end

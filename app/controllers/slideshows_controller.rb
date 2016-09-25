@@ -1,5 +1,5 @@
 class SlideshowsController < ApplicationController
-  before_action :set_slideshow, only: [:show, :edit, :update, :destroy, :draw_modal], except: [:create_show]
+  before_action :set_slideshow, only: [:show, :edit, :update, :destroy, :draw_modal, :add_slide_to_slideshow], except: [:create_show]
   before_action :authenticate_user!, except: [:regen_rand, :draw_random, :draw_modal, :draw_pose]
 
   # GET /slideshows
@@ -52,6 +52,18 @@ class SlideshowsController < ApplicationController
 
   def draw_modal
     render :partial => 'draw_modal', :locals => {:slideshow => @slideshow, :type => 'indiv'}
+  end
+
+  def add_slide_to_slideshow
+    @slide = Slide.find(params[:slide_id])
+    se = SlideEntry.new(:slideshow_id => @slideshow.id, :slide_id => @slide.id)
+    # byebug
+    if se.save
+      render :json => { :status => 'success', :message => "#{@slide.name} successfully added to #{@slideshow.name}" }
+    else
+      render :json => { :status => 'error', :message => "#{se.errors.full_messages.join(', ')}" }
+    end
+
   end
 
   def draw_random

@@ -1,0 +1,9 @@
+<% tags.each do |t|%>
+  <% if type == 'current' %>
+    <a href="#" class='current-tag remove-tag-from-slideshow btn btn-primary btn-sm' style='background-color:transparent' tag-id="<%= t.id %>">
+  <%  else  %>
+    <a href="#" class='add-this-tag-to-slide btn btn-primary btn-sm' tag-id="<%= t.id %>">
+  <% end %>
+    <%= t.name %>
+  </a>
+<% end %>

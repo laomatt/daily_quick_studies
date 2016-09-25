@@ -4,10 +4,42 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
-      <h4 class="modal-title"><%= title %><span id="prog_report"></span></h4>
+      <h4 class="modal-title"><%= slide.name %><span id="prog_report"></span></h4>
     </div>
     <div class="modal-body">
-      <img src="<%= src %>" class='img-responsive'>
+      <% if from == 'account_slides' %>
+        <a href="#" class='delete-this-slide' slide-id='<%= slide.id %>'>Destroy</a> <br>
+        <img src="<%= src %>" style='width: 100px;' class='img-responsive'>
+        <h2>Edit</h2>
+        <%= form_for slide, :url => slide_path(:id => slide.id), :html => {class: "edit-slide-form", :method => 'PUT'} do |f| %>
+        <label for="name">Name</label>
+          <%= f.text_field :name, :class => 'form-control' %>
+            <% slide.tags.each do |tag| %>
+              <%= tag.name %>
+            <% end %>
+            <br>
+          <%= f.submit %>
+        <% end %>
+        <h2>Add tags</h2>
+        <div class="tag-current" slide-id='<%= slide.id %>'>
+          <%= render :partial => 'taggings/tag_list_results', :locals => {:tags => slide.uniq_tags, :type => 'current'} %>
+        </div>
+        <input type="text" id='tag-search-bar' class='form-control' placeholder='search for tags'>
+        <div class="tag-results" slide-id='<%= slide.id %>'></div>
+
+      <% else %>
+        <img src="<%= src %>" style='max-height:100%;' class='img-responsive'>
+      <% end %>
+
+      <% if current_user %>
+      <label for="add-to-show">Add this slide to a slideshow</label>
+      <select name="add-to-show" slide-id='<%= slide.id %>' id="add-to-user-slide-show" class='form-control'>
+        <option value="0">choose a slideshow</option>
+        <% current_user.slideshows_with_out(slide.id).each do |ss| %>
+          <option value="<%= ss.id %>"><%= ss.name%></option>
+        <% end %>
+      </select>
+      <% end %>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -19,12 +19,44 @@
 
 }
 
+.message-center {
+  position: fixed;
+  top:20%;
+    margin-left: 5%;
+    display: none;
+
+}
+.message-center-success {
+    background-color: #5ae85a;
+}
+
+.message-center-error {
+    background-color: #e85a5a;
+}
+
+.slides_list_sect_container {
+  width: 100%;
+}
+
+.current-tag {
+  color:black;
+}
+
+
 .slide-font {
   position: relative;
   background-color: transparent;
   max-height: 50px;
   width: 100%;
   overflow-wrap: break-word;
+}
+
+.tag-results {
+  padding: 5px;
+}
+
+.tag-current {
+  padding: 5px;
 }
 
 .current_slideshows {

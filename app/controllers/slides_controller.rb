@@ -23,18 +23,32 @@ class SlidesController < ApplicationController
   def edit
   end
 
+  def account_slides
+
+  end
+
   def reload_pag
     @slides = Slide.paginate(:page => params[:page])
     render :partial => 'results', :locals => { :slides => @slides }
   end
 
   def inspect_modal
-    render :partial => 'inspect', :locals => { :src => @slide.file.url, :title => @slide.name }
+    from = params[:from]
+    render :partial => 'inspect', :locals => { :src => @slide.file.url, :slide => @slide, :from => from }
   end
 
   def search_reload_pag
     from = params[:from]
-    @slides = Slide.where('lower(name) like ?',"%#{params[:search].downcase}%").paginate(:page => params[:page])
+    @tag_array = Tag.where('lower(name) like ?',"%#{params[:search].downcase}%")
+
+
+    @more_slides = []
+    @tag_array.map {|e| e.taggings.map {|e| e.slide_id}.uniq }.each do |d|
+      @more_slides += d
+    end
+
+    @slides = Slide.where('lower(name) like ? or id in (?)',"%#{params[:search].downcase}%", @more_slides).paginate(:page => params[:page])
+
     render :partial => 'results', :locals => { :slides => @slides, :from => from }
   end
 
@@ -52,6 +66,7 @@ class SlidesController < ApplicationController
   def create
     uploaded_io = params[:image_this]
     slide = Slide.new
+    slide.user_id = current_user.id
     slide.file = uploaded_io
     slide.save!
     if params[:name].present?
@@ -82,10 +97,7 @@ class SlidesController < ApplicationController
   # DELETE /slides/1.json
   def destroy
     @slide.destroy
-    respond_to do |format|
-      format.html { redirect_to slides_url, notice: 'Slide was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    render :nothing => true
   end
 
   private

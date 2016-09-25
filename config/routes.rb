@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     member do
       get 'draw_modal'
       get 'update_slideshow'
+      get 'add_slide_to_slideshow'
     end
 
     collection do
@@ -15,6 +16,18 @@ Rails.application.routes.draw do
       post 'create_show'
     end
   end
+
+  resources :taggings do
+    collection do
+      get 'tag_results'
+      post 'create_tag'
+    end
+
+    member do
+      delete 'delete_tag_from_slide'
+    end
+  end
+
   resources :users do
     collection do
       get 'my_account'
@@ -32,6 +45,7 @@ Rails.application.routes.draw do
       get 'slides_modal'
       get 'search_reload_pag'
       get 'search_reload_pag_row'
+      get 'account_slides'
     end
   end
 

@@ -196,13 +196,49 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
 
   $('body').on('click', '.inspect_this_slide', function(event) {
       var id = $(this).attr('data-id');
+      var from = $(this).attr('data-from');
       $.ajax({
         url: '/slides/'+id+'/inspect_modal',
+        data: {from: from}
       })
       .done(function(data) {
         $('#inspectSlide').html(data)
       })
     });
+
+  $('body').on('change', '#add-to-user-slide-show', function(event) {
+    event.preventDefault();
+    if ($(this).val() == '0') {
+      return;
+    };
+
+    var slideshow_id = $(this).val();
+    var slide_id = $(this).attr('slide-id');
+    $.ajax({
+      url: '/slideshows/'+slideshow_id+'/add_slide_to_slideshow',
+      data: {slide_id: slide_id},
+    })
+    .done(function(data) {
+      if(data.status == 'error'){
+        $('.message-center-error').text(data.message);
+        $('.message-center-error').fadeIn(500, function() {});
+      } else {
+        $('button.close').trigger('click');
+        $('.message-center-success').text(data.message);
+        $('.message-center-success').fadeIn(500, function() {});
+      }
+      fadeMessageOut();
+    })
+
+  });
+
+  function fadeMessageOut(){
+      $('.message-center').animate({
+        backgroundColor: 'transparent'},
+        1000, function() {
+          $('.message-center').fadeOut(500, function() {});
+      });
+  }
 
 
   $('body').on('click', '.pagination_link_container a', function(event) {
@@ -231,6 +267,83 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
       $('.container_for_slideshow_thumb_for_' + id2).hide(500, function() {
 
       });
+    })
+  });
+
+  $('body').on('click', '.add-this-tag-to-slide', function(event) {
+    event.preventDefault();
+    $(this).hide('500', function() {
+      var tag_id = $(this).attr('tag-id');
+      var slide_id = $(this).parent().attr('slide-id');
+
+      $.ajax({
+        url: '/taggings',
+        type: 'POST',
+        data: {tag_id: tag_id, slide_id: slide_id},
+      })
+      .done(function(data) {
+        $('.tag-current').append(data);
+        $('.current-tag').animate(
+          {backgroundColor: 'red'}
+          , 2000);
+      })
+    });
+  });
+
+  $('body').on('click', '.delete-this-slide', function(event) {
+    event.preventDefault();
+    var slide_id = $(this).attr('slide-id');
+    $.ajax({
+      url: '/slides/'+slide_id,
+      type: 'DELETE',
+    })
+    .done(function() {
+      $('button.close').trigger('click');
+    })
+
+  });
+
+  $('body').on('click', '.create-this-tag-to-slide', function(event) {
+    event.preventDefault();
+    var phrase = $(this).attr('phrase');
+    var slide_id = $(this).parent().attr('slide-id');
+    $.ajax({
+      url: '/taggings/create_tag',
+      type: 'POST',
+      data: {phrase: phrase, slide_id: slide_id},
+    })
+    .done(function(data) {
+      $('.tag-current').append(data)
+    })
+
+  });
+
+  $('body').on('click', '.remove-tag-from-slideshow', function(event) {
+    event.preventDefault();
+    var tag_id = $(this).attr('tag-id');
+    var slide_id = $(this).parent().attr('slide-id');
+
+    $.ajax({
+      url: '/taggings/'+tag_id+'/delete_tag_from_slide',
+      type: 'DELETE',
+      data: {slide_id: slide_id}
+    })
+    .done(function(data) {
+      if (data.status == 'success') {};
+      $(this).hide(500, function() {});
+    })
+  });
+
+
+  $('body').on('keyup', 'input#tag-search-bar', function(event) {
+    event.preventDefault();
+    var phrase = $(this).val();
+    $.ajax({
+      url: '/taggings/tag_results',
+      data: {phrase: phrase},
+    })
+    .done(function(data) {
+      $('.tag-results').html(data);
     })
 
   });

@@ -2,6 +2,8 @@ class Slide < ActiveRecord::Base
   belongs_to :user
   has_many :slide_entries, :class_name => 'SlideEntry'
   has_many :taggings, :class_name => 'Tagging'
+
+  has_many :tags, :through => :taggings
   self.per_page = 20
 
   def self.random_three
@@ -21,6 +23,11 @@ class Slide < ActiveRecord::Base
       name = s.file.to_s.split('/').last
       s.update_attributes(:name => name)
     end
+  end
+
+  def uniq_tags
+    # tag_list = taggings.map { |e| e.tag  }.uniq
+    tags.uniq {|e| e.name}
   end
 
   module Uploader

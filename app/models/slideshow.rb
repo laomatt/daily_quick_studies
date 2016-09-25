@@ -18,6 +18,16 @@ class Slideshow < ActiveRecord::Base
     end
   end
 
+  def tag_list
+    tags = []
+    slides.map { |e| e.taggings }.each do |tagging|
+      tagging.each do |tg|
+        tags << tg.tag
+      end
+    end
+    tags
+  end
+
   def self.rand_shows
     where('public = ?', true).shuffle.first(5)
   end

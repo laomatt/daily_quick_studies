@@ -1,10 +1,16 @@
-
-<div class="container w">
+  <% if from == 'account' %>
+    <div class="container w account_slides_container">
+  <% else %>
+    <div class="container w">
+  <% end %>
   <% slides.each do |slide| %>
   <div>
     <div class="col-lg-4 slide_container">
       <div class="slide-font">
         <%= slide.name %>
+        <% if from == 'account' %>
+        (<a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-from='account_slides' data-toggle="modal" data-target="#inspectSlide">Edit</a>)
+        <% end %>
       </div>
       <% if from == 'modal' %>
         <a href="#" class='add_this_slide' data-id='<%= slide.id %>'>
@@ -18,10 +24,12 @@
   <% end %>
 </div>
 
-<center>
-    <div class="pagination_link_container">
-      <%= will_paginate slides %>
-    </div>
-</center>
+<% if from != 'account' %>
+  <center>
+      <div class="pagination_link_container">
+        <%= will_paginate slides %>
+      </div>
+  </center>
+<% end %>
 
 

@@ -14,13 +14,11 @@
         <%= form_for slide, :url => slide_path(:id => slide.id), :html => {class: "edit-slide-form", :method => 'PUT'} do |f| %>
         <label for="name">Name</label>
           <%= f.text_field :name, :class => 'form-control' %>
-            <% slide.tags.each do |tag| %>
-              <%= tag.name %>
-            <% end %>
             <br>
-          <%= f.submit %>
+          <%= f.submit 'Update Name'%>
         <% end %>
         <h2>Add tags</h2>
+        <p>current tags</p>
         <div class="tag-current" slide-id='<%= slide.id %>'>
           <%= render :partial => 'taggings/tag_list_results', :locals => {:tags => slide.uniq_tags, :type => 'current'} %>
         </div>

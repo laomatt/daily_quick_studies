@@ -73,14 +73,22 @@ class SlidesController < ApplicationController
     slide = Slide.new
     slide.user_id = current_user.id
     slide.file = uploaded_io
-    slide.save!
-    if params[:name].present?
-      name = params[:name]
-    else
-      name = slide.file.to_s.split('/').last
-    end
+    if slide.save
+      if params[:name].present?
+        name = params[:name]
+      else
+        name = slide.file.to_s.split('/').last
+      end
 
-    slide.update_attributes(:name => name)
+      if params[:tags].present?
+        params[:tags].split(',').each do |tag|
+          t = Tag.find_or_create_by(:name => tag)
+          Tagging.create(:tag_id => t.id, :slide_id => slide.id, :user_id => current_user.id)
+        end
+      end
+
+      slide.update_attributes(:name => name)
+    end
     render :json => { :url => slide.file.thumb.url }
   end
 

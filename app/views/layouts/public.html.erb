@@ -50,7 +50,12 @@
               <li class="<%= @page == 'slides' ? 'active' : '' %>"><a href="/slides">SLIDES</a></li>
               <li class="<%= @page == 'account' ? 'active' : '' %>"><a href="/users/my_account" >ACCOUNT</a></li>
               <li><a href="/user_log_out_route/sign_out">Log out</a></li>
-            <% else %>
+            <% elsif @page != 'welcome' %>
+              <a class="fblogin btn btn-lg" href="/users/auth/facebook">
+                <img src='/fb.png' class='fb-login-icon'>
+                Login
+              </a>
+
             <% end %>
           </ul>
         </div><!--/.nav-collapse -->

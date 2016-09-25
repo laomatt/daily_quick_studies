@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   end
 
   def welcome
+    @page = 'welcome'
     if current_user
       redirect_to '/slideshows'
     end

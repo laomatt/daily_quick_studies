@@ -1,6 +1,6 @@
 class SlideshowsController < ApplicationController
   before_action :set_slideshow, only: [:show, :edit, :update, :destroy, :draw_modal, :add_slide_to_slideshow], except: [:create_show]
-  before_action :authenticate_user!, except: [:regen_rand, :draw_random, :draw_modal, :draw_pose]
+  before_action :authenticate_user!, except: [:regen_rand, :draw_random, :draw_modal, :draw_pose, :show]
 
   # GET /slideshows
   # GET /slideshows.json

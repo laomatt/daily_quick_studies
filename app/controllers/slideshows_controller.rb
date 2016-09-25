@@ -21,9 +21,8 @@ class SlideshowsController < ApplicationController
   end
 
   def create_show
-    slideshow = Slideshow.create(:name => params[:name], :user_id => current_user.id)
-
-    if params[:slideshow][:slides_to_add].present?
+    slideshow = Slideshow.create(:name => params[:name], :user_id => current_user.id, :public => true)
+    if params[:slideshow].present? && params[:slideshow][:slides_to_add].present?
       params[:slideshow][:slides_to_add].values.each do |slide|
         SlideEntry.create(:slide_id => slide, :slideshow_id => slideshow.id)
       end

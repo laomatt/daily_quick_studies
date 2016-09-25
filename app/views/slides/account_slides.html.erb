@@ -16,7 +16,7 @@
 
 <div class="container">
   <div class="row centered">
-    <div class="col-lg-8" style='width: 100%; height: 500px'>
+    <div class="col-lg-8 results_container" style='width: 100%; height: 500px'>
         <%= render :partial => '/slides/results', :locals => { :slides => current_user.slides.paginate(:page => 1), :from => 'account', :pag_url => '/slides/reload_pag' } %>
     </div>
   </div><!-- row -->

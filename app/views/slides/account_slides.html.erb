@@ -3,10 +3,12 @@
     <div class="row centered">
       <div class="col-lg-8 col-lg-offset-2">
         <img src="<%= current_user.portrait_url %>" class='portrait'>
+      <center>
 
         <h4><b>My slides</b></h4>
 
-      <center>
+        <input type="text" id='slide_search' placeholder='Search for slides' class='form-control'>
+
       </center>
       </div>
     </div><!-- row -->
@@ -45,6 +47,19 @@
 </style>
 
 <script>
+
+  $('body').on('keyup', '#slide_search', function(event) {
+    event.preventDefault();
+    var url = '/slides/search_reload_pag'
+    $.ajax({
+      url: url,
+      data: {page: 1, search: $(this).val(), from: 'index'},
+    })
+    .done(function(data) {
+      $('.results_container').html(data);
+    })
+  });
+
 $('body').on('click', '.pagination_link_container_slide a', function(event) {
     event.preventDefault();
     var page = $(this).attr('href').split('=')[1];

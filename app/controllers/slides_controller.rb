@@ -29,7 +29,12 @@ class SlidesController < ApplicationController
 
   def reload_pag
     @slides = Slide.paginate(:page => params[:page])
-    render :partial => 'results', :locals => { :slides => @slides }
+    render :partial => 'results', :locals => { :slides => @slides, :from => 'general' }
+  end
+
+  def reload_pag_account
+    @slides = Slide.where('user_id = ?', current_user.id).paginate(:page => params[:page])
+    render :partial => 'results', :locals => { :slides => @slides, :from => 'account' }
   end
 
   def inspect_modal

@@ -48,7 +48,7 @@
 $('body').on('click', '.pagination_link_container_slide a', function(event) {
     event.preventDefault();
     var page = $(this).attr('href').split('=')[1];
-    var url = '/slides/reload_pag'
+    var url = '/slides/reload_pag_account'
 
     $.ajax({
       url: url,

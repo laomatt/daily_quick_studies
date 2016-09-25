@@ -4,7 +4,7 @@
       <div class="col-lg-8 col-lg-offset-2">
 
         <h4><b><%= @slideshow.name %></b></h4>
-        <img src="<%= current_user.portrait_url %>" class='portrait'>
+        <img src="<%= @slideshow.user.portrait_url %>" class='portrait'>
          <br>
         <p>
         By: <%= @slideshow.user.name %> <br>

@@ -128,7 +128,7 @@ class SlideshowsController < ApplicationController
       slides_to_add = Slide.find(slides_to_add_ids.values)
       slides_to_add.each do |slide|
         se = SlideEntry.new(:slide_id => slide.id, :slideshow_id => @slideshow.id)
-        se.save
+        se.save!
       end
     end
 

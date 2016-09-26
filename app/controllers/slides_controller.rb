@@ -72,7 +72,7 @@ class SlidesController < ApplicationController
 
   def search_reload_pag_row
     @slides = Slide.where('lower(name) like ?',"%#{params[:search].downcase}%").paginate(:page => params[:page])
-    render :partial => 'results', :locals => { :slides => @slides }
+    render :partial => 'results', :locals => { :slides => @slides, :from => 'modal' }
   end
 
   def slides_modal

@@ -53,17 +53,17 @@ class SlidesController < ApplicationController
     end
 
     if from == 'account'
-      @slides = Slide.where('lower(name) like ? or id in (?) and user_id = ?',"%#{params[:search].downcase}%", @more_slides, current_user.id).paginate(:page => params[:page], :per_page => 50)
+      @slides = Slide.where('lower(name) like ? or id in (?) and user_id = ?',"%#{params[:search].downcase}%", @more_slides, current_user.id)
     else
-      @slides = Slide.where('lower(name) like ? or id in (?)',"%#{params[:search].downcase}%", @more_slides).paginate(:page => params[:page], :per_page => 50)
+      @slides = Slide.where('lower(name) like ? or id in (?)',"%#{params[:search].downcase}%", @more_slides)
     end
 
     if params[:slideshow_id].present?
       slides = Slideshow.find(params[:slideshow_id]).slides.map { |e| e.id }
       if from == 'account'
-        @slides = Slide.where('lower(name) like ? or id in (?) and id not in(?)  and user_id = ?',"%#{params[:search].downcase}%", @more_slides, slides, current_user.id).paginate(:page => params[:page], :per_page => 50)
+        @slides = Slide.where('lower(name) like ? or id in (?) and id not in(?)  and user_id = ?',"%#{params[:search].downcase}%", @more_slides, slides, current_user.id)
       else
-        @slides = Slide.where('lower(name) like ? or id in (?) and id not in(?)',"%#{params[:search].downcase}%", @more_slides, slides).paginate(:page => params[:page], :per_page => 50)
+        @slides = Slide.where('lower(name) like ? or id in (?) and id not in(?)',"%#{params[:search].downcase}%", @more_slides, slides)
       end
     end
 

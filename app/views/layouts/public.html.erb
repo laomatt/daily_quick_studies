@@ -15,7 +15,7 @@
       <meta property="og:type" content="website" />
       <meta property="og:url" content="<%= request.original_url %>" />
       <% @slideshow.rand_preview.each do |image| %>
-        <meta property="og:image" content="<%= @slideshow.image.file.thumb.url %>" />
+        <meta property="og:image" content="<%= image.file.thumb.url %>" />
         <link rel="image_url" href="<%= image.file.thumb.url %>">
       <% end %>
     <% end %>

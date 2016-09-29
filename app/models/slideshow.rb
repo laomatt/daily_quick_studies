@@ -42,6 +42,10 @@ class Slideshow < ActiveRecord::Base
     update_attributes(:tags_list => string)
   end
 
+  def main_image
+    head_image || slides.first
+  end
+
   def preview
     if slides.present?
       slides.sample.file.thumb.url

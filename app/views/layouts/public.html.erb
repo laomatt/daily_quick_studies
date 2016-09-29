@@ -13,6 +13,7 @@
     <% if @slideshow %>
 
       <meta property="og:title" content="<%= @slideshow.name %>" />
+      <meta property="og:description" content="<%= @slideshow.head_image %>" />
       <meta property="fb:app_id" content="<%= ENV["APP_ID"] %>
       <meta property="og:type" content="website" />
       <meta property="og:url" content="<%= request.original_url %>" />

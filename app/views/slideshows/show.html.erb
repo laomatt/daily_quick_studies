@@ -1,8 +1,6 @@
-<head>
-  <%= @slideshow.rand_preview |image| %>
-    <link rel="image_url" href="<%= slide.file.thumb.url %>">
+  <% @slideshow.rand_preview.each do |image| %>
+    <link rel="image_url" href="<%= image.file.thumb.url %>">
   <% end %>
-</head>
 
 <div id="blue">
   <div class="container">

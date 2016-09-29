@@ -11,11 +11,11 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src='/draw.js'></script>
     <% if @slideshow %>
-      <meta property='og:title' content='<%= @slideshow.name %>'>
-      <meta property='og:type' content='website'>
-      <meta property='og:url' content='<%= request.original_url %>'>
-      <meta property='og:image' content="<%= @slideshow.main_image.file.thumb.url %>">
+      <meta property="og:title" content="<%= @slideshow.name %>" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="<%= request.original_url %>" />
       <% @slideshow.rand_preview.each do |image| %>
+        <meta property="og:image" content="<%= @slideshow.image.file.thumb.url %>" />
         <link rel="image_url" href="<%= image.file.thumb.url %>">
       <% end %>
     <% end %>

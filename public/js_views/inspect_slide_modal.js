@@ -24,14 +24,19 @@ var inspectSlideModal = Backbone.View.extend({
     })
     .done(function(data) {
       if(data.status == 'error'){
-        $('.message-center-error').text(data.message);
+        $('.messag`e-center-error').text(data.message);
         $('.message-center-error').fadeIn(500, function() {});
       } else {
         $('button.close').trigger('click');
         $('.message-center-success').text(data.message);
         $('.message-center-success').fadeIn(500, function() {});
       }
-      fadeMessageOut();
+
+      $('.message-center').animate({
+        backgroundColor: 'transparent'},
+        1000, function() {
+          $('.message-center').fadeOut(500, function() {});
+      });
     })
   },
   populate: function(id, from){

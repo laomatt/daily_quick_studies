@@ -2,7 +2,7 @@ var editSlideShowModal = Backbone.View.extend({
   el: '#editSlideShowModal',
   initialize: function(){
     this.$el.html("");
-    // edit and update slideshow
+
     $('body').on('click', '.edit-this-show', function(event) {
       var id = $(this).attr('data-id');
       modal.populate(id);
@@ -14,7 +14,6 @@ var editSlideShowModal = Backbone.View.extend({
       modal.destroy(id);
     });
 
-  // edit-slideshow-button
     $('body').on('click', '.edit-slideshow-button', function(event) {
         event.preventDefault();
         $('.edit-slideshow-form').trigger('submit');
@@ -25,6 +24,17 @@ var editSlideShowModal = Backbone.View.extend({
       modal.submitForm($(this));
     });
 
+    $('body').on('click', '.remove-this-slide', function(event) {
+      event.preventDefault();
+      var id = $(this).attr('data-id');
+      $(this).find('img').addClass('active-slide');
+      modal.removeSlide(id);
+    });
+
+  },
+  removeSlide: function(id){
+    $(this).hide(500, function() {});
+    $('.slides_to_remove').append("<input type='hidden' name='slideshow[slides_to_remove]["+id+"]' value='"+id+"'>");
   },
   populate: function(id){
     this.$el.html("");
@@ -59,12 +69,9 @@ var editSlideShowModal = Backbone.View.extend({
     })
     .done(function(data) {
       var id2 = data.id
-      $('.container_for_slideshow_thumb_for_' + id2).hide(500, function() {
-
-      });
+      $('.container_for_slideshow_thumb_for_' + id2).hide(500);
     })
   }
 });
 
 var modal = new editSlideShowModal();
-

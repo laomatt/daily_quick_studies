@@ -15,36 +15,18 @@
 
 
 <script>
-$(document).ready(function() {
 
-  $('body').on('keyup', '#slide_search', function(event) {
-    event.preventDefault();
-    var url = '/slides/search_reload_pag'
-    $.ajax({
-      url: url,
-      data: {page: 1, search: $(this).val(), from: 'index'},
-    })
-    .done(function(data) {
-      $('.results_container').html(data);
-    })
-  });
-
-
-  $('body').on('click', '.pagination_link_container a', function(event) {
-    event.preventDefault();
-    var page = $(this).attr('href').split('=')[1];
-    var url = '/slides/reload_pag'
-
-    $.ajax({
-      url: url,
-      data: {page: page},
-    })
-    .done(function(data) {
-      $('.results_container').html(data);
-    })
-  });
-
-});
+  // $('body').on('keyup', '#slide_search', function(event) {
+  //   event.preventDefault();
+  //   var url = '/slides/search_reload_pag'
+  //   $.ajax({
+  //     url: url,
+  //     data: {page: 1, search: $(this).val(), from: 'index'},
+  //   })
+  //   .done(function(data) {
+  //     $('.results_container').html(data);
+  //   })
+  // });
 
 </script>
 

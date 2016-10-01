@@ -109,7 +109,6 @@ class SlideshowsController < ApplicationController
   # PATCH/PUT /slideshows/1
   # PATCH/PUT /slideshows/1.json
   def update
-    # byebug
     slideshow_params.delete(:slides_to_add)
     slides_to_add_ids = params[:slideshow][:slides_to_add]
     slides_to_remove_ids = params[:slideshow][:slides_to_remove]

@@ -107,25 +107,25 @@ $('body').on('click', '.edit-slideshow-button', function(event) {
     })
   });
 
-  $('body').on('click', '.add_this_slide', function(event) {
-    event.preventDefault();
-    var id = $(this).attr('data-id');
-    $('.slide_add_info').fadeIn(500, function() {});
-    var html_to_add = "<a href='#' class='cancel_this_slide' data-id='"+id+"'>" + $(this).html() + "</a>";
-    $(this).parent().parent().fadeOut(500, function() {});
-    $('.slide_to_add').append(html_to_add);
-    $('.slide_to_add').append("<input type='hidden' name='slideshow[slides_to_add]["+id+"]' id='input_to_add_slide_"+id+"' value='"+id+"'>");
-  });
+//   $('body').on('click', '.add_this_slide', function(event) {
+//     event.preventDefault();
+//     var id = $(this).attr('data-id');
+//     $('.slide_add_info').fadeIn(500, function() {});
+//     var html_to_add = "<a href='#' class='cancel_this_slide' data-id='"+id+"'>" + $(this).html() + "</a>";
+//     $(this).parent().parent().fadeOut(500, function() {});
+//     $('.slide_to_add').append(html_to_add);
+//     $('.slide_to_add').append("<input type='hidden' name='slideshow[slides_to_add]["+id+"]' id='input_to_add_slide_"+id+"' value='"+id+"'>");
+//   });
 
 
-$('body').on('click', '.cancel_this_slide', function(event) {
-  event.preventDefault();
-  var id = $(this).attr('data-id');
-  $('#input_to_add_slide_'+id).remove();
-  $(this).hide(200, function() {
-    $('#slide_container_for_slide_'+id).fadeIn(500, function() {});
-  });
-});
+// $('body').on('click', '.cancel_this_slide', function(event) {
+//   event.preventDefault();
+//   var id = $(this).attr('data-id');
+//   $('#input_to_add_slide_'+id).remove();
+//   $(this).hide(200, function() {
+//     $('#slide_container_for_slide_'+id).fadeIn(500, function() {});
+//   });
+// });
 
   // my account
 
@@ -174,17 +174,6 @@ $('body').on('click', '.cancel_this_slide', function(event) {
 
   });
 
-  // edit and update slideshow
-  $('body').on('click', '.edit-this-show', function(event) {
-    $('#editSlideShowModal').html("");
-    $.ajax({
-      url: '/users/edit_slideshow_modal',
-      data: {id: $(this).attr('data-id')},
-    })
-    .done(function(data) {
-      $('#editSlideShowModal').html(data);
-    })
-  });
 
     $('body').on('submit', '.edit-slideshow-form', function(event) {
     event.preventDefault();

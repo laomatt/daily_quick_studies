@@ -51,7 +51,7 @@ class SlidesController < ApplicationController
     @tag_array.map {|e| e.taggings.map {|e| e.slide_id}.uniq }.each do |d|
       @more_slides += d
     end
-
+# refactor this
     if from == 'account'
       @slides = Slide.where('lower(name) like ? or id in (?) and user_id = ?',"%#{params[:search].downcase}%", @more_slides, current_user.id)
     else

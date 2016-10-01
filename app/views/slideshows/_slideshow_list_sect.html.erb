@@ -4,7 +4,6 @@
     <a href="#" class='regen_rand_free btn btn-primary btn-lg' data-type='random'>Regen Random Sets</a>
   </center>
   <% slideshows.each do |slideshow| %>
-  <% next if !slideshow.public && context_page == 'general' %>
     <%= render :partial => 'slideshows/slideshow_item', :locals => {:slideshow => slideshow, :context_page => context_page} %>
 
   <% end %>

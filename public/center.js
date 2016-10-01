@@ -71,24 +71,24 @@ $(document).ready(function() {
 
   });
 
-  $('body').on('click', '.add-this-tag-to-slide', function(event) {
-    event.preventDefault();
-    $(this).hide('500', function() {
-      var tag_id = $(this).attr('tag-id');
-      var slide_id = $(this).parent().attr('slide-id');
+  // $('body').on('click', '.add-this-tag-to-slide', function(event) {
+  //   event.preventDefault();
+  //   $(this).hide('500', function() {
+  //     var tag_id = $(this).attr('tag-id');
+  //     var slide_id = $(this).parent().attr('slide-id');
 
 
-      $.ajax({
-        url: '/taggings',
-        type: 'POST',
-        data: {tag_id: tag_id, slide_id: slide_id},
-      })
-      .done(function(data) {
-        $('.tag-current').append(data);
-        $('#tag-search-bar').val('')
-      })
-    });
-  });
+  //     $.ajax({
+  //       url: '/taggings',
+  //       type: 'POST',
+  //       data: {tag_id: tag_id, slide_id: slide_id},
+  //     })
+  //     .done(function(data) {
+  //       $('.tag-current').append(data);
+  //       $('#tag-search-bar').val('')
+  //     })
+  //   });
+  // });
 
   $('body').on('click', '.delete-this-slide', function(event) {
     event.preventDefault();
@@ -136,18 +136,18 @@ $(document).ready(function() {
   });
 
 
-  $('body').on('keyup', 'input#tag-search-bar', function(event) {
-    event.preventDefault();
-    var phrase = $(this).val();
-    $.ajax({
-      url: '/taggings/tag_results',
-      data: {phrase: phrase},
-    })
-    .done(function(data) {
-      $('.tag-results').html(data);
-    })
+  // $('body').on('keyup', 'input#tag-search-bar', function(event) {
+  //   event.preventDefault();
+  //   var phrase = $(this).val();
+  //   $.ajax({
+  //     url: '/taggings/tag_results',
+  //     data: {phrase: phrase},
+  //   })
+  //   .done(function(data) {
+  //     $('.tag-results').html(data);
+  //   })
 
-  });
+  // });
 
   $('body').on('keyup', '#search-bar-for-slideshows', function(event) {
     event.preventDefault();

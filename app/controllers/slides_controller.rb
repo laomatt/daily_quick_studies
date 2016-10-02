@@ -42,28 +42,26 @@ class SlidesController < ApplicationController
     render :partial => 'inspect', :locals => { :src => @slide.file.url, :slide => @slide, :from => from }
   end
 
+  def update_name
+    @slide.update_attributes(:name => params[:name])
+    render :nothing => true
+  end
+
   def search_reload_pag
     from = params[:from]
 
-    @tag_array = Tag.where('lower(name) like ?',"%#{params[:search].downcase}%")
-
-    @more_slides = []
-    @tag_array.map {|e| e.taggings.map {|e| e.slide_id}.uniq }.each do |d|
-      @more_slides += d
-    end
-
     if from == 'account'
-      @slides = Slide.where('lower(name) like ? or id in (?) and user_id = ?',"%#{params[:search].downcase}%", @more_slides, current_user.id)
+      @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and user_id = ?',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", current_user.id).references(:tags)
     else
-      @slides = Slide.where('lower(name) like ? or id in (?)',"%#{params[:search].downcase}%", @more_slides)
+      @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ?',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%").references(:tags)
     end
 
     if params[:slideshow_id].present?
       slides = Slideshow.find(params[:slideshow_id]).slides.map { |e| e.id }
       if from == 'account'
-        @slides = Slide.where('lower(name) like ? or id in (?) and id not in(?)  and user_id = ?',"%#{params[:search].downcase}%", @more_slides, slides, current_user.id)
+        @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and user_id = ? and slides.id not in(?)',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", current_user.id, slides).references(:tags)
       else
-        @slides = Slide.where('lower(name) like ? or id in (?) and id not in(?)',"%#{params[:search].downcase}%", @more_slides, slides)
+        @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and slides.id not in (?)',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", slides).references(:tags)
       end
     end
 

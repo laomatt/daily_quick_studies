@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   resources :slides do
     member do
       get 'inspect_modal'
+      patch 'update_name'
     end
 
     collection do

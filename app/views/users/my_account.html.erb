@@ -21,7 +21,6 @@
     <div class="col-lg-8">
       <h1>My Slideshows</h1>
       <div class="current_slideshows slideshow_list_sect_container">
-        <%= render :partial => '/slideshows/slideshow_list_sect', :locals => { :slideshows => current_user.slideshows.paginate(:page => 1), :context_page => 'account', :pag_url => '/slideshows/reload_pag_user' } %>
       </div>
     </div>
   </div><!-- row -->
@@ -33,7 +32,7 @@
 
 <!-- Edit Modal -->
 <div id="editSlideShowModal" class="modal fade" role="dialog"></div>
-
+<script src='/my_account.js'></script>
 
 <style>
   .slide_container {

@@ -13,6 +13,7 @@
         <h2>Edit</h2>
         <%= form_for slide, :url => slide_path(:id => slide.id), :html => {class: "edit-slide-form", :method => 'PUT'} do |f| %>
         <label for="name">Name</label>
+          <%= f.hidden_field :id, :value => slide.id %>
           <%= f.text_field :name, :class => 'form-control' %>
             <br>
           <%= f.submit 'Update Name'%>
@@ -30,13 +31,13 @@
       <% end %>
 
       <% if current_user %>
-      <label for="add-to-show">Add this slide to a slideshow</label>
-      <select name="add-to-show" slide-id='<%= slide.id %>' id="add-to-user-slide-show" class='form-control'>
-        <option value="0">choose a slideshow</option>
-        <% current_user.slideshows_with_out(slide.id).each do |ss| %>
-          <option value="<%= ss.id %>"><%= ss.name%></option>
-        <% end %>
-      </select>
+        <label for="add-to-show">Add this slide to a slideshow</label>
+        <select name="add-to-show" slide-id='<%= slide.id %>' id="add-to-user-slide-show" class='form-control'>
+          <option value="0">choose a slideshow</option>
+          <% current_user.slideshows_with_out(slide.id).each do |ss| %>
+            <option value="<%= ss.id %>"><%= ss.name%></option>
+          <% end %>
+        </select>
       <% end %>
     </div>
     <div class="modal-footer">

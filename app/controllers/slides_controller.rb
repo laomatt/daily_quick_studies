@@ -1,7 +1,7 @@
 class SlidesController < ApplicationController
   layout 'public'
   before_action :set_slide, only: [:show, :edit, :update, :destroy, :inspect_modal]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:inspect_modal]
   # GET /slides
   # GET /slides.json
   def index

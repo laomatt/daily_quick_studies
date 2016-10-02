@@ -14,7 +14,6 @@ var inspectSlideModal = Backbone.View.extend({
       inspect.createTag(phrase, slide_id);
     });
 
-
     $('body').on('keyup', 'input#tag-search-bar', function(event) {
       event.preventDefault();
       var phrase = $(this).val();

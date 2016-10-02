@@ -7,10 +7,33 @@ var inspectSlideModal = Backbone.View.extend({
         inspect.populate(id, from);
       });
 
+    $('body').on('click', '.create-this-tag-to-slide', function(event) {
+      event.preventDefault();
+      var phrase = $(this).attr('phrase');
+      var slide_id = $(this).parent().attr('slide-id');
+      inspect.createTag(phrase, slide_id);
+    });
+
+
     $('body').on('keyup', 'input#tag-search-bar', function(event) {
       event.preventDefault();
       var phrase = $(this).val();
       inspect.searchTags(phrase);
+    });
+
+   $('body').on('click', '.edit-slide-form', function(event) {
+     event.preventDefault();
+     var data = $(this).serialize();
+     inspect.updateName(data);
+   });
+
+   $('body').on('click', '.remove-tag-from-slideshow', function(event) {
+      event.preventDefault();
+      var tag_id = $(this).attr('tag-id');
+      var slide_id = $(this).parent().attr('slide-id');
+      $(this).hide(500, function() {
+        inspect.removeTag(tag_id, slide_id);
+      });
     });
 
     $('body').on('click', '.add-this-tag-to-slide', function(event) {
@@ -22,12 +45,56 @@ var inspectSlideModal = Backbone.View.extend({
       });
     });
 
+    $('body').on('click', '.delete-this-slide', function(event) {
+      event.preventDefault();
+      var slide_id = $(this).attr('slide-id');
+      inspect.deleteSlide(slide_id);
+    });
+
     $('body').on('change', '#add-to-user-slide-show', function(event) {
       event.preventDefault();
       var slideshow_id = $(this).val();
       var slide_id = $(this).attr('slide-id');
       inspect.addToSlideshow(slide_id, slideshow_id);
     });
+  },
+  createTag: function(phrase, slide_id){
+    $.ajax({
+      url: '/taggings/create_tag',
+      type: 'POST',
+      data: {phrase: phrase, slide_id: slide_id},
+    })
+    .done(function(data) {
+      $('.tag-current').append(data)
+      $('#tag-search-bar').val('')
+    })
+  },
+  deleteSlide: function(slide_id){
+    $('#slide_container_for_slide_' + slide_id).hide(200, function() {});
+    $.ajax({
+      url: '/slides/'+slide_id,
+      type: 'DELETE',
+    })
+    .done(function() {
+      $('button.close').trigger('click');
+    })
+  },
+  updateName: function(data){
+    $.ajax({
+      url: '/slides/'+id+'/update_name',
+      type: 'PATCH',
+      data: data,
+    })
+  },
+  removeTag: function(tag_id, slide_id){
+    $.ajax({
+      url: '/taggings/'+tag_id+'/delete_tag_from_slide',
+      type: 'DELETE',
+      data: {slide_id: slide_id}
+    })
+    .done(function(data) {
+      if (data.status == 'success') {};
+    })
   },
   addTag: function(tag_id, slide_id){
     $.ajax({

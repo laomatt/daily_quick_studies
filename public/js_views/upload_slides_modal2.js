@@ -7,7 +7,6 @@ var uploadSlideModal = Backbone.View.extend({
     });
 
     $('body').on('submit', this.$el, function(event) {
-      // debugger
       event.preventDefault();
       upload.resetForm();
       var fileInput = document.getElementById("picture");
@@ -29,21 +28,23 @@ var uploadSlideModal = Backbone.View.extend({
           contentType: false,
         })
         .done(function(data) {
-          if($('#uploaded_so_far .tiny-thumb').length == 0) {
-            $('#uploaded_so_far').append('<img src="'+data.url+'" alt="" class="img-responsive img-thumbnail tiny-thumb" style="display:none">')
-          } else {
-            $('#uploaded_so_far').append('<img src="'+data.url+'" alt="" class="img-responsive img-thumbnail tiny-thumb" style="display:none;">')
-          }
-          var new_idx = $('#uploaded_so_far .tiny-thumb').length;
-          $('#uploaded_so_far .tiny-thumb').fadeIn(1000);
-          $('#uploaded_so_far .tiny-thumb').animate({'margin-left': 0}, 1000);
-          $('form.create-new-slide-form').trigger('reset');
-          var prog = " - (Uploaded " + new_idx + " of " + length + " slides)";
-          $('#prog_report').text(prog);
-          if(new_idx >= length){
-            $('#progress_message').fadeOut(500, function() {
-              $('form.create-new-slide-form').fadeIn(500, function() {});
-            });
+          if (data.outcome == 'success') {
+            if($('#uploaded_so_far .tiny-thumb').length == 0) {
+              $('#uploaded_so_far').append('<img src="'+data.url+'" alt="" class="img-responsive img-thumbnail tiny-thumb" style="display:none">')
+            } else {
+              $('#uploaded_so_far').append('<img src="'+data.url+'" alt="" class="img-responsive img-thumbnail tiny-thumb" style="display:none;">')
+            }
+            var new_idx = $('#uploaded_so_far .tiny-thumb').length;
+            $('#uploaded_so_far .tiny-thumb').fadeIn(1000);
+            $('#uploaded_so_far .tiny-thumb').animate({'margin-left': 0}, 1000);
+            $('form.create-new-slide-form').trigger('reset');
+            var prog = " - (Uploaded " + new_idx + " of " + length + " slides)";
+            $('#prog_report').text(prog);
+            if(new_idx >= length){
+              $('#progress_message').fadeOut(500, function() {
+                $('form.create-new-slide-form').fadeIn(500, function() {});
+              });
+            }
           }
         })
   },

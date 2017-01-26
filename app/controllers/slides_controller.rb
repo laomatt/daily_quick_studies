@@ -99,8 +99,11 @@ class SlidesController < ApplicationController
       end
 
       slide.update_attributes(:name => name)
+      out = 'success';
+    else
+      out = 'fail';
     end
-    render :json => { :url => slide.file.thumb.url }
+    render :json => { :outcome => out, :url => slide.file.thumb.url }
   end
 
   # PATCH/PUT /slides/1

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -35,7 +34,7 @@ ActiveRecord::Schema.define(version: 20160929200317) do
     t.datetime "updated_at",                                    null: false
     t.boolean  "public",        default: false,                 null: false
     t.string   "tags_list"
-    t.datetime "last_accessed", default: '2016-09-25 00:00:00'
+    t.datetime "last_accessed", default: '2017-01-23 00:00:00'
     t.string   "head_image"
   end
 
@@ -69,9 +68,8 @@ ActiveRecord::Schema.define(version: 20160929200317) do
     t.string   "last_sign_in_ip"
     t.string   "avatar_url"
     t.boolean  "admin",                  default: false
+    t.index ["email"], name: "index_users_on_email"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_index "users", ["email"], name: "index_users_on_email"
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

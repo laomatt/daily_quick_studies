@@ -35,10 +35,9 @@ class Slide < ActiveRecord::Base
 
   module Uploader
     class FileUploader < CarrierWave::Uploader::Base
-      # include CarrierWave::Backgrounder::Delay
       include CarrierWave::MiniMagick
 
-      process :convert => 'jpeg'
+      process :convert => 'jpg'
       storage :fog
 
       def store_dir
@@ -59,13 +58,11 @@ class Slide < ActiveRecord::Base
 
       version :thumb do
         process :resize_to_fill => [400, 400]
-        process :convert => 'jpeg'
+        process :convert => 'jpg'
       end
 
     end
   end
 
   mount_uploader :file, Uploader::FileUploader
-  # process_in_background :file
-  # store_in_background :file
 end

@@ -99,9 +99,9 @@ class SlidesController < ApplicationController
       end
 
       slide.update_attributes(:name => name)
-      out = 'success';
+      out = 'success'
     else
-      out = 'fail';
+      out = 'fail'
     end
     render :json => { :outcome => out, :url => slide.file.thumb.url }
   end

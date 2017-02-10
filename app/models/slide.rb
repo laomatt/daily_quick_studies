@@ -1,5 +1,6 @@
 class Slide < ActiveRecord::Base
   belongs_to :user
+  validates :user_id, presence: true
   has_many :slide_entries, :class_name => 'SlideEntry'
   has_many :taggings, :class_name => 'Tagging'
 

@@ -1,5 +1,5 @@
 
-
+<link rel="stylesheet" href="/font-awesome.min.css">
 <div id="information" style="display:none" pose-length="<%= pose_length %>" total-slides="<%= pose_number %>"></div>
 <center>
   <div class="pose-window">
@@ -15,9 +15,9 @@
       <a href="#" class="hide-right-menu btn btn-primary btn-md" style='width:100%'>Hide Controls</a><br>
       <hr>
       <div style="display:inline-block">
-        <a href="#" id="prev-draw-modal" class='btn btn-primary btn-md'>Back</a>
-        <a href="#" id="pause-draw-modal" class='btn btn-primary btn-md'>Pause</a>
-        <a href="#" id="next-draw-modal" class='btn btn-primary btn-md'>Next</a>
+        <a href="#" id="prev-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-backward" aria-hidden="true"></i></a>
+        <a href="#" id="pause-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-pause" aria-hidden="true"></i></a>
+        <a href="#" id="next-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-forward" aria-hidden="true"></i></a>
         <hr>
         <a href="#" id="close-draw-modal" class='btn btn-primary btn-md' style='width:100%'>Quit</a>
       </div>
@@ -66,10 +66,10 @@ jQuery(document).ready(function($) {
         event.preventDefault();
         if(paused == false){
           paused = true;
-          $(this).text('Play');
+          $(this).html('<i class="fa fa-play" aria-hidden="true"></i>');
         } else {
           paused = false;
-          $(this).text('Pause');
+          $(this).html('<i class="fa fa-pause" aria-hidden="true"></i>');
         }
       });
 

@@ -1,0 +1,15 @@
+<div class="container w">
+    <% slides.each do |slide| %>
+    <div id='slide_container_for_slide_<%= slide.id %>'>
+      <div class="col-lg-4 slide_container">
+        <div class="slide-font">
+          <%= slide.name %>
+        </div>
+          <a href='#' class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
+          <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
+        </a>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <%= will_paginate slides %>

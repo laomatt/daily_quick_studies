@@ -11,10 +11,38 @@
   </div><!-- container -->
 </div><!-- blue wrap -->
 <div class="container results_container">
+  <div class="container w">
+    <% @slides.each do |slide| %>
+    <div id='slide_container_for_slide_<%= slide.id %>'>
+      <div class="col-lg-4 slide_container">
+        <div class="slide-font">
+          <%= slide.name %>
+        </div>
+          <a href='#' class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
+          <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
+        </a>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <center>
+    <%= will_paginate @slides %>
+  </center>
 </div>
 
 
 <script>
+  $('body').on('click', '.pagination a', function(event) {
+    event.preventDefault();
+    var page =this.href[this.href.length - 1];
+    $.ajax({
+      url: '/slides/general_slide_page',
+      data: {page: page},
+    })
+    .done(function(data) {
+      $('.results_container').html(data);
+    })    
+  });
 
   // $('body').on('keyup', '#slide_search', function(event) {
   //   event.preventDefault();

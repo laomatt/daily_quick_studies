@@ -35,9 +35,10 @@
         <select name="add-to-show" slide-id='<%= slide.id %>' id="add-to-user-slide-show" class='form-control'>
           <option value="0">choose a slideshow</option>
           <% current_user.slideshows_with_out(slide.id).each do |ss| %>
-            <option value="<%= ss.id %>"><%= ss.name%></option>
+            <option id="option_select_slide_<%= ss.id %>" value="<%= ss.id %>"><%= ss.name%></option>
           <% end %>
         </select>
+        <div id="slide-add-message" class='message-center-success' style='display: none; background-color: #eaffea;padding: 5px;font-weight: 500;padding-left: 40px;'></div>
       <% end %>
     </div>
     <div class="modal-footer">

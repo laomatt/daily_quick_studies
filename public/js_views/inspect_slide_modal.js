@@ -55,6 +55,7 @@ var inspectSlideModal = Backbone.View.extend({
       var slideshow_id = $(this).val();
       var slide_id = $(this).attr('slide-id');
       inspect.addToSlideshow(slide_id, slideshow_id);
+      $('#option_select_slide_' + slide_id).remove();
     });
   },
   createTag: function(phrase, slide_id){

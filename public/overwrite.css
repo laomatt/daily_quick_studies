@@ -28,10 +28,12 @@
 }
 .message-center-success {
     background-color: #5ae85a;
+    z-index: 600;
 }
 
 .message-center-error {
     background-color: #e85a5a;
+    z-index: 600;
 }
 
 .slides_list_sect_container {

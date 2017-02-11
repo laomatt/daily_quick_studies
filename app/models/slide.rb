@@ -3,7 +3,7 @@ class Slide < ActiveRecord::Base
   validates :user_id, presence: true
   has_many :slide_entries, :class_name => 'SlideEntry'
   has_many :taggings, :class_name => 'Tagging'
-
+  has_many :slide_likes
   has_many :tags, :through => :taggings
   self.per_page = 20
 

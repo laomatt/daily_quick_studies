@@ -43,8 +43,25 @@
     </div>
     <div class="modal-footer">
       <div style='float:left'><%= slide.tags_list %></div>
+      <% if current_user %>
+        <% if current_user.slide_likes.any? { |e| e.slide_id == slide.id } %>
+          <a href="#" slide-id="<%= slide.id %>" class='like-this-slide btn btn-primary btn-md' disabled style='background-color: transparent;''><i class="fa fa-heart" aria-hidden="true" style='color: black'></i></a>
+        <% else %>
+          <a href="#" slide-id="<%= slide.id %>" class='like-this-slide btn btn-primary btn-md'><i class="fa fa-heart" aria-hidden="true"></i></a>
+        <% end %>
+      <% end %>
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
   </div>
 
 </div>
+
+<style type="text/css">
+  .like-this-slide {
+  width: 5%;
+  padding: 1%;
+}
+
+</style>
+
+

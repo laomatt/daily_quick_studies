@@ -49,8 +49,13 @@ Rails.application.routes.draw do
       get 'search_reload_pag'
       get 'search_reload_pag_row'
       get 'account_slides'
+      get 'account_liked_slides'
       get 'general_slide_page'
     end
+  end
+
+  resources :slide_likes do 
+
   end
 
   devise_scope :user do

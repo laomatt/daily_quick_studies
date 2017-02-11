@@ -25,7 +25,13 @@ class SlidesController < ApplicationController
   end
 
   def account_slides
+    @page = 'account_slides'
 
+  end
+
+  def account_liked_slides
+    @page = 'account_liked_slides'
+    
   end
 
   def general_slide_page

@@ -19,7 +19,8 @@
         <a href="#" id="pause-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-pause" aria-hidden="true"></i></a>
         <a href="#" id="next-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-forward" aria-hidden="true"></i></a>
         <hr>
-        <a href="#" id="close-draw-modal" class='btn btn-primary btn-md' style='width:100%'>Quit</a>
+        <a href="#" slide-id class='like-this-slide btn btn-primary btn-md'><i class="fa fa-heart" aria-hidden="true"></i></a>
+        <a href="#" id="close-draw-modal" class='btn btn-primary btn-md' style='width:50%'>Quit</a>
       </div>
       <br>
       Time left:<div id="clock"></div>
@@ -53,9 +54,28 @@
 
 
 <script id="draw_modal_controls_js">
+$('body').on('click', '.like-this-slide', function(event) {
+     var that = this;
+     $.ajax({
+       url: '/slide_likes',
+       type: 'post',
+       data: {slide_id: $(this).attr('slide-id')},
+     })
+     .done(function(data) {
+      if (data.message == 'success') {
+        $(that).css('backgroundColor', 'transparent');
+        $(that).attr('disabled', 'true');
+      }
+     })
+     
+   });
 var ids_in_order = []
+var srcs_in_order = []
 <% ids.each do |i|%>
   ids_in_order.push("<%= i.to_s %>")
+<% end %>
+<% srcs.each do |i|%>
+  srcs_in_order.push("<%= i.to_s %>")
 <% end %>
 
 jQuery(document).ready(function($) {
@@ -161,15 +181,15 @@ jQuery(document).ready(function($) {
       function changePic(speed, idx, type) {
         current_pic = idx;
         $('#slide_number').text(idx + 1);
-        new_pic = ids_in_order[idx];
+        var new_pic = srcs_in_order[idx];
+        var new_pic_id = ids_in_order[idx];
+        $('.like-this-slide').attr('slide-id', new_pic_id);
         $('.pose-window').fadeOut(speed, function() {
           $('.pose-window img').attr('src', new_pic);
           $('.pose-window img').ready(function() {
             $('.pose-window').fadeIn(speed, function(){
               if (type == 'auto') {
                 countDown(<%= (pose_length.to_f * 60).to_i %>)
-              } else {
-
               }
 
             });

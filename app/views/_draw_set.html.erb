@@ -6,19 +6,20 @@
     <img src="" class='img-fluid draw-image'>
   </div>
 
-  <div class="show-menu">
-    <center><a href="#" class="show-right-menu">Show Controls</a></center>
+  <div class="show-menu" style='background-color: transparent;'>
+    <center><a href="#" class="show-right-menu btn-primary btn-md" style='width:100%'>Show Controls</a></center>
   </div>
 
   <div class="controls right-menu">
     <center>
-      <a href="#" class="hide-right-menu">Hide Controls</a><br>
+      <a href="#" class="hide-right-menu btn btn-primary btn-md" style='width:100%'>Hide Controls</a><br>
+      <hr>
       <div style="display:inline-block">
-        <a href="#" id="pause-draw-modal">Pause</a>
-      </div>
-      |
-      <div style="display:inline-block">
-        <a href="#" id="close-draw-modal">Quit</a>
+        <a href="#" id="prev-draw-modal" class='btn btn-primary btn-md'>Back</a>
+        <a href="#" id="pause-draw-modal" class='btn btn-primary btn-md'>Pause</a>
+        <a href="#" id="next-draw-modal" class='btn btn-primary btn-md'>Next</a>
+        <hr>
+        <a href="#" id="close-draw-modal" class='btn btn-primary btn-md' style='width:100%'>Quit</a>
       </div>
       <br>
       Time left:<div id="clock"></div>
@@ -64,9 +65,11 @@ jQuery(document).ready(function($) {
       $('body').on('click', '#pause-draw-modal', function(event) {
         event.preventDefault();
         if(paused == false){
-          paused = true
+          paused = true;
+          $(this).text('Play');
         } else {
-          paused = false
+          paused = false;
+          $(this).text('Pause');
         }
       });
 
@@ -84,6 +87,36 @@ jQuery(document).ready(function($) {
         });
       });
 
+      $('body').on('click', '#next-draw-modal', function(event) {
+        event.preventDefault();
+        if (paused) {
+          tot_time = <%= (pose_length.to_f * 60).to_i %>;
+        } else {
+          tot_time = <%= (pose_length.to_f * 60).to_i %> + 1;
+        }
+        changePic(<%= transition_time %>, current_pic + 1, 'manual')
+      });
+
+      $('body').on('click', '#prev-draw-modal', function(event) {
+        event.preventDefault();
+        if (paused) {
+          tot_time = <%= (pose_length.to_f * 60).to_i %>;
+        } else {
+          tot_time = <%= (pose_length.to_f * 60).to_i %> + 1;
+        }
+        changePic(<%= transition_time %>, current_pic - 1, 'manual')
+      });
+
+      $('body').on('click', '#reset-clock', function(event) {
+        event.preventDefault();
+        if (paused) {
+          tot_time = <%= (pose_length.to_f * 60).to_i %>;
+        } else {
+          tot_time = <%= (pose_length.to_f * 60).to_i %> + 1;
+        }
+
+      });
+
 
       $('body').on('click', '#close-draw-modal', function(event) {
         event.preventDefault();
@@ -93,26 +126,30 @@ jQuery(document).ready(function($) {
         $('#draw_modal_controls_js').remove();
       });
       var audio = new Audio('/beep.wav');
+      var current_pic = 0;
+      var running_timer = false;
+      var tot_time;
 
-      function countDown(top, i){
-        var time = secondsTimeSpanToHMS(top)
+      function countDown(top){
+        time = secondsTimeSpanToHMS(top)
+        tot_time = top
         $('#clock').text(time);
         setTimeout(function(){
-          if(top > 0){
+          if(tot_time > 0){
             if(paused == false){
-              countDown(top - 1, i);
+              countDown(tot_time - 1);
             } else if($('#pose_window_container').html() == "") {
-              return
-            } else{
-              countDown(top, i);
+              return;
+            } else {
+              countDown(tot_time);
             }
           } else {
-            if(i < ids_in_order.length -1){
+            if(current_pic < ids_in_order.length -1){
               if($('#pose_window_container').css('display') == 'block') {
                 if($('#play-sound-option').is(':checked') == true){
                   audio.play();
                 }
-                changePic(<%= transition_time %>, i + 1)
+                changePic(<%= transition_time %>, current_pic + 1, 'auto')
               }
             } else {
               $('#close-draw-modal').trigger('click');
@@ -121,21 +158,26 @@ jQuery(document).ready(function($) {
         }, 1000)
       }
 
-      function changePic(speed, idx) {
+      function changePic(speed, idx, type) {
+        current_pic = idx;
         $('#slide_number').text(idx + 1);
         new_pic = ids_in_order[idx];
         $('.pose-window').fadeOut(speed, function() {
           $('.pose-window img').attr('src', new_pic);
           $('.pose-window img').ready(function() {
             $('.pose-window').fadeIn(speed, function(){
-              countDown(<%= (pose_length.to_f * 60).to_i %>, idx)
+              if (type == 'auto') {
+                countDown(<%= (pose_length.to_f * 60).to_i %>)
+              } else {
+
+              }
 
             });
           });
         });
       }
 
-      changePic(500, 0)
+      changePic(500, 0, 'auto')
 
       function secondsTimeSpanToHMS(s) {
         var m = Math.floor(s/60);

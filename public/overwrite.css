@@ -161,13 +161,18 @@ img.draw-image {
 }
 
 .hide-right-menu {
-  font-size: 15px
+  font-size: 15px;
+}
+
+.show-right-menu {
+  font-size: 15px;
+  padding: 2%;
 }
 
 .show-menu {
   position: fixed;
-  background-color: rgba(0,0,0,.3);
-  font-size: 30px;
+  background-color: transparent;
+  font-size: 15px;
   color: white;
   padding: 2%;
   z-index: 900;

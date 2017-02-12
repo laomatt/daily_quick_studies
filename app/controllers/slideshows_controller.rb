@@ -81,7 +81,10 @@ class SlideshowsController < ApplicationController
 
   def draw_pose
     if params[:type] == 'random'
-      ids = Slide.all.shuffle.first(params[:amount].to_i).map { |e| e.file.url }
+      # ids = Slide.all.shuffle.first(params[:amount].to_i).map { |e| e.file.url }
+      slides_to_use = Slide.all.shuffle.first(params[:amount].to_i)
+      srcs = slides_to_use.map { |e| e.file.url }
+      ids = slides_to_use.map { |e| e.id }
     else
       @slideshow = Slideshow.find(params[:id])
       slides_to_use = @slideshow.slides.shuffle.first(params[:amount].to_i)

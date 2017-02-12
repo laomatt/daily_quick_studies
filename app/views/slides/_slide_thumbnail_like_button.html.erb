@@ -1,13 +1,19 @@
-<div id='slide_container_for_slide_<%= slide.id %>' class='liked_button_thumbnail' current_page='<% current_page %>'>
+<div id='slide_container_for_slide_<%= slide.id %>'  current_page='<% current_page %>'>
   <div class="col-lg-4 slide_container">
     <div class="slide-font">
-      <%= slide.name %>
+	    <div class="slide_name_container">
+	      <%= slide.name %>
+	    </div>
 		  <% if current_user %>
+		  <div class="thumbnail_slide_like_button_container">
+		  	
 		    <% if current_user.slide_likes.any? { |e| e.slide_id == slide.id } %>
-		      <a href="#" slide-id="<%= slide.id %>" class='unlike-this-slide' style='background-color: #debaba; color: #ff4343; width: 5%; padding-left: 3px'><i class="fa fa-heart like-button" aria-hidden="true" style='color: #ff4343; font-size: 20px;'></i></a>
+		      <a href="#" slide-id="<%= slide.id %>" class='unlike-this-slide like_slide_button_container_for_<%= slide.id %>' style='background-color: transparent; color: #ff4343; width: 5%; padding-left: 3px'><i class="fa fa-heart like-button" aria-hidden="true" style='color: #ff4343; font-size: 20px;'></i></a>
 		    <% else %>
-		      <a href="#" slide-id="<%= slide.id %>" class='like-this-slide'><i class="fa fa-heart like-button" aria-hidden="true"></i></a>
+		      <a href="#" slide-id="<%= slide.id %>" class='like-this-slide like_slide_button_container_for_<%= slide.id %>'><i class="fa fa-heart like-button" style='color: black' aria-hidden="true"></i></a>
 		    <% end %>
+
+		  </div>
 		  <% end %>
       <% if from == 'account' %>
 	      (<a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-from='account_slides' data-toggle="modal" data-target="#inspectSlide">Edit</a>)

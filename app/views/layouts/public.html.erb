@@ -223,7 +223,8 @@ ga('send', 'pageview');
   $('body').on('click', '.like-this-slide', function(event) {
      event.preventDefault();
     
-     var that = this;
+     // var that = this;
+     var that = $('.like_slide_button_container_for_' + $(this).attr('slide-id'));
      $.ajax({
        url: '/slide_likes',
        type: 'post',
@@ -235,7 +236,7 @@ ga('send', 'pageview');
         $(that).removeClass('like-this-slide');
         $(that).addClass('unlike-this-slide');
         $(that).find('i').attr('style','color: #ff4343; font-size: 20px;');
-        $(that).attr('style','background-color: #debaba; color: #ff4343; width: 5%; padding-left: 3px');
+        $(that).attr('style','background-color: transparent; color: #ff4343; width: 5%; padding-left: 3px');
         if ($('#slide_container_for_slide_' + $(that).attr('slide-id'))) {
           $('#slide_container_for_slide_' + $(that).attr('slide-id')).show(500);
         }
@@ -247,7 +248,8 @@ ga('send', 'pageview');
   $('body').on('click', '.unlike-this-slide', function(event) {
      event.preventDefault();
     
-     var that = this;
+     // var that = this;
+     var that = $('.like_slide_button_container_for_' + $(this).attr('slide-id'));
      $.ajax({
        url: '/slide_likes/unlike_slide',
        type: 'delete',
@@ -256,7 +258,8 @@ ga('send', 'pageview');
      .done(function(data) {
       if (data.message == 'success') {
         $(that).removeAttr('style');
-        $(that).find('i').removeAttr('style');
+        // $(that).find('i').removeAttr('style');
+        $(that).find('i').attr('style', 'color:black;');
         $(that).removeClass('unlike-this-slide');
         $(that).addClass('like-this-slide');
         if ($('#slide_container_for_slide_' + $(that).attr('slide-id')).attr('current_page') == 'liked_slides') {
@@ -281,8 +284,31 @@ ga('send', 'pageview');
 }
 */
   
-  .like-button {
-    width: 10px;
-    /*position: absolute;*/
+
+  .thumbnail_slide_like_button_container {
+  /* float: right;
+   position: absolute; 
+   padding-right: 0;
+   padding-top: 0%;*/
+   /*float: right;*/
+   /* right: 10px;
+    position: absolute;
+    padding-right: 0;
+    padding-top: 0%;
+    top: 0;
+    z-index: 300;*/
+        right: 10px;
+    width: 10%;
+    position: absolute;
+    padding-right: 0;
+    padding-top: 0%;
+    top: 0;
+    height: 30%;
+    z-index: 300;
   }
+
+  .slide_name_container {
+    overflow-y: hidden;
+    height: 10%;
+  } 
 </style>

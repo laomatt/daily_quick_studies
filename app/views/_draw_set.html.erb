@@ -19,7 +19,9 @@
         <a href="#" id="pause-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-pause" aria-hidden="true"></i></a>
         <a href="#" id="next-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-forward" aria-hidden="true"></i></a>
         <hr>
-        <a href="#" slide-id class='like-this-slide-live btn btn-primary btn-md'><i class="fa fa-heart" aria-hidden="true"></i></a>
+        <% if current_user %>
+          <a href="#" slide-id class='like-this-slide-live btn btn-primary btn-md'><i class="fa fa-heart" aria-hidden="true"></i></a>
+        <% end %>
         <br>
         <a href="#" id="close-draw-modal" class='btn btn-primary btn-md' style='width:50%'>Quit</a>
       </div>

@@ -11,4 +11,14 @@ class SlideLikesController < ApplicationController
 			render :json => { :message => 'fail', :errors => slide.errors.full_messages }
 		end
 	end
+
+	def unlike_slide
+		like = current_user.slide_likes.find_by(:slide_id => params[:slide_id])
+		if like.delete
+			render :json => { :message => 'success', :slide => like }
+		else
+			render :json => { :message => 'fail' }
+		end
+		
+	end
 end

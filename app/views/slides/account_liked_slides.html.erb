@@ -18,16 +18,7 @@
       <h1>My Liked Slides</h1>
       <% current_user.slide_likes.each do |sl| %>
       <% slide = sl.slide %>
-        <div id='slide_container_for_slide_<%= slide.id %>'>
-          <div class="col-lg-4 slide_container">
-            <div class="slide-font">
-              <%= slide.name %>
-            </div>
-              <a href='#' class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
-              <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
-            </a>
-          </div>
-        </div>
+        <%= render :partial => '/slides/slide_thumbnail_like_button', :locals => { :slide => slide, :from => 'liked_slides', :current_page => 'liked_slides' } %>
       <% end %>
     </div>
   </div><!-- row -->

@@ -219,6 +219,54 @@ ga('send', 'pageview');
   </style>
 <% end %>
 
+<script type="text/javascript">
+  $('body').on('click', '.like-this-slide', function(event) {
+     event.preventDefault();
+    
+     var that = this;
+     $.ajax({
+       url: '/slide_likes',
+       type: 'post',
+       data: {slide_id: $(this).attr('slide-id')},
+     })
+     .done(function(data) {
+      if (data.message == 'success') {
+        $(that).css('backgroundColor', '#debaba');
+        $(that).removeClass('like-this-slide');
+        $(that).addClass('unlike-this-slide');
+        $(that).find('i').attr('style','color: #ff4343; font-size: 20px;');
+        $(that).attr('style','background-color: #debaba; color: #ff4343; width: 5%; padding-left: 3px');
+        if ($('#slide_container_for_slide_' + $(that).attr('slide-id'))) {
+          $('#slide_container_for_slide_' + $(that).attr('slide-id')).show(500);
+        }
+
+      }
+     })
+   });
+
+  $('body').on('click', '.unlike-this-slide', function(event) {
+     event.preventDefault();
+    
+     var that = this;
+     $.ajax({
+       url: '/slide_likes/unlike_slide',
+       type: 'delete',
+       data: {slide_id: $(this).attr('slide-id')},
+     })
+     .done(function(data) {
+      if (data.message == 'success') {
+        $(that).removeAttr('style');
+        $(that).find('i').removeAttr('style');
+        $(that).removeClass('unlike-this-slide');
+        $(that).addClass('like-this-slide');
+        if ($('#slide_container_for_slide_' + $(that).attr('slide-id')).attr('current_page') == 'liked_slides') {
+          $('#slide_container_for_slide_' + $(that).attr('slide-id')).hide(500);
+        }
+      }
+     })
+   });
+</script>
+
 <style>
 .active_in_page {
   background-color: #d67a07;
@@ -232,4 +280,9 @@ ga('send', 'pageview');
     padding: 0;
 }
 */
+  
+  .like-button {
+    width: 10px;
+    /*position: absolute;*/
+  }
 </style>

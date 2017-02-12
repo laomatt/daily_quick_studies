@@ -7,7 +7,6 @@ class SlidesController < ApplicationController
   def index
     @slides = Slide.paginate(:page => 1, :per_page => 8)
     @page = 'slides'
-    @page = 'slides'
   end
 
   # GET /slides/1

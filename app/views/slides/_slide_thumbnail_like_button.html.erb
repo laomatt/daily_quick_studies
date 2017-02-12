@@ -1,0 +1,27 @@
+<div id='slide_container_for_slide_<%= slide.id %>' class='liked_button_thumbnail' current_page='<% current_page %>'>
+  <div class="col-lg-4 slide_container">
+    <div class="slide-font">
+      <%= slide.name %>
+		  <% if current_user %>
+		    <% if current_user.slide_likes.any? { |e| e.slide_id == slide.id } %>
+		      <a href="#" slide-id="<%= slide.id %>" class='unlike-this-slide' style='background-color: #debaba; color: #ff4343; width: 5%; padding-left: 3px'><i class="fa fa-heart like-button" aria-hidden="true" style='color: #ff4343; font-size: 20px;'></i></a>
+		    <% else %>
+		      <a href="#" slide-id="<%= slide.id %>" class='like-this-slide'><i class="fa fa-heart like-button" aria-hidden="true"></i></a>
+		    <% end %>
+		  <% end %>
+      <% if from == 'account' %>
+	      (<a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-from='account_slides' data-toggle="modal" data-target="#inspectSlide">Edit</a>)
+	    <% end %>
+    </div>
+
+	    <% if (from == 'modal') %>
+        <a href='#' class='add_this_slide' data-id='<%= slide.id %>'>
+      <% else %>
+        <a href='#' class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
+      <% end %>
+      <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
+
+    </a>
+  </div>
+</div>
+

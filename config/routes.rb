@@ -55,7 +55,9 @@ Rails.application.routes.draw do
   end
 
   resources :slide_likes do 
-
+    collection do
+      delete 'unlike_slide'
+    end
   end
 
   devise_scope :user do

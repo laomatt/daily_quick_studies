@@ -36,6 +36,17 @@
   padding: 6%;
 }
 
+.unlike-this-slide {
+  background-color: #debaba; 
+  color: #ff4343; 
+  width: 5%; 
+  padding-left: 3px
+}
+
+.liked_button_thumbnail {
+  height: 50%;
+}
+
 .liked-slide {
   background-color: transparent;
 }

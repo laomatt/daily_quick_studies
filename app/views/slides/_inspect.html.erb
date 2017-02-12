@@ -45,7 +45,7 @@
       <div style='float:left'><%= slide.tags_list %></div>
       <% if current_user %>
         <% if current_user.slide_likes.any? { |e| e.slide_id == slide.id } %>
-          <a href="#" slide-id="<%= slide.id %>" class='like-this-slide btn btn-primary btn-md' disabled style='background-color: transparent;''><i class="fa fa-heart" aria-hidden="true" style='color: black'></i></a>
+          <a href="#" slide-id="<%= slide.id %>" class='unlike-this-slide btn btn-primary btn-md' style='background-color: #debaba; color: #ff4343; width: 5%; padding-left: 3px'><i class="fa fa-heart" aria-hidden="true" style='color: #ff4343; font-size: 20px;'></i></a>
         <% else %>
           <a href="#" slide-id="<%= slide.id %>" class='like-this-slide btn btn-primary btn-md'><i class="fa fa-heart" aria-hidden="true"></i></a>
         <% end %>
@@ -61,7 +61,6 @@
   width: 5%;
   padding: 1%;
 }
-
 </style>
 
 

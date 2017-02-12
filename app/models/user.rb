@@ -30,7 +30,6 @@ class User < ActiveRecord::Base
 
   def slideshows_with_out(slide_id)
     slide = Slide.find(slide_id)
-    # byebug
     already = slide.slide_entries.map { |e| e.slideshow_id }
     slideshows.to_a.delete_if { |e| already.include?(e.id) }
   end

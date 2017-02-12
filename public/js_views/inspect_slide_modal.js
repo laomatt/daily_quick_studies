@@ -26,25 +26,6 @@ var inspectSlideModal = Backbone.View.extend({
      inspect.updateName(data);
    });
 
-  $('body').on('click', '.like-this-slide', function(event) {
-     event.preventDefault();
-    
-     var that = this;
-     $.ajax({
-       url: '/slide_likes',
-       type: 'post',
-       data: {slide_id: $(this).attr('slide-id')},
-     })
-     .done(function(data) {
-      if (data.message == 'success') {
-        $(that).css('backgroundColor', 'transparent');
-        $(that).attr('disabled', 'true');
-      }
-     })
-     
-   });
-   
-
    $('body').on('click', '.remove-tag-from-slideshow', function(event) {
       event.preventDefault();
       var tag_id = $(this).attr('tag-id');

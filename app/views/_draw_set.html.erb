@@ -54,21 +54,6 @@
 
 
 <script id="draw_modal_controls_js">
-$('body').on('click', '.like-this-slide', function(event) {
-     var that = this;
-     $.ajax({
-       url: '/slide_likes',
-       type: 'post',
-       data: {slide_id: $(this).attr('slide-id')},
-     })
-     .done(function(data) {
-      if (data.message == 'success') {
-        $(that).css('backgroundColor', 'transparent');
-        $(that).attr('disabled', 'true');
-      }
-     })
-     
-   });
 var ids_in_order = []
 var srcs_in_order = []
 <% ids.each do |i|%>

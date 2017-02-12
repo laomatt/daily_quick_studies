@@ -12,6 +12,14 @@ class SlideLikesController < ApplicationController
 		end
 	end
 
+	def check
+		if SlideLike.exists?(:slide_id => params[:slide_id], :user_id => current_user.id)
+			render :json => { :message => 'already liked'}
+		else
+			render :json => { :message => 'not liked'}
+		end
+	end
+
 	def unlike_slide
 		like = current_user.slide_likes.find_by(:slide_id => params[:slide_id])
 		if like.delete

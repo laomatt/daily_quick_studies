@@ -19,7 +19,8 @@
         <a href="#" id="pause-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-pause" aria-hidden="true"></i></a>
         <a href="#" id="next-draw-modal" class='btn btn-primary btn-lg'><i class="fa fa-forward" aria-hidden="true"></i></a>
         <hr>
-        <a href="#" slide-id class='like-this-slide btn btn-primary btn-md'><i class="fa fa-heart" aria-hidden="true"></i></a>
+        <a href="#" slide-id class='like-this-slide-live btn btn-primary btn-md'><i class="fa fa-heart" aria-hidden="true"></i></a>
+        <br>
         <a href="#" id="close-draw-modal" class='btn btn-primary btn-md' style='width:50%'>Quit</a>
       </div>
       <br>
@@ -50,7 +51,27 @@
 
   </div>
 </center>
+<script type="text/javascript">
+  $('body').on('click', '.like-this-slide-live', function(event) {
+     event.preventDefault();
+    
+     var that = this;
+     // var that = $('.like_slide_button_container_for_' + $(this).attr('slide-id'));
+     $.ajax({
+       url: '/slide_likes',
+       type: 'post',
+       data: {slide_id: $(this).attr('slide-id')},
+     })
+     .done(function(data) {
+      if (data.message == 'success') {
+        
+        $(that).fadeOut(500, function() {});
 
+      }
+     })
+   });
+
+</script>
 
 
 <script id="draw_modal_controls_js">
@@ -168,7 +189,19 @@ jQuery(document).ready(function($) {
         $('#slide_number').text(idx + 1);
         var new_pic = srcs_in_order[idx];
         var new_pic_id = ids_in_order[idx];
-        $('.like-this-slide').attr('slide-id', new_pic_id);
+        $.ajax({
+          url: '/slide_likes/check',
+          data: {slide_id: new_pic_id},
+        })
+        .done(function(data) {
+          if (data.message == 'already liked') {
+            $('.like-this-slide-live').css('display', 'none');;
+          } else {
+            $('.like-this-slide-live').css('display', 'block');;
+          }
+        })
+        
+        $('.like-this-slide-live').attr('slide-id', new_pic_id);
         $('.pose-window').fadeOut(speed, function() {
           $('.pose-window img').attr('src', new_pic);
           $('.pose-window img').ready(function() {

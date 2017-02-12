@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   resources :slide_likes do 
     collection do
       delete 'unlike_slide'
+      get 'check'
     end
   end
 

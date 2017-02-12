@@ -36,6 +36,11 @@
   padding: 6%;
 }
 
+.like-this-slide-live {
+  width: 25%;
+  padding: 6%;
+}
+
 .unlike-this-slide {
   background-color: #debaba; 
   color: #ff4343; 

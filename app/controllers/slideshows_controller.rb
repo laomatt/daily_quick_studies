@@ -84,8 +84,9 @@ class SlideshowsController < ApplicationController
       ids = Slide.all.shuffle.first(params[:amount].to_i).map { |e| e.file.url }
     else
       @slideshow = Slideshow.find(params[:id])
-      srcs = @slideshow.slides.shuffle.first(params[:amount].to_i).map { |e| e.file.url }
-      ids = @slideshow.slides.shuffle.first(params[:amount].to_i).map { |e| e.id }
+      slides_to_use = @slideshow.slides.shuffle.first(params[:amount].to_i)
+      srcs = slides_to_use.map { |e| e.file.url }
+      ids = slides_to_use.map { |e| e.id }
 
     end
     render :partial => '/draw_set', :locals => { :slideshow => @slideshow, :pose_length => params[:interval], :pose_number => params[:amount], :srcs => srcs, :ids => ids, :transition_time => params[:transition] }

@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :slides
   has_many :slideshows
   has_many :slide_likes
+  has_many :sketches
 
  def self.from_omniauth(auth)
     if User.exists?(:email => auth.info.email)

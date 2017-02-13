@@ -1,0 +1,54 @@
+<h4><%= slide.name %></h4>
+<h3>Submit and share a sketch to this slide:</h3>
+<form action='/sketches' method='POST' id='sketch-update-form'>
+	<a href="#" id='choose-pic-to-share' class='btn btn-lg btn-primary' style='width:100%;background-color: #d86522;'>Take/Select Picture ... and Share!</a>
+	<div style='display: none;'>
+		<input type="file" accept="image/*" id='sketch_picture' name='image_this' capture="camera" />
+	</div>
+	<input type="hidden" name="slide_id" value="<%= slide.id %>">
+</form>
+
+
+
+<div class="" style='width: 100%'>
+	<h4>Sketches of this slide</h4>
+	<div class="sketches_thumb_container user_sketches">
+		<% slide.sketches.each do |sktch|%>
+			<%= render :partial => '/sketches/thumbnail', :locals => { :sketch => sktch }%>
+		<% end %>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$('body').on('change', '#sketch_picture', function(event) {
+		event.preventDefault();
+		$('#sketch-update-form').trigger('submit');
+	});
+	$('body').on('click', '#choose-pic-to-share', function(event) {
+		event.preventDefault();
+		$('#sketch_picture').trigger('click');
+	});
+	$('body').on('click', '#sketch-share-submit', function(event) {
+		event.preventDefault();
+		$('#sketch-update-form').trigger('submit');
+	});
+
+	$('body').on('submit', '#sketch-update-form', function(event) {
+		event.preventDefault();
+		var formData = new FormData( this );
+		var that = this;
+		$.ajax({
+			url: '/sketches',
+			type: 'POST',
+			data: formData,
+      processData: false,
+      contentType: false,
+		})
+		.done(function(data) {
+			$(that).trigger('reset');
+			$('.sketches_thumb_container').append(data);
+		})
+		
+	});
+</script>

@@ -5,6 +5,7 @@ class Slide < ActiveRecord::Base
   has_many :taggings, :class_name => 'Tagging'
   has_many :slide_likes
   has_many :tags, :through => :taggings
+  has_many :sketches
   self.per_page = 20
 
   def self.random_three

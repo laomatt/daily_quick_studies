@@ -1,14 +1,34 @@
-<p id="notice"><%= notice %></p>
+<div id="blue">
+  <div class="container">
+    <div class="row centered">
+      <div class="col-lg-5">
+        <img src="<%= @slide.file.url %>" style='max-height:600px;' class='img-responsive'>
+	    </div><!-- row -->
+    <div class="col-lg-6">
+    	<%= render :partial => '/slides/slide_info', :locals => {:slide => @slide } %>
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- blue wrap -->
 
-<p>
-  <strong>Name:</strong>
-  <%= @slide.name %>
-</p>
+</div><!-- container -->
 
-<p>
-  <strong>File:</strong>
-  <%= @slide.file %>
-</p>
 
-<%= link_to 'Edit', edit_slide_path(@slide) %> |
-<%= link_to 'Back', slides_path %>
+<style type="text/css">
+  
+.sketch_container {
+  padding: 7px;
+  background-color: gainsboro;
+  margin: 6px;
+  overflow: auto;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+
+}
+
+.sketches_thumb_container {
+  display: block;
+}
+</style>
+

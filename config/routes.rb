@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sketches
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :slideshows do
     member do
@@ -60,6 +61,12 @@ Rails.application.routes.draw do
       get 'check'
     end
   end
+
+  resources :sketches do 
+
+  end
+
+
 
   devise_scope :user do
     get 'user_log_out_route/sign_out', :to => 'devise/sessions#destroy'

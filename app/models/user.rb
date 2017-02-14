@@ -4,10 +4,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
-  has_many :slides
-  has_many :slideshows
-  has_many :slide_likes
-  has_many :sketches
+  has_many :slides, dependent: :destroy
+  has_many :slideshows, dependent: :destroy
+  has_many :slide_likes, dependent: :destroy
+  has_many :sketches, dependent: :destroy
 
  def self.from_omniauth(auth)
     if User.exists?(:email => auth.info.email)

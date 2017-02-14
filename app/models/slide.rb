@@ -3,9 +3,9 @@ class Slide < ActiveRecord::Base
   validates :user_id, presence: true
   has_many :slide_entries, :class_name => 'SlideEntry'
   has_many :taggings, :class_name => 'Tagging'
-  has_many :slide_likes
-  has_many :tags, :through => :taggings
-  has_many :sketches
+  has_many :slide_likes, dependent: :destroy
+  has_many :tags, :through => :taggings, dependent: :destroy
+  has_many :sketches, dependent: :destroy
   self.per_page = 20
 
   def self.random_three

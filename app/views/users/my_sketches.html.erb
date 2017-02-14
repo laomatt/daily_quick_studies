@@ -4,8 +4,7 @@
       <div class="col-lg-8 col-lg-offset-2">
         <img src="<%= current_user.portrait_url %>" class='portrait'>
 
-        <h4><b>My Account</b></h4>
-        <p>account info</p>
+        <h4><b>My Sketches</b></h4>
 
         <%= render :partial => '/users/account_panel_links' %>
       </div>
@@ -16,8 +15,13 @@
 <div class="container">
   <div class="row centered">
     <div class="col-lg-8">
-      <h1>My Slideshows</h1>
+      <h1>My Sketches</h1>
       <div class="current_slideshows slideshow_list_sect_container">
+	      <div class="sketches_thumb_container user_sketches">
+					<% @sketches.each do |sktch|%>
+						<%= render :partial => '/sketches/thumbnail', :locals => { :sketch => sktch }%>
+					<% end %>
+				</div>
       </div>
     </div>
   </div><!-- row -->
@@ -25,26 +29,3 @@
 
 
 
-
-
-<!-- Edit Modal -->
-<div id="editSlideShowModal" class="modal fade" role="dialog"></div>
-<script src='/my_account.js'></script>
-
-<style>
-  .slide_container {
-    width: 150px;
-    height: 170px;
-  }
-
-  .slide_container .slide-font {
-    font-size: 10px;
-  }
-
-  .slide_to_add {
-    position: relative;
-    width: 100%;
-    max-height: 200px;
-    overflow: scroll;
-  }
-</style>

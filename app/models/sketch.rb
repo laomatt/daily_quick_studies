@@ -2,6 +2,11 @@ class Sketch < ApplicationRecord
 	belongs_to :user
 	belongs_to :slide
 	# has_many :sketch_likes
+
+  def name
+    file.file_name
+  end
+  
 	module Uploader
     class FileUploader < CarrierWave::Uploader::Base
       include CarrierWave::MiniMagick

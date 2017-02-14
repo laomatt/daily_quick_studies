@@ -47,6 +47,7 @@
     <div class="modal-footer">
       <div style='float:left'><%= slide.tags_list %></div>
       <% if current_user %>
+        <%= render :partial => '/sketches/upload_form', :locals => { :slide => slide } %>
         <% if current_user.slide_likes.any? { |e| e.slide_id == slide.id } %>
           <a href="#" slide-id="<%= slide.id %>" class='unlike-this-slide btn btn-primary btn-md like_slide_button_container_for_<%= slide.id %>' style='background-color: #debaba; color: #ff4343; width: 5%; padding-left: 3px'><i class="fa fa-heart" aria-hidden="true" style='color: #ff4343; font-size: 20px;'></i></a>
         <% else %>

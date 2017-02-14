@@ -33,6 +33,11 @@ class UsersController < ApplicationController
     @pag_url = 'user'
   end
 
+  def my_sketches
+    @page = 'sketches'
+    @sketches = current_user.sketches
+  end
+
 
   def edit_slideshow_modal
     @slideshow = Slideshow.find(params[:id])

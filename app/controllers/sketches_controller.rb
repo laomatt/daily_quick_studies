@@ -33,6 +33,14 @@ class SketchesController < ApplicationController
     render :partial => '/sketches/sketches_collection', :locals => { :sketches => sketches }
   end
 
+  def get_sketch_image
+    sketch = Sketch.find(params[:sketch_id])
+    url = sketch.file.url
+    name = sketch.name
+
+    render :json => { :url => url, :name => name }
+  end
+
   def get_upload_form_for_slide
     slide = Slide.find(params[:slide_id])
 

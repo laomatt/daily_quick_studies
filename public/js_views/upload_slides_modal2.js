@@ -8,6 +8,9 @@ var uploadSlideModal = Backbone.View.extend({
 
     $('body').on('submit', this.$el, function(event) {
       event.preventDefault();
+      if ($('#picture').val() == "") {
+        return;
+      }
       upload.resetForm();
       var fileInput = document.getElementById("picture");
       var files = fileInput.files;

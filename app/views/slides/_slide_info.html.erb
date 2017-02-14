@@ -1,7 +1,11 @@
 <h4><%= slide.name %></h4>
 <h3>Submit and share a sketch to this slide:</h3>
 <form action='/sketches' method='POST' id='sketch-update-form'>
-	<a href="#" id='choose-pic-to-share' class='btn btn-lg btn-primary' style='width:100%;background-color: #d86522;'>Take/Select Picture ... and Share!</a>
+	<a href="#" id='choose-pic-to-share' class='btn btn-lg btn-primary' style='width:100%;background-color: #d86522;'>
+	<i class="fa fa-camera" aria-hidden="true">
+		Take/Select Picture ... and Share!
+	</i>
+	</a>
 	<div style='display: none;'>
 		<input type="file" accept="image/*" id='sketch_picture' name='image_this' capture="camera" />
 	</div>

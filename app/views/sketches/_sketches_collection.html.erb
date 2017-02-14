@@ -1,0 +1,4 @@
+<h1>Sketches of this</h1>
+<% sketches.each do |sktch| %>
+	<%= render :partial => '/sketches/thumbnail', :locals => { :sketch => sktch }%>
+<% end %>

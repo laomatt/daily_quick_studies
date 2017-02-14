@@ -1,0 +1,9 @@
+<form action='/sketches' method='POST' id='sketch-update-form'>
+  <a href="#" id='choose-pic-to-share' class='btn btn-lg btn-primary' style='width:100%;background-color: #d86522;'>
+  <i class="fa fa-camera" aria-hidden="true"></i>
+  </a>
+  <div style='display: none;'>
+    <input type="file" accept="image/*" id='sketch_picture' name='image_this' capture="camera" />
+  </div>
+  <input type="hidden" name="slide_id" value="<%= slide.id %>">
+</form>

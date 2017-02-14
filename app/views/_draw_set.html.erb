@@ -10,7 +10,18 @@
     <center><a href="#" class="show-right-menu btn-primary btn-md" style='width:100%'>Show Controls</a></center>
   </div>
 
+  <style type="text/css">
+    #sketch-collection-container {
+      position: fixed;
+      left: 0;
+      padding-left: 2%;
+    }
+  </style>
+
   <div class="controls right-menu">
+    <div id="sketch-collection-container">
+      
+    </div>
     <center>
       <a href="#" class="hide-right-menu btn btn-primary btn-md" style='width:100%'>Hide Controls</a><br>
       <hr>
@@ -37,6 +48,8 @@
       <div id="slide_total" style="display:inline-block">
         /<%= pose_number %>
       </div>
+      <!-- sketch -->
+      <div id="sketch-upload-container"></div>
 
       <div class="slide-show-info" style="display:none">
         title: <div id="slide-title"></div>
@@ -191,6 +204,7 @@ jQuery(document).ready(function($) {
         $('#slide_number').text(idx + 1);
         var new_pic = srcs_in_order[idx];
         var new_pic_id = ids_in_order[idx];
+        // check to see if the current user already likes the slide
         $.ajax({
           url: '/slide_likes/check',
           data: {slide_id: new_pic_id},
@@ -201,6 +215,29 @@ jQuery(document).ready(function($) {
           } else {
             $('.like-this-slide-live').css('display', 'block');;
           }
+        })
+
+        // grab all the sketches for the current slide
+        $.ajax({
+          url: '/sketches/get_sketches_for_slide',
+          data: {slide_id: new_pic_id},
+        })
+        .done(function(data) {
+          console.log('sketches');
+          console.log(data);
+          $('#sketch-collection-container').html(data);
+        })
+        
+
+        // update the upload form
+         $.ajax({
+          url: '/sketches/get_upload_form_for_slide',
+          data: {slide_id: new_pic_id},
+        })
+        .done(function(data) {
+          console.log('upload');
+          console.log(data);
+          $('#sketch-upload-container').html(data);
         })
         
         $('.like-this-slide-live').attr('slide-id', new_pic_id);
@@ -227,5 +264,60 @@ jQuery(document).ready(function($) {
 
     });
 </script>
+
+<script type="text/javascript">
+  $('body').on('change', '#sketch_picture', function(event) {
+    event.preventDefault();
+    $('#sketch-update-form').trigger('submit');
+  });
+  $('body').on('click', '#choose-pic-to-share', function(event) {
+    event.preventDefault();
+    $('#sketch_picture').trigger('click');
+  });
+  $('body').on('click', '#sketch-share-submit', function(event) {
+    event.preventDefault();
+    $('#sketch-update-form').trigger('submit');
+  });
+
+  $('body').on('submit', '#sketch-update-form', function(event) {
+    event.preventDefault();
+    var formData = new FormData( this );
+    var that = this;
+    $.ajax({
+      url: '/sketches',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+    })
+    .done(function(data) {
+      $(that).trigger('reset');
+      $('.sketches_thumb_container').append(data);
+    })
+    
+  });
+</script>
+
+
+<style type="text/css">
+  
+.sketch_container {
+  padding: 7px;
+  background-color: gainsboro;
+  margin: 6px;
+  overflow: auto;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+
+}
+
+.sketches_thumb_container {
+  display: block;
+}
+</style>
+
+
 
 

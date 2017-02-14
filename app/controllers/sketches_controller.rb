@@ -1,25 +1,7 @@
 class SketchesController < ApplicationController
-  before_action :set_sketch, only: [:show, :edit, :update, :destroy]
-
-  # GET /sketches
-  # GET /sketches.json
-  def index
-    @sketches = Sketch.all
-  end
-
-  # GET /sketches/1
-  # GET /sketches/1.json
-  def show
-  end
-
-  # GET /sketches/new
-  def new
-    @sketch = Sketch.new
-  end
-
-  # GET /sketches/1/edit
-  def edit
-  end
+  layout false
+  # before_action :set_sketch, only: [:show, :edit, :update, :destroy]
+  # skip
 
   # POST /sketches
   # POST /sketches.json
@@ -46,14 +28,16 @@ class SketchesController < ApplicationController
     render :partial => '/sketches/thumbnail', :locals => { :sketch => sketch }
   end
 
-  # PATCH/PUT /sketches/1
-  # PATCH/PUT /sketches/1.json
-  def update
-    if @sketch.update(sketch_params)
-    else
-    end
+  def get_sketches_for_slide
+    sketches = Slide.find(params[:slide_id]).sketches
+    render :partial => '/sketches/sketches_collection', :locals => { :sketches => sketches }
   end
 
+  def get_upload_form_for_slide
+    slide = Slide.find(params[:slide_id])
+
+    render :partial => '/sketches/upload_form', :locals => { :slide => slide }
+  end
   # DELETE /sketches/1
   # DELETE /sketches/1.json
   def destroy
@@ -67,11 +51,11 @@ class SketchesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sketch
-      @sketch = Sketch.find(params[:id])
+      # @sketch = Sketch.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def sketch_params
-      params.fetch(:sketch, {})
-    end
+    # def sketch_params
+    #   params.fetch(:sketch, {})
+    # end
 end

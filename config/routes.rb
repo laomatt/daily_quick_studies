@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :sketches
+  # resources :sketches
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :slideshows do
     member do
@@ -63,7 +63,10 @@ Rails.application.routes.draw do
   end
 
   resources :sketches do 
-
+    collection do
+      get 'get_sketches_for_slide'
+      get 'get_upload_form_for_slide'
+    end
   end
 
 

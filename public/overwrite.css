@@ -182,6 +182,19 @@ p.section-paragraph {
   height: 100%;
 }
 
+.left-menu {
+  position: fixed;
+  background-color: rgba(0,0,0,.3);
+  font-size: 30px;
+  color: white;
+  padding: 2%;
+  z-index: 900;
+  float: left;
+  left: 0;
+  width: 20%;
+  height: 100%;
+}
+
 img.draw-image {
   margin: 0 auto;
 }

@@ -2,6 +2,7 @@ class Slide < ActiveRecord::Base
   belongs_to :user
   validates :user_id, presence: true
   has_many :slide_entries, :class_name => 'SlideEntry'
+  has_many :slideshows, :through => :slide_entries
   has_many :taggings, :class_name => 'Tagging'
   has_many :slide_likes, dependent: :destroy
   has_many :tags, :through => :taggings, dependent: :destroy

@@ -1,7 +1,7 @@
 class Sketch < ApplicationRecord
 	belongs_to :user
 	belongs_to :slide
-	# has_many :sketch_likes
+	has_many :sketch_likes, dependent: :destroy
 
   def name
     file.file_name

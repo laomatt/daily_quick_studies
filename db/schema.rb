@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170212213410) do
+ActiveRecord::Schema.define(version: 20170216060452) do
+
+  create_table "sketch_likes", force: :cascade do |t|
+    t.integer  "sketch_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "sketches", force: :cascade do |t|
     t.integer  "user_id"

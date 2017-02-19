@@ -36,9 +36,10 @@ class SketchesController < ApplicationController
   def get_sketch_image
     sketch = Sketch.find(params[:sketch_id])
     url = sketch.file.url
-    name = sketch.name
+    name = "#{sketch.name} (likes: #{sketch.sketch_likes.count})"
 
-    render :json => { :url => url, :name => name }
+    # render :json => { :url => url, :name => name }
+    render :partial => "/sketches/sketch_inspect_modal", :locals => { :url => url, :name => name, :sketch => sketch }
   end
 
   def get_upload_form_for_slide

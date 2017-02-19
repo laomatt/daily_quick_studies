@@ -70,6 +70,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :sketch_likes do 
+    collection do
+      delete 'unlike_sketch'
+      get 'check'
+    end
+  end
+
 
 
   devise_scope :user do

@@ -1,0 +1,24 @@
+<div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="sketch-modal-title"><%= name %></h4>
+      </div>
+      <div class="modal-body">
+        <img src="<%= url %>" id='sketch-inspect-image' style='max-width:100%;'>
+      </div>
+      <div class="modal-footer">
+        <% if current_user %>
+          <% if current_user.sketch_likes.any? { |e| e.sketch_id == sketch.id } %>
+            <a href="#" sketch-id="<%= sketch.id %>" class='unlike-this-sketch btn btn-primary btn-md like_slide_button_container_for_<%= sketch.id %>' style='background-color: #debaba; color: #ff4343; width: 5%; padding-left: 3px'><i class="fa fa-heart" aria-hidden="true" style='color: #ff4343; font-size: 20px;'></i></a>
+          <% else %>
+            <a href="#" sketch-id="<%= sketch.id %>" class='like-this-sketch btn btn-primary btn-md like_slide_button_container_for_<%= sketch.id %>'><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <% end %>
+        <% end %>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>

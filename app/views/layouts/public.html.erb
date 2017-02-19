@@ -220,6 +220,7 @@ ga('send', 'pageview');
 <% end %>
 
 <script type="text/javascript">
+// like slide logic
   $('body').on('click', '.like-this-slide', function(event) {
      event.preventDefault();
     
@@ -269,6 +270,57 @@ ga('send', 'pageview');
      })
    });
 
+  // like sketches logic
+
+  $('body').on('click', '.like-this-sketch', function(event) {
+     event.preventDefault();
+    
+     // var that = this;
+     var that = $('.like_slide_button_container_for_' + $(this).attr('sketch-id'));
+     $.ajax({
+       url: '/sketch_likes',
+       type: 'post',
+       data: {slide_id: $(this).attr('sketch-id')},
+     })
+     .done(function(data) {
+      if (data.message == 'success') {
+        $(that).css('backgroundColor', '#debaba');
+        $(that).removeClass('like-this-sketch');
+        $(that).addClass('unlike-this-sketch');
+        $(that).find('i').attr('style','color: #ff4343; font-size: 20px;');
+        $(that).attr('style','background-color: transparent; color: #ff4343; width: 5%; padding-left: 3px');
+        if ($('#slide_container_for_slide_' + $(that).attr('sketch-id'))) {
+          $('#slide_container_for_slide_' + $(that).attr('sketch-id')).show(500);
+        }
+
+      }
+     })
+   });
+
+  $('body').on('click', '.unlike-this-sketch', function(event) {
+     event.preventDefault();
+    
+     // var that = this;
+     var that = $('.like_slide_button_container_for_' + $(this).attr('sketch-id'));
+     $.ajax({
+       url: '/sketch_likes/unlike_sketch',
+       type: 'delete',
+       data: {slide_id: $(this).attr('sketch-id')},
+     })
+     .done(function(data) {
+      if (data.message == 'success') {
+        $(that).removeAttr('style');
+        // $(that).find('i').removeAttr('style');
+        $(that).find('i').attr('style', 'color:black;');
+        $(that).removeClass('unlike-this-sketch');
+        $(that).addClass('like-this-sketch');
+        if ($('#slide_container_for_slide_' + $(that).attr('sketch-id')).attr('current_page') == 'liked_sketch') {
+          $('#slide_container_for_slide_' + $(that).attr('sketch-id')).hide(500);
+        }
+      }
+     })
+   });
+
   $('body').on('click', '.inspect_this_sketch', function(event) {
     event.preventDefault();
     var sktch_id = $(this).attr('data-id');
@@ -277,9 +329,9 @@ ga('send', 'pageview');
       data: {sketch_id: sktch_id},
     })
     .done(function(data) {
-      $('#sketch-inspect-image').attr('src', data.url);
-      $('.sketch-modal-title').text(data.name);
-      // $('#SketchModal').modal('show');
+      // $('#sketch-inspect-image').attr('src', data.url);
+      // $('.sketch-modal-title').text(data.name);
+      $('#SketchModal').html(data);
     })
   });
 </script>
@@ -330,21 +382,5 @@ ga('send', 'pageview');
 
 <!-- Sketcxh Modal -->
 <div id="SketchModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="sketch-modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <img src="" id='sketch-inspect-image' style='max-width:100%;'>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
+  
 </div>

@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :slideshows, dependent: :destroy
   has_many :slide_likes, dependent: :destroy
   has_many :sketches, dependent: :destroy
+  has_many :sketch_likes, dependent: :destroy
 
  def self.from_omniauth(auth)
     if User.exists?(:email => auth.info.email)

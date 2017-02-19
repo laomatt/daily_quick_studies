@@ -72,6 +72,7 @@
           <ul class="nav navbar-nav navbar-right">
             <% if current_user %>
               <li class="<%= @page == 'home' ? 'active' : '' %>"><a href="/slideshows">SLIDESHOWS</a></li>
+              <li class="<%= @page == 'users' ? 'active' : '' %>"><a href="/users">USERS</a></li>
               <li class="<%= @page == 'slides' ? 'active' : '' %>"><a href="/slides">SLIDES</a></li>
               <li class="<%= @page == 'account' ? 'active' : '' %>"><a href="/users/my_account" >ACCOUNT</a></li>
               <li><a href="/user_log_out_route/sign_out">Log out</a></li>
@@ -83,10 +84,17 @@
 
             <% end %>
           </ul>
+          <p id="notice"><%= notice %></p>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<%= yield %>
+    <div class="col-lg-3 to-the-side-bar">
+      <%= render :partial => '/side_bar' %>
+    </div>
+    <div class="main-the-bar col-lg-9">
+      <%= yield %>
+      
+    </div>
 
     <!-- Draw Modal -->
     <div id="drawModal" class="modal fade" role="dialog">
@@ -215,7 +223,9 @@ ga('send', 'pageview');
   <style>
     #blue {
     background: #ef7300;
+    width: 100%;
   }
+
   </style>
 <% end %>
 
@@ -377,6 +387,32 @@ ga('send', 'pageview');
     overflow-y: hidden;
     height: 10%;
   } 
+
+  .search_bar {
+    width: 100%;
+  }
+
+  .to-the-side-bar {
+    height: 150%;
+    overflow-y: scroll;
+  }
+
+  #blue .container .row .col-lg-8 {
+    padding-left: 0%;
+  }
+
+@media only screen and (max-width: 600px) { 
+/*@media only screen and (min-device-width: 320px) and (max-device-width: 480px){*/
+
+    .main-the-bar {
+      width: 100%;
+    }
+
+    .to-the-side-bar {
+      display: none;
+    }
+
+  /*}*/
 </style>
 
 

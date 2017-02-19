@@ -1,0 +1,27 @@
+<ul>
+	<% Slide.random_three.each do |slide| %>
+	<li class='side-image-list'>
+		<a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
+			<img src="<%= slide.file.url %>" class='side-image img-responsive'>
+		</a>
+	</li>
+	<% end %>
+</ul>
+
+
+
+<style type="text/css">
+	.side-bar {
+		padding: 5%;
+	}
+
+	.side-image-list {
+		list-style: none;
+	}
+
+	.side-image {
+		width: 100%;
+	}
+
+
+</style>

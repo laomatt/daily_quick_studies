@@ -1,0 +1,18 @@
+
+<li class='user-display-item' style="list-style: none;">
+	<div class="user-display-container">
+		
+		<div class="col-lg-4" style='display: inline-block;'>
+			<img src="<%= user.portrait_url %>" class=''>
+		</div>
+		<div class="col-lg-6" style='display: inline-block;text-align: left;'>
+			<h4>
+				<a href="/users/<%= user.id %>">
+					<%= user.name %>
+				</a>
+				
+			</h4>
+			<p>likes: <%= user.slide_likes.count + user.sketch_likes.count %></p>
+		</div>
+	</div>	
+</li>

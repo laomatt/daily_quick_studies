@@ -1,27 +1,50 @@
-<p id="notice"><%= notice %></p>
+<div id="blue">
+  <div class="container">
+    <div class="row centered">
+      <div class="col-lg-8 col-lg-offset-2">
+      <h4><b>Current Users</b></h4>
+      <br><br>
+      <div style='display: none;'>
+        
+      <input type="text" placeholder='search for users' id='user=search-bar' class="form-control search_bar">
+      </div>
+      </div>
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- blue wrap -->
 
-<h1>Listing Users</h1>
+<div class="container" style='padding: 2%;'>
+  <div class="row centered">
+    <div class="col-lg-10">
+    <ul>
+      
+        <% @users.each do |user| %>
+          <%= render :partial => "/users/user_list_item", :locals => {:user => user} %>
+        <% end %>
+        <%= will_paginate @users%>
+        
+    </ul>
+    </div>
+  </div><!-- row -->
+</div><!-- container -->
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.name %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<style type="text/css">
+ li.user-display-item {
+    padding: 2%;
+    height: 100px;
+    width: 100%;
+    background-color: white;
+    margin-bottom: 5px;
+  }
+
+  .user-display-container {
+    position: relative;
+  }
+</style>
+
+<script type="text/javascript">
+  
+</script>

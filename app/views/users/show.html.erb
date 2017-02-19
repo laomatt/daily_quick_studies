@@ -1,9 +1,79 @@
-<p id="notice"><%= notice %></p>
+<div id="blue">
+  <div class="container">
+    <div class="row centered">
+      <div class="col-lg-8 col-lg-offset-2">
+        <img src="<%= current_user.portrait_url %>" class='portrait'>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+				<h4><%= @user.name %></h4>
+				<p>
+				  <strong>Member since: <%= @user.created_at.strftime('%D') %></strong>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+				</p>
+
+
+      </div>
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- blue wrap -->
+
+<div class="container">
+  <div class="row centered">
+    <div class="col-lg-8">
+      <h1>Slideshows</h1>
+      <div class=" ">
+      	<% @user.slideshows.each do |slideshow| %>
+      		<%= render :partial => 'slideshows/slideshow_item', :locals => {:slideshow => slideshow, :context_page => 'public'} %>
+      	<% end %>
+      </div>
+    </div>
+  </div><!-- row -->
+</div><!-- container -->
+
+<div class="container">
+  <div class="row centered">
+    <div class="col-lg-8">
+      <h1>Uploaded Slides</h1>
+      <div class="container w">
+			  <% @user.slides.each do |slide| %>
+			  <div>
+			    <div class="col-lg-4 slide_container">
+			      <div class="slide-font">
+			        <%= slide.name %>
+			      </div>
+			        <a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
+			          <img src="<%= slide.file.thumb.url %>" class="img-thumbnail img-responsive" alt="<%= slide.name %>" width="304" height="236">
+			      </a>
+			    </div>
+			  </div>
+			  <% end %>
+			</div>
+    </div>
+  </div><!-- row -->
+</div><!-- container -->
+
+<div class="container">
+  <div class="row centered">
+    <div class="col-lg-8">
+      <h1>Sketches</h1>
+      <div class=" ">
+      <div class="" style='width: 100%;display: inline-block;'>
+				<h4>Sketches of this slide</h4>
+				<div class="sketches_thumb_container user_sketches">
+					<% @user.sketches.each do |sktch|%>
+						<%= render :partial => '/sketches/thumbnail', :locals => { :sketch => sktch }%>
+					<% end %>
+				</div>
+			</div>
+      </div>
+    </div>
+  </div><!-- row -->
+</div><!-- container -->
+
+
+<style>
+  .slide_container {
+    height: 300px;
+  }
+</style>
+
+

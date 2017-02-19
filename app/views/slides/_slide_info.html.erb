@@ -1,5 +1,7 @@
 <h4><%= slide.name %></h4>
 <p>
+	uploader: <a href="/users/<%= slide.user.id %>"><%= slide.user.name %></a> 
+<br>
 	likes: <%= slide.slide_likes.count %>
 </p>
 <h3>Submit and share a sketch to this slide:</h3>

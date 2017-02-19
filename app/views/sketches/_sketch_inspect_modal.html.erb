@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="sketch-modal-title"><%= name %></h4>
+        <h4 class="sketch-modal-title"><%= name %> by <a href="/users/<%= sketch.user.id %>"><%= sketch.user.name %></a></h4>
       </div>
       <div class="modal-body">
         <img src="<%= url %>" id='sketch-inspect-image' style='max-width:100%;'>

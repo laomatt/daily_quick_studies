@@ -72,7 +72,7 @@
           <ul class="nav navbar-nav navbar-right">
             <% if current_user %>
               <li class="<%= @page == 'home' ? 'active' : '' %>"><a href="/slideshows">SLIDESHOWS</a></li>
-              <li class="<%= @page == 'users' ? 'active' : '' %>"><a href="/users">USERS</a></li>
+              <li class="<%= @page == 'users' ? 'active' : '' %>"><a href="/users?page=1">USERS</a></li>
               <li class="<%= @page == 'slides' ? 'active' : '' %>"><a href="/slides">SLIDES</a></li>
               <li class="<%= @page == 'account' ? 'active' : '' %>"><a href="/users/my_account" >ACCOUNT</a></li>
               <li><a href="/user_log_out_route/sign_out">Log out</a></li>

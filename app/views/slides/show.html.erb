@@ -1,16 +1,17 @@
-<div id="blue">
+ <div style='padding-top: 10%;''>
+   
   <div class="container">
     <div class="row centered">
-      <div class="col-lg-5">
+      <div class="col-lg-3">
         <img src="<%= @slide.file.url %>" style='max-height:600px;' class='img-responsive'>
-	    </div><!-- row -->
+      </div><!-- row -->
     <div class="col-lg-6">
-    	<%= render :partial => '/slides/slide_info', :locals => {:slide => @slide } %>
+      <%= render :partial => '/slides/slide_info', :locals => {:slide => @slide } %>
     </div><!-- row -->
   </div><!-- container -->
 </div><!-- blue wrap -->
 
-</div><!-- container -->
+ </div> 
 
 
 <style type="text/css">

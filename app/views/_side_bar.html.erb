@@ -1,8 +1,8 @@
-<ul>
+<ul style='padding: 0;'>
 	<% Slide.random_three.each do |slide| %>
 	<li class='side-image-list'>
 		<a href="#" class='inspect_this_slide' data-id='<%= slide.id %>' data-toggle="modal" data-target="#inspectSlide">
-			<img src="<%= slide.file.url %>" class='side-image img-responsive'>
+			<img src="<%= slide.file.thumb.url %>" class='side-image img-responsive'>
 		</a>
 	</li>
 	<% end %>

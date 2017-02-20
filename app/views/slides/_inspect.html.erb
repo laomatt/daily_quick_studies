@@ -6,7 +6,9 @@
       <button type="button" class="close" data-dismiss="modal">&times;</button>
       <h4 class="modal-title">
       <%= slide.name %><span id="prog_report"></span>
-      <a href="/slides/<%= slide.id %>">more</a>
+      <% if current_user %>
+        <a href="/slides/<%= slide.id %>">more</a>
+      <% end %>
       </h4>
     </div>
     <div class="modal-body">

@@ -4,9 +4,9 @@
       <div class="col-lg-8 col-lg-offset-2">
       <h4><b>Current Users</b></h4>
       <br><br>
-      <div style='display: none;'>
+      <div style='display: block;'>
         
-      <input type="text" placeholder='search for users' id='user=search-bar' class="form-control search_bar">
+      <input type="text" placeholder='search for users' id='user-search-bar' class="form-control search_bar">
       </div>
       </div>
     </div><!-- row -->
@@ -15,16 +15,10 @@
 
 <div class="container" style='padding: 2%;'>
   <div class="row centered">
-    <div class="col-lg-10">
-    <ul>
-      
-        <% @users.each do |user| %>
-          <%= render :partial => "/users/user_list_item", :locals => {:user => user} %>
-        <% end %>
-        <%= will_paginate @users%>
-        
-    </ul>
+    <div class="col-lg-10 search_container">
+      <%= render :partial => '/users/users_search_block', :locals => { :users => @users } %>
     </div>
+
   </div><!-- row -->
 </div><!-- container -->
 
@@ -46,5 +40,18 @@
 </style>
 
 <script type="text/javascript">
+  $('body').on('keyup', '#user-search-bar', function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: '/users/search',
+      data: {phrase: $(this).val()},
+    })
+    .done(function(data) {
+      $('.search_container').html(data);
+    });
+  });
   
 </script>
+
+

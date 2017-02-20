@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       get 'new_stuff'
       get 'edit_slideshow_modal'
       get 'my_sketches'
+      get 'search'
     end
   end
   resources :slides do

@@ -28,6 +28,11 @@ class UsersController < ApplicationController
     @page = 'create'
   end
 
+  def search
+    users = User.where("name like ?","%#{params[:phrase]}%")
+    render :partial => '/users/users_search_block', :locals => {:users => users}
+  end
+
   def my_account
     @page = 'account'
     @pag_url = 'user'

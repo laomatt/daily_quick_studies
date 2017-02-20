@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def search
-    users = User.where("lower(name) LIKE ?","%#{params[:phrase].downcase}%")
+    users = User.where("lower(name) LIKE ?","%#{params[:phrase].downcase}%").first(8)
     render :partial => '/users/users_search_block', :locals => {:users => users}
   end
 

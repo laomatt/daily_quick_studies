@@ -87,10 +87,10 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <div class="col-lg-3 to-the-side-bar">
+    <div class="col-lg-2 to-the-side-bar">
       <%= render :partial => '/side_bar' %>
     </div>
-    <div class="main-the-bar col-lg-9">
+    <div class="main-the-bar col-lg-10">
       <%= yield %>
       
     </div>
@@ -347,9 +347,13 @@ ga('send', 'pageview');
 
 <style>
 #blue {
-  background-color: #adbec3;
+  background-color: #1ea1c7;
   margin-top: 3%;
   border-radius: 10px;
+}
+
+#blue .btn {
+  background-color: #ce5f00;
 }
 
 #blue h4 {

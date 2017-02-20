@@ -61,17 +61,17 @@ class SlidesController < ApplicationController
     from = params[:from]
 
     if from == 'account'
-      @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and user_id = ?',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", current_user.id).references(:tags)
+      @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and user_id = ?',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", current_user.id).references(:tags).first(8)
     else
-      @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ?',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%").references(:tags)
+      @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ?',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%").references(:tags).first(8)
     end
 
     if params[:slideshow_id].present?
       slides = Slideshow.find(params[:slideshow_id]).slides.map { |e| e.id }
       if from == 'account'
-        @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and user_id = ? and slides.id not in(?)',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", current_user.id, slides).references(:tags)
+        @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and user_id = ? and slides.id not in(?)',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", current_user.id, slides).references(:tags).first(8)
       else
-        @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and slides.id not in (?)',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", slides).references(:tags)
+        @slides = Slide.includes(:tags).where('lower(slides.name) like ? or lower(tags.name) like ? and slides.id not in (?)',"%#{params[:search].downcase}%", "%#{params[:search].downcase}%", slides).references(:tags).first(8)
       end
     end
 

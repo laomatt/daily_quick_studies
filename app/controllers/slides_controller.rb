@@ -5,7 +5,7 @@ class SlidesController < ApplicationController
   # GET /slides
   # GET /slides.json
   def index
-    @slides = Slide.paginate(:page => 1, :per_page => 8)
+    @slides = Slide.paginate(:page => 1, :per_page => 10)
     @page = 'slides'
   end
 
@@ -33,7 +33,7 @@ class SlidesController < ApplicationController
   end
 
   def general_slide_page
-    @slides = Slide.paginate(:page => params[:page], :per_page => 8)
+    @slides = Slide.paginate(:page => params[:page], :per_page => 10)
     render :partial => 'slide_page', :locals => { :slides => @slides }
   end
 

@@ -10,8 +10,8 @@
     </div><!-- row -->
   </div><!-- container -->
 </div><!-- blue wrap -->
-<div class="container results_container">
-  <div class="container w">
+<div class="results_container">
+  <div class="container w" style='width:100%; padding-left: 0%;'>
     <% @slides.each do |slide| %>
       <%= render :partial => '/slides/slide_thumbnail_like_button', :locals => { :slide => slide, :from => 'index', :current_page => 'index' } %>
     <% end %>
@@ -48,5 +48,18 @@
   // });
 
 </script>
+
+<style type="text/css">
+  .slide_container {
+  padding: 7px;
+  background-color: gainsboro;
+  margin: 6px;
+  overflow: auto;
+  position: relative;
+  width: 210px;
+  height: 270px;
+
+}
+</style>
 
 

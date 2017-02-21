@@ -87,12 +87,14 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <div class="col-lg-2 to-the-side-bar">
+    <div class="col-lg-1 to-the-side-bar">
       <%= render :partial => '/side_bar' %>
     </div>
     <div class="main-the-bar col-lg-10">
       <%= yield %>
-      
+    </div>
+    <div class="col-lg-1 to-the-side-bar">
+      <%= render :partial => '/side_bar' %>
     </div>
 
     <!-- Draw Modal -->
@@ -406,7 +408,7 @@ ga('send', 'pageview');
   }
 
   .to-the-side-bar {
-    height: 150%;
+    /*height: 100%;*/
     padding-left: 0%;
     overflow-y: scroll;
   }

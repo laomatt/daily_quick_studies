@@ -13,6 +13,10 @@ class Slide < ActiveRecord::Base
     all.shuffle.first(5)
   end
 
+  def self.random_ten
+    all.shuffle.first(10)
+  end
+
   def self.search(phrase)
     slides_reg = Slide.where('name like ?', "%#{phrase}%")
     slide_u = Slide.where('name like ?', "%#{phrase.upcase}%")

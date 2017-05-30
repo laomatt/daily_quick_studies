@@ -1,0 +1,35 @@
+<script type="text/javascript">
+  // 3001 is the port that the websocket_server is listening on
+  var dispatcher = new WebSocketRails('localhost:3001/websocket');
+
+  var addCommentToDom = function(message) {
+    // var newText = message.title;
+    // $("#message_board").append("<li>"+newText+"</li>");
+
+    // append message to the message list ()
+    // clear the input field
+    // close the modal
+    console.log('just received new message: ' + message);
+  }
+
+  var addErr = function(message) {
+    console.log('just received new message: ' + message);
+  }
+
+  dispatcher.on_open = function(data) {
+    console.log('Connection has been established: ', data);
+  }
+
+  dispatcher.bind('create_fail', addErr);
+  var channel = dispatcher.subscribe('chat_lobby');
+
+
+  channel.bind('create_success', addCommentToDom);
+  $('body').on('submit', '#create_new_room_form', function(event) {
+    event.preventDefault();
+    var mess = $(this).serialize();
+    dispatcher.trigger('chatroom.create', mess);
+  });
+
+
+</script>

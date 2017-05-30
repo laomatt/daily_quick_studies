@@ -71,6 +71,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <% if current_user %>
+              <li class="<%= @page == 'chat' ? 'active' : '' %>"><a href="/chatrooms">CHAT</a></li>
               <li class="<%= @page == 'home' ? 'active' : '' %>"><a href="/slideshows">SLIDESHOWS</a></li>
               <li class="<%= @page == 'users' ? 'active' : '' %>"><a href="/users?page=1">ARTISTS</a></li>
               <li class="<%= @page == 'slides' ? 'active' : '' %>"><a href="/slides">SLIDES</a></li>
@@ -88,13 +89,11 @@
       </div>
     </div>
     <div class="col-lg-1 to-the-side-bar">
-      <%= render :partial => '/side_bar' %>
     </div>
     <div class="main-the-bar col-lg-10">
       <%= yield %>
     </div>
     <div class="col-lg-1 to-the-side-bar">
-      <%= render :partial => '/side_bar' %>
     </div>
 
     <!-- Draw Modal -->

@@ -1,0 +1,141 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Chatrooms(<%= Chatroom.count %>)<button type="button" id='create_new_room' class="btn btn-info btn-lg" data-toggle="modal" data-target="#createChatRoom">New Room</button></h1>
+<input type="text" name="chatroom_search" id="chatroom_search" class="form-control" placeholder='Search for rooms'>
+    <div class="chatroom_pool">
+    <% @chatrooms.each do |chatroom| %>
+      <div class="chatroom_container">
+        <h4><%= chatroom.title %>. <a href='/chatrooms/<%= chatroom.id %>' id='<%= chatroom.id %>' class="join_this_room btn btn-info btn-sm">Join</a></h4>
+        <p clas='chatroom_desc'><%= chatroom.description %></p>
+      </div>
+    <% end %>
+    </div>
+
+<br>
+
+
+
+<div id="createChatRoom" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">New Chatroom</h4>
+      </div>
+      <div class="modal-body">
+        <form id='create_new_room_form'>
+          <input type="text" name="title">
+          <input type="text" name="description">
+          <input type="submit" value="create room">
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style type="text/css">
+  #chatroom_search {
+    margin-bottom: 20px;
+  }
+  .chatroom_container {
+    background-color: #fff7e9;
+    padding: 12px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    overflow: auto;
+    margin-right: 10px;  }
+
+    #create_new_room {
+      float: right;
+    }
+
+    .join_this_room {
+      position: relative;
+      float: right;
+      width: : 30%;
+    }
+
+    .chatroom_desc {
+      max-height: 70%;
+      overflow-y: scroll;
+    }
+
+    .chatroom_pool {
+      max-height: 100%;
+      overflow-y: scroll;
+    }
+</style>
+
+<div id="chatRoom" class="modal fade" role="dialog">
+</div>
+
+
+<script type="text/javascript">
+// $('body').on('click', '.join_this_room', function(event) {
+  // event.preventDefault();
+  // $.ajax({
+  //   url: '/chatrooms',
+  //   data: {room_id: $(this).attr('id')},
+  // })
+  // .done(function() {
+  //   console.log("success");
+  // })
+  // .fail(function() {
+  //   console.log("error");
+  // })
+  // .always(function() {
+  //   console.log("complete");
+  // });
+  
+// });
+</script>
+
+
+<script type="text/javascript">
+  // 3001 is the port that the websocket_server is listening on
+  var dispatcher = new WebSocketRails('localhost:3001/websocket');
+
+  var addRoomToDom = function(chatroom) {
+    // append room to the room list ()
+    var html = "<div class='chatroom_container'><h4><%= chatroom.title %>. <a href='/chatrooms/<%= chatroom.id %>' id='<%= chatroom.id %>' class='join_this_room btn btn-info btn-sm'>Join</a></h4><p clas='chatroom_desc'><%= chatroom.description %></p></div>"
+    $(".chatroom_pool").append(html);
+
+    // if there is something in the search bar: run the keyup event in the search bar
+    
+    console.log('just received new room: ' + room);
+  }
+
+  var addErr = function(room) {
+    console.log('just received new room: ' + room);
+  }
+
+  dispatcher.on_open = function(data) {
+    console.log('Connection has been established: ', data);
+  }
+
+  dispatcher.bind('create_fail', addErr);
+  var channel = dispatcher.subscribe('chat_lobby');
+
+
+  channel.bind('create_room_success', addRoomToDom);
+
+  $('body').on('submit', '#create_new_room_form', function(event) {
+    event.preventDefault();
+    var mess = $(this).serialize();
+    dispatcher.trigger('chatroom.create', mess);
+    // clear the input field
+    // create_new_room_form
+    // close the modal
+  });
+
+
+</script>

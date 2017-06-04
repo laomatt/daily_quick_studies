@@ -2,6 +2,7 @@ WebsocketRails::EventMap.describe do
   # You can use this file to map incoming events to controller actions.
   # One event can be mapped to any number of controller actions. The
   # actions will be executed in the order they were subscribed.
+  subscribe :client_connected, 'message#new_user'
   #
   # Uncomment and edit the next line to handle the client connected event:
   #   subscribe :client_connected, :to => Controller, :with_method => :method_name
@@ -10,11 +11,13 @@ WebsocketRails::EventMap.describe do
   #   namespace :product do
   #     subscribe :new, :to => ProductController, :with_method => :new_product
   #   end
-  namespace :chatroom do
-    subscribe :create, "message#create_room"
-  end
+  # namespace :chatroom do
+  #   subscribe :create_room, "message#create_room"
+  #   subscribe :update, 'message#update'
+  # end
   
-  namespace :message do
+  namespace :messages do
+    subscribe :create_room, "message#create_room"
     subscribe :create, "message#create"
   end
   # The above will handle an event triggered on the client like `product.new`.

@@ -35,9 +35,11 @@ gem 'autoprefixer-rails'
 # gem 'bcrypt', '~> 3.1.7'``
 gem 'dotenv-rails'
 gem 'will_paginate', '~> 3.0.6'
+gem 'redis', '~> 3.0'
 # Use Unicorn as the app server
 # gem 'unicorn'
-gem 'websocket-rails'
+gem 'websocket-rails', github: 'recurser/websocket-rails', branch: 'bugfix/388-latest-faye-websocket'
+# gem 'websocket-rails-js'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

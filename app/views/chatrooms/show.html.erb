@@ -1,14 +1,65 @@
+
+
+
+<div class="chat_room_dialog container">
+  <h3><%= @chatroom.title %></h3>
+
+  <div class="chat_log container" id="chat_log">
+    <div class="dialog_row container"></div>
+  </div>
+
+  <div class="chat_input">
+    <form id="chat_say">
+      <input type="text" name="content" id='dialog_say' class='form-control chatroom_box'>
+    </form>
+  </div>
+
+</div>
+<style type="text/css">
+  .chat_room_dialog {
+    background-color: #c3ced6;
+    position: relative;
+    top: 10%;
+    margin-top: 5%;
+  }
+
+  .chat_input {
+    /*margin-top: 2%;*/
+    padding:1%;
+  }
+
+  .chatroom_box {
+    float: left;
+    margin-bottom: 2%;
+    width: 80%;
+  }
+
+  .chat_log {
+    overflow-y: scroll;
+    background-color: white;
+    position: relative;
+    height: 400px;
+    width: 100%;
+  }
+
+  .dialog_row {
+    width: 100%;
+    position: relative;
+    font-weight: bold;
+  }
+</style>
+
+
 <script type="text/javascript">
   // 3001 is the port that the websocket_server is listening on
-  var dispatcher = new WebSocketRails('localhost:3001/websocket');
-
+  var dispatcher = new WebSocketRails('localhost:3002/websocket');
+  var connection;
+  var channel;
+  var chat_room_conn;
   var addCommentToDom = function(message) {
-    // var newText = message.title;
-    // $("#message_board").append("<li>"+newText+"</li>");
-
+    var newText = message.content;
     // append message to the message list ()
-    // clear the input field
-    // close the modal
+    $("#chat_log").append("<div class='dialog_row container'>"+newText+"</div>");
     console.log('just received new message: ' + message);
   }
 
@@ -18,18 +69,22 @@
 
   dispatcher.on_open = function(data) {
     console.log('Connection has been established: ', data);
+    // connection = data.connection_id;
+    connection = <%= @chatroom.id %>;
+    chat_room_conn = 'chat_room' + connection;
+    channel = dispatcher.subscribe(chat_room_conn);
+    channel.bind('create_success', addCommentToDom);
   }
 
-  dispatcher.bind('create_fail', addErr);
-  var channel = dispatcher.subscribe('chat_lobby');
-
-
-  channel.bind('create_success', addCommentToDom);
-  $('body').on('submit', '#create_new_room_form', function(event) {
-    event.preventDefault();
-    var mess = $(this).serialize();
-    dispatcher.trigger('chatroom.create', mess);
+  $('body').on('keydown', '#dialog_say', function(event) {
+    if (event.which == 13) {
+      event.preventDefault();
+      var obj = {content: $('#dialog_say').val(), room: chat_room_conn}
+      dispatcher.trigger('messages.create', obj)
+      $(this).trigger('reset');
+    }
   });
+
 
 
 </script>

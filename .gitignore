@@ -16,5 +16,6 @@
 !/log/.keep
 /tmp
 
+/vendor/bundle
 
 .env

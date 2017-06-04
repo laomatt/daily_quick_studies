@@ -11,11 +11,11 @@ WebsocketRails.setup do |config|
   # Set to true if you wish to log the internal websocket_rails events
   # such as the keepalive `websocket_rails.ping` event.
   # config.log_internal_events = false
-
   # Change to true to enable standalone server mode
   # Start the standalone server with rake websocket_rails:start_server
   # * Requires Redis
-  config.standalone = false
+  config.standalone = true
+  config.standalone_port = 3002
 
   # Change to true to enable channel synchronization between
   # multiple server instances.
@@ -28,7 +28,7 @@ WebsocketRails.setup do |config|
   # Uncomment and edit to point to a different redis instance.
   # Will not be used unless standalone or synchronization mode
   # is enabled.
-  # config.redis_options = {:host => 'localhost', :port => '6379'}
+  config.redis_options = {:host => 'localhost', :port => '6379'}
 
   # By default, all subscribers in to a channel will be removed
   # when that channel is made private. If you don't wish active

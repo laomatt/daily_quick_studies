@@ -45,21 +45,36 @@
   .dialog_row {
     width: 100%;
     position: relative;
-    font-weight: bold;
+    border-radius: 10px;
+    background-color: #f7dbdb;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+  }
+
+  .my_dialog {
+    background-color: #afafff;;
   }
 </style>
 
 
 <script type="text/javascript">
   // 3001 is the port that the websocket_server is listening on
-  var dispatcher = new WebSocketRails('localhost:3002/websocket');
+  var dispatcher = new WebSocketRails('<%= ENV["CHAT_SERVER"] %>');
   var connection;
+  var connectionID;
   var channel;
   var chat_room_conn;
+  var elem = document.getElementById('chat_log');
   var addCommentToDom = function(message) {
     var newText = message.content;
-    // append message to the message list ()
-    $("#chat_log").append("<div class='dialog_row container'>"+newText+"</div>");
+    if (message.connection_id == connectionID) {
+      $("#chat_log").append("<div class='dialog_row container my_dialog'>"+newText+"</div>");
+
+    } else {
+      $("#chat_log").append("<div class='dialog_row container'>"+newText+"</div>");
+    }
+    elem.scrollTop = elem.scrollHeight;
     console.log('just received new message: ' + message);
   }
 
@@ -69,20 +84,22 @@
 
   dispatcher.on_open = function(data) {
     console.log('Connection has been established: ', data);
-    // connection = data.connection_id;
+    connectionID = data.connection_id;
     connection = <%= @chatroom.id %>;
     chat_room_conn = 'chat_room' + connection;
     channel = dispatcher.subscribe(chat_room_conn);
-    channel.bind('create_success', addCommentToDom);
+    var room_create_success = chat_room_conn + '_created';
+    channel.bind(room_create_success, addCommentToDom);
   }
 
   $('body').on('keydown', '#dialog_say', function(event) {
     if (event.which == 13) {
       event.preventDefault();
-      var obj = {content: $('#dialog_say').val(), room: chat_room_conn}
+      var obj = {content: $('#dialog_say').val(), room: chat_room_conn, connection: connectionID, room_id: connection}
       dispatcher.trigger('messages.create', obj)
-      $(this).trigger('reset');
+      $(this).val('');
     }
+    
   });
 
 

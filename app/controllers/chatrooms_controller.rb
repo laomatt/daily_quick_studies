@@ -1,5 +1,5 @@
 class ChatroomsController < ApplicationController
-  before_action :set_chatroom, only: [:show, :edit, :update, :destroy]
+  before_action :set_chatroom, only: [:show, :edit, :update, :destroy, :chat_popup]
   before_action :authenticate_user!
   # GET /chatrooms
   # GET /chatrooms.json
@@ -10,8 +10,7 @@ class ChatroomsController < ApplicationController
   # GET /chatrooms/1
   # GET /chatrooms/1.json
   def show
-    # render :partial => 'chat_room_partial', :locals => {:room_id => chatroom_params[:room_id]}
-    
+    render :partial => 'chat_room_partial', :locals => {:chatroom => @chatroom}
   end
 
   # GET /chatrooms/new
@@ -19,8 +18,17 @@ class ChatroomsController < ApplicationController
     @chatroom = Chatroom.new
   end
 
+  def get_user_sig
+    message = Message.find(params[:mess][:id])
+    render :partial => 'user_sig', :locals => {:mess => message}
+  end
+
   # GET /chatrooms/1/edit
   def edit
+  end
+
+  def chat_popup
+    render :partial => 'chat_room_partial', :locals => {:chatroom => @chatroom}
   end
 
 

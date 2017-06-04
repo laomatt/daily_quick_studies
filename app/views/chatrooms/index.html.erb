@@ -111,15 +111,81 @@
       // clear the input fields
       $(this).trigger('reset');
       // close the modal
-      $('.close_button').trigger('click');
+      $("#createChatRoom").modal('hide');
       // enter the current user into the made up room mess['id']
     });
 
 
     // joining a room
+    var connection;
 
-    // $('body').on('click', '.join_this_room', function(event) {
-      // event.preventDefault();
-      /* Act on the event */
-    // });
+     $('body').on('click', '.join_this_room', function(event) {
+       event.preventDefault();
+       var room_id = $(this).attr('id');
+      $(".modal").modal('hide');
+      $("#chatRoom").text('Loading ....');
+      $("#chatRoom").modal('show');
+      connection = room_id;
+       $.ajax({
+         url: '/chatrooms/' + room_id,
+       })
+       .done(function(data) {
+          $("#chatRoom").html(data);
+          scroll_down();
+          var roomDispatcher = new WebSocketRails('<%= ENV["CHAT_SERVER"] %>');
+          var connectionID;
+          var roomChannel;
+          var chat_room_conn;
+          var addCommentToDom = function(message) {
+            $.ajax({
+              url: '/chatrooms/get_user_sig',
+              data: {mess: message.content},
+            })
+            .done(function(data) {
+              var elem = document.getElementById('chat_log');
+              $("#chat_log").append(data);
+              // elem.scrollTop = elem.scrollHeight;
+              scroll_down();
+            })
+            
+            console.log('just received new message: ' + message);
+          }
+
+          var addErr = function(message) {
+            console.log('just received new message: ' + message);
+          }
+
+          roomDispatcher.on_open = function(data) {
+            console.log('Connection has been established: ', data);
+            connectionID = data.connection_id;
+            chat_room_conn = 'chat_room' + connection;
+            roomChannel = roomDispatcher.subscribe(chat_room_conn);
+            var room_create_success = chat_room_conn + '_created';
+            roomChannel.bind(room_create_success, addCommentToDom);
+          }
+
+          $('body').on('keydown', '#dialog_say', function(event) {
+            if (event.which == 13) {
+              event.preventDefault();
+              var obj = {content: $('#dialog_say').val(), room: chat_room_conn, connection: connectionID, room_id: connection}
+              roomDispatcher.trigger('messages.create', obj)
+              $(this).val('');
+            }
+         })
+       
+     })
+   })
+
+  $('#chat_log').ready(function() {
+    scroll_down();
+  });
+
+  var scroll_down = function(){
+     var elem = document.getElementById('chat_log');
+     if (elem !== null) {
+       elem.scrollTop = elem.scrollHeight;
+     }
+  }
+
+    // delete a room
 </script>

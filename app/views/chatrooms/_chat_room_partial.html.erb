@@ -1,23 +1,80 @@
-<div id="createChatRoom" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+<div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">New Chatroom</h4>
-      </div>
-      <div class="modal-body">
-        <form id='create_new_room_form'>
-          <input type="text" name="title">
-          <input type="submit" value="create room">
-        </form>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title"><%= chatroom.title %></h4>
     </div>
+    <div class="modal-body">
+      <div class="chat_room_dialog container">
+        
 
+        <div class="chat_log container" id="chat_log" onload='scroll_down()'>
+          <% chatroom.messages.last(25).each do |mess| %>
+            <%= render :partial => 'user_sig', :locals => {:mess => mess }%>
+          <% end %>
+        </div>
+
+        <div class="chat_input">
+          <form id="chat_say">
+            <input type="text" name="content" placeholder="Type message here and press Enter" id='dialog_say' class='form-control chatroom_box'>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
   </div>
+
 </div>
+
+<script type="text/javascript">
+
+</script>
+
+
+<style type="text/css">
+  .chat_room_dialog {
+    background-color: transparent;
+    position: relative;
+    width: 100%;
+  }
+
+  .chat_input {
+    /*margin-top: 2%;*/
+    padding:1%;
+  }
+
+  .chatroom_box {
+    float: left;
+    margin-bottom: 2%;
+    width: 100%;
+  }
+
+  .chat_log {
+    overflow-y: scroll;
+    background-color: white;
+    position: relative;
+    height: 400px;
+    width: 100%;
+  }
+
+  .dialog_row {
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+    background-color: #f7dbdb;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    border-radius: 2px;
+  }
+
+  .my_dialog {
+    background-color: #fffdeb;;
+  }
+</style>
+

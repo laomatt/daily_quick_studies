@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :chatrooms
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :slideshows do
     member do
@@ -16,6 +15,12 @@ Rails.application.routes.draw do
       get 'reload_pag_user'
       get 'regen_rand'
       post 'create_show'
+    end
+  end
+
+  resources :chatrooms do
+    collection do 
+      get 'get_user_sig'
     end
   end
 

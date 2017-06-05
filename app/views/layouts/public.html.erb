@@ -72,7 +72,9 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <% if current_user %>
-              <li class="<%= @page == 'chat' ? 'active' : '' %>"><a href="/chatrooms">CHAT</a></li>
+              <li>
+                <a href="#" id='list_chat_rooms' class="btn btn-info btn-md">Chat</a>
+              </li>
               <li class="<%= @page == 'home' ? 'active' : '' %>"><a href="/slideshows">SLIDESHOWS</a></li>
               <li class="<%= @page == 'users' ? 'active' : '' %>"><a href="/users?page=1">ARTISTS</a></li>
               <li class="<%= @page == 'slides' ? 'active' : '' %>"><a href="/slides">SLIDES</a></li>
@@ -106,8 +108,6 @@
     <div id="pose_window_container"></div>
 
   </body>
-
-
 
 
 
@@ -438,3 +438,215 @@ ga('send', 'pageview');
 <div id="SketchModal" class="modal fade" role="dialog">
   
 </div>
+
+<!-- chat rooms -->
+
+<div id="chatRoom" class="modal fade" role="dialog">
+</div>
+
+<div id="chatRoomList" class="modal fade" role="dialog">
+</div>
+
+<div id="createChatRoom" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">New Chatroom</h4>
+      </div>
+      <div class="modal-body">
+        <form id='create_new_room_form'>
+          <input type="text" class='form-control create_room_input' placeholder="Chatroom title" name="title" id='title_in' style='width: 100%'>
+          <input type="text" class='form-control create_room_input' placeholder="Chatroom description" name="description" id='desc_in' style='height: 10%;width: 100%;'>
+          <input type="submit" class="btn btn-default" value="create room">
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default close_button" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('body').on('click', '#list_chat_rooms', function(event) {
+    event.preventDefault();
+    $.ajax({
+      url: '/chatrooms',
+    })
+    .done(function(data) {
+      $('#chatRoomList').html(data);
+      $('#chatRoomList').modal('show');
+      var lobbyDispatcher = new WebSocketRails("<%= ENV['CHAT_SERVER'] %>");
+
+      var addRoomToDom = function(chatroom) {
+
+        // if there is something in the search bar: run the keyup event in the search bar
+        if ($("#chatroom_search").val() == "") {
+          var html = "<div class='chatroom_container'><h4>" + chatroom.title + ". <a href='/chatrooms/" + chatroom.id + "' id='" + chatroom.id + "' class='join_this_room btn btn-info btn-sm'>Join</a></h4><p clas='chatroom_desc'>" + chatroom.description + "</p></div>"
+          $(".chatroom_pool").append(html);
+        } else {
+          $("#chatroom_search").trigger('keyup');
+        }
+
+        console.log('just received new chatroom: ' + chatroom);
+      }
+
+      var addErr = function(chatroom) {
+        console.log('just received new chatroom: ' + chatroom);
+      }
+
+      lobbyDispatcher.on_open = function(data) {
+        console.log('Connection has been established: ', data);
+      }
+
+      var channel = lobbyDispatcher.subscribe('chat_lobby');
+      channel.bind('create_room_success', addRoomToDom);
+
+      $('body').on('submit', '#create_new_room_form', function(event) {
+        event.preventDefault();
+        var mess = {title: $('#title_in').val(), description: $('#desc_in').val()};
+        lobbyDispatcher.trigger('messages.create_room', mess);
+        // clear the input fields
+        $(this).trigger('reset');
+        // close the modal
+        $("#createChatRoom").modal('hide');
+        // enter the current user into the made up room mess['id']
+      });
+    })    
+  });
+
+
+    // joining a room
+    var connection;
+
+     $('body').on('click', '.join_this_room', function(event) {
+       event.preventDefault();
+       var room_id = $(this).attr('id');
+      $(".modal").modal('hide');
+      $("#chatRoom").text('Loading ....');
+      $("#chatRoom").modal('show');
+      connection = room_id;
+       $.ajax({
+         url: '/chatrooms/' + room_id,
+       })
+       .done(function(data) {
+          $("#chatRoom").html(data);
+          scroll_down();
+          var roomDispatcher = new WebSocketRails('<%= ENV["CHAT_SERVER"] %>');
+          var connectionID;
+          var roomChannel;
+          var chat_room_conn;
+          var addCommentToDom = function(message) {
+            $.ajax({
+              url: '/chatrooms/get_user_sig',
+              data: {mess: message.content, display_pointer: 'none', connection_id: connectionID},
+            })
+            .done(function(data) {
+              $("#chat_log").append(data);
+              var elem = $(".dialog_row").last();
+              
+              var connection_ID = elem.attr('connection_id');
+              $('.row_' + connection_ID).addClass('my_dialog');
+              elem.fadeIn('500', function() {
+                scroll_down();
+              });
+            })
+            
+            console.log('just received new message: ' + message);
+          }
+
+          var addErr = function(message) {
+            console.log('just received new message: ' + message);
+          }
+
+          roomDispatcher.on_open = function(data) {
+            console.log('Connection has been established: ', data);
+            connectionID = data.connection_id;
+            chat_room_conn = 'chat_room' + connection;
+            roomChannel = roomDispatcher.subscribe(chat_room_conn);
+            var room_create_success = chat_room_conn + '_created';
+            roomChannel.bind(room_create_success, addCommentToDom);
+          }
+
+          $('body').on('keydown', '#dialog_say', function(event) {
+            if (event.which == 13) {
+              event.preventDefault();
+              var obj = {content: $('#dialog_say').val(), room: chat_room_conn, connection: connectionID, room_id: connection}
+              roomDispatcher.trigger('messages.create', obj)
+              $(this).val('');
+            }
+         })
+     })
+   })
+
+  var scroll_down = function(){      
+     var elem = document.getElementById('chat_log');
+     if (elem !== null) {
+       elem.scrollTop = elem.scrollHeight;
+     }
+  }
+
+  $('body').on('mouseover', '.chat_avatar_container', function(event) {
+    $('.name_bubble').fadeOut(400);
+    $(this).find('.name_bubble').fadeIn(400);
+  }).on('mouseout', '.chat_avatar_container', function(event) {
+    $(this).find('.name_bubble').fadeOut(400);
+  });;
+
+  // search for rooms
+  $('body').on('keyup', '#chatroom_search', function(event) {
+    $.ajax({
+      url: '/chatrooms/chat_room_search',
+      data: {search: $(this).val()},
+    })
+    .done(function(data) {
+      $('.chatroom_pool').html(data);
+    })    
+  });
+</script>
+
+
+<style type="text/css">
+  #list_chat_rooms {
+        background-color: #1ea1c7;
+    font-weight: bold;
+    color: white;
+    border-radius: 20px;  }
+  #chatroom_search {
+    margin-bottom: 20px;
+  }
+  .chatroom_container {
+    background-color: #fff7e9;
+    padding: 12px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    overflow: auto;
+    margin-right: 10px;  }
+
+    #create_new_room {
+      float: left;
+    }
+
+    .join_this_room {
+      position: relative;
+      float: right;
+      width: : 30%;
+    }
+
+    .chatroom_desc {
+      max-height: 70%;
+      overflow-y: scroll;
+    }
+
+    .chatroom_pool {
+      max-height: 100%;
+      overflow-y: scroll;
+    }
+</style>

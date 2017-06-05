@@ -1,5 +1,9 @@
- 	<% if mess.user.email == current_user.email %>
-    <div class="dialog_row container my_dialog"><b><%= mess.user.name %>:</b> <%= mess.content %> </div>
-  <% else %>
-    <div class="dialog_row container"><b><%= mess.user.name %>:</b> <%= mess.content %> </div>
-  <% end %>
+ <div class="dialog_row container row_<%= connection_id %>" connection_id='<%= connection_id %>' style="display: <%= display_pointer %>">
+	<div class="col-lg-2 chat_avatar_container" style='display: inline-block;'>
+		<img src="<%= mess.user.portrait_url %>" class='chat_avatar' alt='<%= mess.user.name %>'>
+		<div class="name_bubble"><%= mess.user.name %></div>
+	</div>
+	<div class="col-lg-10 chat_bubble" style='display: inline-block;'>
+		 <%= mess.content %> 
+	</div>
+</div>

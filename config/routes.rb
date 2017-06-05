@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :chatrooms do
     collection do 
       get 'get_user_sig'
+      get 'chat_room_search'
     end
   end
 

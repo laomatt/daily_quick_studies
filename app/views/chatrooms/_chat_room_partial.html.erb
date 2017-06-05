@@ -12,7 +12,7 @@
 
         <div class="chat_log container" id="chat_log" onload='scroll_down()'>
           <% chatroom.messages.last(25).each do |mess| %>
-            <%= render :partial => 'user_sig', :locals => {:mess => mess }%>
+            <%= render :partial => 'user_sig', :locals => {:mess => mess, :display_pointer => 'block', :connection_id => '' }%>
           <% end %>
         </div>
 
@@ -44,6 +44,11 @@
     width: 100%;
   }
 
+  .chat_avatar {
+    width: 50%;
+    border-radius: 40px;
+  }
+
   .chat_input {
     /*margin-top: 2%;*/
     padding:1%;
@@ -55,6 +60,33 @@
     width: 100%;
   }
 
+  .chat_avatar_container {
+    display: inline-block;
+    padding-left: 0;
+    padding-right: 0;
+    width: 10%;
+  }
+
+  .name_bubble {
+    position: absolute;
+    /* display: inline-block; */
+    background-color: white;
+    border-radius: 5px;
+    top: -5px;
+    left: -15px;
+    padding: 3px;
+    font-size: 8px;
+    font-weight: bold;
+    display: none;
+  }
+
+  .chat_bubble {
+    display: inline-block;
+    /*background-color: white;*/
+    background-color: transparent;
+    border-radius: 5px;
+  }
+
   .chat_log {
     overflow-y: scroll;
     background-color: white;
@@ -64,17 +96,21 @@
   }
 
   .dialog_row {
-    width: 100%;
+    /*display: none;*/
+  width: 100%;
     position: relative;
     border-radius: 10px;
-    background-color: #f7dbdb;
+    background-color: #e7e8e8;
+    /* background-color: transparent; */
+    color: #4e2727;
     margin-top: 4px;
+    font-weight: bold;
     margin-bottom: 2px;
     border-radius: 2px;
+    min-height: 30px;
   }
 
   .my_dialog {
-    background-color: #fffdeb;;
   }
 </style>
 

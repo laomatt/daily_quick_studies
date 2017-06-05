@@ -1,0 +1,21 @@
+ <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4>Chatrooms(<%= Chatroom.count %>)
+      </div>
+      <div class="modal-body">
+				<input type="text" name="chatroom_search" id="chatroom_search" class="form-control" placeholder='Search for rooms'>
+				<div class="chatroom_pool">
+				  <%= render :partial => 'room_list', :locals => {:chatrooms => chatrooms} %>
+				</div>
+
+      </div>
+      <div class="modal-footer">
+      <button type="button" id='create_new_room' class="btn btn-info btn-md" data-toggle="modal" data-target="#createChatRoom">New Room</button></h4>
+        <button type="button" class="btn btn-default close_button" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+ </div>

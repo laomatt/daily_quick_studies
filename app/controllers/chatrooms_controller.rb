@@ -4,7 +4,8 @@ class ChatroomsController < ApplicationController
   # GET /chatrooms
   # GET /chatrooms.json
   def index
-    @chatrooms = Chatroom.all
+    @chatrooms = Chatroom.paginate(:page => params[:page], :per_page => 10)
+    render :partial => 'chat_room_list', :locals => {:chatrooms => @chatrooms}
   end
 
   # GET /chatrooms/1
@@ -20,7 +21,7 @@ class ChatroomsController < ApplicationController
 
   def get_user_sig
     message = Message.find(params[:mess][:id])
-    render :partial => 'user_sig', :locals => {:mess => message}
+    render :partial => 'user_sig', :locals => {:mess => message, :display_pointer => params[:display_pointer], :connection_id => params[:connection_id] }
   end
 
   # GET /chatrooms/1/edit
@@ -29,6 +30,11 @@ class ChatroomsController < ApplicationController
 
   def chat_popup
     render :partial => 'chat_room_partial', :locals => {:chatroom => @chatroom}
+  end
+
+  def chat_room_search
+    @chatrooms = Chatroom.where('lower(title) like ?', "%#{params[:search].downcase}%").paginate(:page => params[:page], :per_page => 10)
+    render :partial => 'room_list', :locals => {:chatrooms => @chatrooms}
   end
 
 

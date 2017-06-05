@@ -1,0 +1,6 @@
+  <% chatrooms.each do |chatroom| %>
+    <div class="chatroom_container">
+      <h4><%= chatroom.title %>. <a href='/chatrooms/<%= chatroom.id %>' id='<%= chatroom.id %>' class="join_this_room btn btn-info btn-sm">Join</a></h4>
+      <p clas='chatroom_desc'><%= chatroom.description %></p>
+    </div>
+  <% end %>

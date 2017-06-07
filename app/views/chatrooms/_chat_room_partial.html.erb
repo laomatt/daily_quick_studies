@@ -26,6 +26,8 @@
 
     </div>
     <div class="modal-footer">
+
+      <button type="button" class="btn btn-default send-thumbnail" id='back'>Pose!</button>
       <button type="button" class="btn btn-default close-chat-room" id='back'>Lobby</button>
       <button type="button" class="btn btn-default close-chat-room" data-dismiss="modal">Close</button>
     </div>
@@ -43,6 +45,12 @@ $('body').on('click', '#back', function(event) {
 
 
 <style type="text/css">
+/*talk bubble css*/
+
+
+  .send-thumbnail {
+    float: left;
+  }
   .chat_room_dialog {
     background-color: transparent;
     position: relative;

@@ -17,7 +17,7 @@ class MessageController < WebsocketRails::BaseController
       room = message[:room]
       message_say_this = {content: message_say, connection_id: message[:connection]};
       WebsocketRails[room.to_sym].trigger("#{room}_created".to_sym, message_say_this)
-      send_message :create_success, message_say_this
+      # send_message :create_success, message_say_this
     else
       send_message :create_fail, message_say
     end
@@ -25,6 +25,7 @@ class MessageController < WebsocketRails::BaseController
 
 	def create_room
 		new_room = Chatroom.new message
+    new_room.user_id = current_user.id
     if new_room.save
       # *** we are not sending this to all the doms
       # broadcast

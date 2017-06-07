@@ -62,19 +62,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="#" class='start_study_random btn btn-success btn-lg' data-id='' data-toggle="modal" data-type='random' data-target="#drawModal">Draw Random Slides</a>
-          <% if its_halloween_time? %>
-            <a href="#" class='start_study_season' data-id=''><img src='/halloween.png' class='season_pic'></a>
+          <a href="#" class='start_study_random btn btn-success btn-lg' data-id='' data-toggle="modal" data-type='random' data-target="#drawModal">Random Slides</a>
+          <% if current_user %>
+            <a href="#" id='list_chat_rooms' class="list_chat_rooms btn btn-info btn-lg">CHAT</a>
           <% end %>
+
         </div>
         <div class="message-center message-center-success btn btn-success btn-lg" id='state-message-center'></div>
         <div class="message-center message-center-error btn btn-success btn-lg" id='state-message-center'></div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <% if current_user %>
-              <li>
-                <a href="#" id='list_chat_rooms' class="btn btn-info btn-md">Chat</a>
-              </li>
               <li class="<%= @page == 'home' ? 'active' : '' %>"><a href="/slideshows">SLIDESHOWS</a></li>
               <li class="<%= @page == 'users' ? 'active' : '' %>"><a href="/users?page=1">ARTISTS</a></li>
               <li class="<%= @page == 'slides' ? 'active' : '' %>"><a href="/slides">SLIDES</a></li>
@@ -473,16 +471,23 @@ ga('send', 'pageview');
 </div>
 
 <script type="text/javascript">
+  var lobbyDispatcher = null;
+  var roomDispatcher = null;
+ 
+
+
   $('body').on('click', '#list_chat_rooms', function(event) {
     event.preventDefault();
+    if (roomDispatcher !== null) {
+      roomDispatcher.disconnect();
+    }
     $.ajax({
       url: '/chatrooms',
     })
     .done(function(data) {
       $('#chatRoomList').html(data);
       $('#chatRoomList').modal('show');
-      var lobbyDispatcher = new WebSocketRails("<%= ENV['CHAT_SERVER'] %>");
-
+      lobbyDispatcher = new WebSocketRails("<%= ENV['CHAT_SERVER'] %>");
       var addRoomToDom = function(chatroom) {
 
         // if there is something in the search bar: run the keyup event in the search bar
@@ -496,16 +501,21 @@ ga('send', 'pageview');
         console.log('just received new chatroom: ' + chatroom);
       }
 
-      var addErr = function(chatroom) {
-        console.log('just received new chatroom: ' + chatroom);
+      var closedConnectLobby = function(data) {
+            console.log('lobby closed', data);
       }
-
       lobbyDispatcher.on_open = function(data) {
         console.log('Connection has been established: ', data);
       }
 
+     $('body').on('click', '.close-chat-room', function(event) {
+      // roomChannel.unbind(room_create_success, addCommentToDom);
+      lobbyDispatcher.disconnect();
+      });
+
       var channel = lobbyDispatcher.subscribe('chat_lobby');
       channel.bind('create_room_success', addRoomToDom);
+      channel.bind('connection_closed', closedConnectLobby);
 
       $('body').on('submit', '#create_new_room_form', function(event) {
         event.preventDefault();
@@ -530,6 +540,7 @@ ga('send', 'pageview');
       $(".modal").modal('hide');
       $("#chatRoom").text('Loading ....');
       $("#chatRoom").modal('show');
+      lobbyDispatcher.disconnect();
       connection = room_id;
        $.ajax({
          url: '/chatrooms/' + room_id,
@@ -537,9 +548,10 @@ ga('send', 'pageview');
        .done(function(data) {
           $("#chatRoom").html(data);
           scroll_down();
-          var roomDispatcher = new WebSocketRails('<%= ENV["CHAT_SERVER"] %>');
+          roomDispatcher = new WebSocketRails('<%= ENV["CHAT_SERVER"] %>');
           var connectionID;
           var roomChannel;
+          var room_create_success;
           var chat_room_conn;
           var addCommentToDom = function(message) {
             $.ajax({
@@ -564,14 +576,31 @@ ga('send', 'pageview');
             console.log('just received new message: ' + message);
           }
 
+          var closedConnectRoom = function(data) {
+            console.log('closed', data);
+          }
+
+          $('#chatRoom').on('hidden', function(event) {
+            event.preventDefault();
+            // close room dispatcher
+            roomDispatcher.disconnect();
+          });
+
           roomDispatcher.on_open = function(data) {
             console.log('Connection has been established: ', data);
             connectionID = data.connection_id;
             chat_room_conn = 'chat_room' + connection;
             roomChannel = roomDispatcher.subscribe(chat_room_conn);
-            var room_create_success = chat_room_conn + '_created';
+            room_create_success = chat_room_conn + '_created';
             roomChannel.bind(room_create_success, addCommentToDom);
+            roomChannel.bind('connection_closed', closedConnectRoom);
           }
+          roomDispatcher.on_close = function(data) {
+            console.log('Connection has been closed: ', data);
+          }
+          $('body').on('click', '.close-chat-room', function(event) {
+            roomDispatcher.disconnect();
+          });
 
           $('body').on('keydown', '#dialog_say', function(event) {
             if (event.which == 13) {
@@ -581,8 +610,10 @@ ga('send', 'pageview');
               $(this).val('');
             }
          })
+
      })
    })
+
 
   var scroll_down = function(){      
      var elem = document.getElementById('chat_log');
@@ -591,12 +622,6 @@ ga('send', 'pageview');
      }
   }
 
-  $('body').on('mouseover', '.chat_avatar_container', function(event) {
-    $('.name_bubble').fadeOut(400);
-    $(this).find('.name_bubble').fadeIn(400);
-  }).on('mouseout', '.chat_avatar_container', function(event) {
-    $(this).find('.name_bubble').fadeOut(400);
-  });;
 
   // search for rooms
   $('body').on('keyup', '#chatroom_search', function(event) {
@@ -613,10 +638,11 @@ ga('send', 'pageview');
 
 <style type="text/css">
   #list_chat_rooms {
-        background-color: #1ea1c7;
+    background-color: #1ea1c7;
     font-weight: bold;
     color: white;
-    border-radius: 20px;  }
+    /*border-radius: 20px;  */
+  }
   #chatroom_search {
     margin-bottom: 20px;
   }
@@ -640,13 +666,21 @@ ga('send', 'pageview');
       width: : 30%;
     }
 
+    .delete_this_room {
+      position: relative;
+      float: right;
+      width: : 30%;
+      margin-right: 4px;
+    }
+
+
     .chatroom_desc {
       max-height: 70%;
       overflow-y: scroll;
     }
 
     .chatroom_pool {
-      max-height: 100%;
+      max-height: 60%;
       overflow-y: scroll;
     }
 </style>

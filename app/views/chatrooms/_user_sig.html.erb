@@ -1,4 +1,10 @@
- <div class="dialog_row container row_<%= connection_id %>" connection_id='<%= connection_id %>' style="display: <%= display_pointer %>">
+ <% if current_user.id == mess.user_id %>
+ 	<% display_color = 'background-color: #ffd3d3' %>
+ <% else %>
+ 	<% display_color = 'background-color: #f2ffaf' %>
+ <% end %>
+
+ <div class="dialog_row container row_<%= connection_id %>" connection_id='<%= connection_id %>' style="display: <%= display_pointer %>;<%= display_color %>">
 	<div class="col-lg-2 chat_avatar_container" style='display: inline-block;'>
 		<img src="<%= mess.user.portrait_url %>" class='chat_avatar' alt='<%= mess.user.name %>'>
 		<div class="name_bubble"><%= mess.user.name %></div>

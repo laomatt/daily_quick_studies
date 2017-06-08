@@ -478,9 +478,6 @@ ga('send', 'pageview');
 
   $('body').on('click', '#list_chat_rooms', function(event) {
     event.preventDefault();
-    if (roomDispatcher !== null) {
-      roomDispatcher.disconnect();
-    }
     $.ajax({
       url: '/chatrooms',
     })
@@ -509,8 +506,8 @@ ga('send', 'pageview');
       }
 
      $('body').on('click', '.close-chat-room', function(event) {
-      // roomChannel.unbind(room_create_success, addCommentToDom);
-      lobbyDispatcher.disconnect();
+        lobbyDispatcher.unsubscribe();
+        lobbyDispatcher.disconnect();
       });
 
       var channel = lobbyDispatcher.subscribe('chat_lobby');
@@ -529,7 +526,6 @@ ga('send', 'pageview');
       });
     })    
   });
-
 
     // joining a room
     var connection;
@@ -553,6 +549,8 @@ ga('send', 'pageview');
           var roomChannel;
           var room_create_success;
           var chat_room_conn;
+
+          // adding a comment to the dom
           var addCommentToDom = function(message) {
             $.ajax({
               url: '/chatrooms/get_user_sig',
@@ -580,11 +578,6 @@ ga('send', 'pageview');
             console.log('closed', data);
           }
 
-          $('#chatRoom').on('hidden', function(event) {
-            event.preventDefault();
-            // close room dispatcher
-            roomDispatcher.disconnect();
-          });
 
           roomDispatcher.on_open = function(data) {
             console.log('Connection has been established: ', data);
@@ -599,13 +592,15 @@ ga('send', 'pageview');
             console.log('Connection has been closed: ', data);
           }
           $('body').on('click', '.close-chat-room', function(event) {
-            roomDispatcher.disconnect();
+            if (roomDispatcher !== null) {
+              roomDispatcher.disconnect();
+            }
           });
 
           $('body').on('keydown', '#dialog_say', function(event) {
             if (event.which == 13) {
               event.preventDefault();
-              var obj = {content: $('#dialog_say').val(), room: chat_room_conn, connection: connectionID, room_id: connection}
+              var obj = {content: $('#dialog_say').val(), room: "chat_room" + connection, connection: connectionID, room_id: connection}
               roomDispatcher.trigger('messages.create', obj)
               $(this).val('');
             }

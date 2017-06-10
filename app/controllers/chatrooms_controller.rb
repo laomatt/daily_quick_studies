@@ -22,8 +22,10 @@ class ChatroomsController < ApplicationController
 
   def remove_user
     room = "chat_room#{params[:id]}"
-    # ChatroomMember.delete({:user_id => current_user.id, :chatroom_id => @chatroom.id})
-    WebsocketRails[room.to_sym].trigger("remove_user_from_room#{params[:id]}".to_sym, current_user)
+    Fiber.new {
+      ChatroomMember.where({:user_id => current_user.id, :chatroom_id => params[:id]}).destroy_all
+      WebsocketRails[room.to_sym].trigger("remove_user_from_room#{params[:id]}".to_sym, current_user)
+    }.resume
   end
 
   # GET /chatrooms/new

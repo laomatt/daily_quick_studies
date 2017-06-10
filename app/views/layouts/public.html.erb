@@ -608,6 +608,11 @@ ga('send', 'pageview');
             if (roomDispatcher !== null) {
               roomDispatcher.disconnect();
             }
+
+            $.ajax({
+              url: '/chatrooms/'+connection+'/remove_user/',
+            })
+            
           });
 
           $('body').on('keydown', '#dialog_say', function(event) {

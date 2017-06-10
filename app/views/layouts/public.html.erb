@@ -501,6 +501,10 @@ ga('send', 'pageview');
       var closedConnectLobby = function(data) {
             console.log('lobby closed', data);
       }
+
+      var updateRoomCount = function(data) {
+        $('#user_count_for_room'+data.id).innerText(data.current_count);
+      }
       lobbyDispatcher.on_open = function(data) {
         console.log('Connection has been established: ', data);
       }
@@ -513,6 +517,7 @@ ga('send', 'pageview');
       var channel = lobbyDispatcher.subscribe('chat_lobby');
       channel.bind('create_room_success', addRoomToDom);
       channel.bind('connection_closed', closedConnectLobby);
+      channel.bind('update_count', updateRoomCount);
 
       $('body').on('submit', '#create_new_room_form', function(event) {
         event.preventDefault();
@@ -576,7 +581,7 @@ ga('send', 'pageview');
           }
 
           var removeUserFromRoom = function(user){
-            $("#member_current_list").remove("#user_list_"+user.id);
+            $("#user_list_"+user.id).remove();
           }
 
 

@@ -36,6 +36,7 @@ gem 'autoprefixer-rails'
 gem 'dotenv-rails'
 gem 'will_paginate', '~> 3.0.6'
 gem 'redis', '~> 3.0'
+# gem 'redis-namespace'
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'websocket-rails', github: 'recurser/websocket-rails', branch: 'bugfix/388-latest-faye-websocket'

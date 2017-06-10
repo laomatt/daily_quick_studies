@@ -21,7 +21,8 @@ class MessageController < WebsocketRails::BaseController
     else
       send_message :create_fail, message_say
     end
-	end
+  end
+
 
 	def create_room
 		new_room = Chatroom.new message

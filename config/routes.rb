@@ -19,9 +19,14 @@ Rails.application.routes.draw do
   end
 
   resources :chatrooms do
+    member do 
+      get 'remove_user'
+    end
+
     collection do 
       get 'get_user_sig'
       get 'chat_room_search'
+      get 'user_typing'
     end
   end
 

@@ -13,10 +13,11 @@ WebsocketRails::EventMap.describe do
   #   end
   # namespace :chatroom do
   #   subscribe :create_room, "message#create_room"
-  #   subscribe :update, 'message#update'
+  #   subscribe :update_members, 'message#update'
   # end
   
   namespace :messages do
+    # subscribe :add_member,
     subscribe :create_room, "message#create_room"
     subscribe :create, "message#create"
   end

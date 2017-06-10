@@ -11,7 +11,14 @@ class ChatroomsController < ApplicationController
   # GET /chatrooms/1
   # GET /chatrooms/1.json
   def show
+    ChatroomMember.create(:user_id => current_user.id, :chatroom_id => @chatroom.id)
+    WebsocketRails[room.to_sym].trigger("add_user_to_room#{params[:id]}".to_sym, current_user)
     render :partial => 'chat_room_partial', :locals => {:chatroom => @chatroom}
+  end
+
+  def remove_user
+    ChatroomMember.delete(:user_id => current_user.id, :chatroom_id => @chatroom.id)
+    WebsocketRails[room.to_sym].trigger("remove_user_from_room#{params[:id]}".to_sym, current_user)
   end
 
   # GET /chatrooms/new
@@ -26,6 +33,10 @@ class ChatroomsController < ApplicationController
 
   # GET /chatrooms/1/edit
   def edit
+  end
+
+  def user_typing
+    WebsocketRails[room.to_sym].trigger("user_is_typing#{params[:room_id]}".to_sym, current_user)
   end
 
   def chat_popup

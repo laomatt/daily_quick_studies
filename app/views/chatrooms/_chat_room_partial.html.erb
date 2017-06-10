@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div class="modal-dialog chat-box-modal">
 
   <!-- Modal content-->
   <div class="modal-content">
@@ -7,13 +7,24 @@
       <h4 class="modal-title"><%= chatroom.title %></h4>
     </div>
     <div class="modal-body">
+
+
       <div class="chat_room_dialog container">
         
 
-        <div class="chat_log container" id="chat_log" onload='scroll_down()'>
+        <div class="chat_log container col-md-9" id="chat_log" onload='scroll_down()'>
           <% chatroom.messages.last(25).each do |mess| %>
             <%= render :partial => 'user_sig', :locals => {:mess => mess, :display_pointer => 'block', :connection_id => '' }%>
           <% end %>
+        </div>
+
+        <div class="user_list container col-md-3">
+        <ul id='member_current_list'>
+          <% @chatroom.chatroom_members.each do |mem| %>
+            <li><%= mem.user.name %></li>
+          <% end %>
+        </ul>
+          
         </div>
 
         <div class="chat_input">
@@ -46,6 +57,10 @@ $('body').on('click', '#back', function(event) {
 
 <style type="text/css">
 /*talk bubble css*/
+
+  .chat-box-modal {
+    width: 70%;
+  }
 
 
   .send-thumbnail {
@@ -105,7 +120,14 @@ $('body').on('click', '#back', function(event) {
     background-color: white;
     position: relative;
     height: 400px;
-    width: 100%;
+    display: inline-block;
+    width: 80%;
+  }
+
+  .user_list {
+    display: inline-block;
+    width: 20%;
+
   }
 
   .dialog_row {

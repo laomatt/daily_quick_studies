@@ -572,7 +572,7 @@ ga('send', 'pageview');
 
           var addUserToDom = function(user){
             var memberName = user.name;
-            $("#member_current_list").append("<li id='user_list_"+user.id+"'>" + memberName + "</li>");
+            $("#member_current_list").append("<div class='member_div' id='user_list_"+user.id+"'>" + memberName + "</div>");
           }
 
           var removeUserFromRoom = function(user){

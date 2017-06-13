@@ -16,7 +16,7 @@ class ChatroomsController < ApplicationController
     Fiber.new {
       ChatroomMember.create({:user_id => current_user.id, :chatroom_id => @chatroom.id})
       WebsocketRails[room.to_sym].trigger("add_user_to_room#{params[:id]}".to_sym, current_user)
-      WebsocketRails['chat_lobby'].trigger("update_count".to_sym, {:room_id => params[:id], :current_count => ChatroomMember.where(:chatroom_id => params[:id]).count})
+      # WebsocketRails['chat_lobby'].trigger("update_count".to_sym, {:room_id => params[:id], :current_count => @chatroom.chatroom_members.count})
     }.resume
     render :partial => 'chat_room_partial', :locals => {:chatroom => @chatroom}
   end
@@ -26,7 +26,7 @@ class ChatroomsController < ApplicationController
     Fiber.new {
       ChatroomMember.where({:user_id => current_user.id, :chatroom_id => params[:id]}).destroy_all
       WebsocketRails[room.to_sym].trigger("remove_user_from_room#{params[:id]}".to_sym, current_user)
-      WebsocketRails['chat_lobby'].trigger("update_count".to_sym, {:room_id => params[:id], :current_count => ChatroomMember.where(:chatroom_id => params[:id]).count})
+      # WebsocketRails['chat_lobby'].trigger("update_count".to_sym, {:room_id => params[:id], :current_count => ChatroomMember.where(:chatroom_id => params[:id]).count})
     }.resume
   end
 

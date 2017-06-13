@@ -484,7 +484,7 @@ ga('send', 'pageview');
     .done(function(data) {
       $('#chatRoomList').html(data);
       $('#chatRoomList').modal('show');
-      lobbyDispatcher = new WebSocketRails("<%= ENV['CHAT_SERVER'] %>");
+      lobbyDispatcher = new WebSocketRails(window.document.location.host + "/" + "websocket");
       var addRoomToDom = function(chatroom) {
 
         // if there is something in the search bar: run the keyup event in the search bar
@@ -541,7 +541,7 @@ ga('send', 'pageview');
       $(".modal").modal('hide');
       $("#chatRoom").text('Loading ....');
       $("#chatRoom").modal('show');
-      lobbyDispatcher.disconnect();
+      // lobbyDispatcher.disconnect();
       connection = room_id;
        $.ajax({
          url: '/chatrooms/' + room_id,
@@ -549,7 +549,7 @@ ga('send', 'pageview');
        .done(function(data) {
           $("#chatRoom").html(data);
           scroll_down();
-          roomDispatcher = new WebSocketRails('<%= ENV["CHAT_SERVER"] %>');
+          roomDispatcher = new WebSocketRails(window.document.location.host + "/" + "websocket");
           var connectionID;
           var roomChannel;
           var room_create_success;

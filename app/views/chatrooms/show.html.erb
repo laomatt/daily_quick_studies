@@ -60,7 +60,7 @@
 
 <script type="text/javascript">
   // 3001 is the port that the websocket_server is listening on
-  var dispatcher = new WebSocketRails('<%= ENV["CHAT_SERVER"] %>');
+  var dispatcher = new WebSocketRails(window.document.location.host + "/" + "websocket");
   var connection;
   var connectionID;
   var channel;
